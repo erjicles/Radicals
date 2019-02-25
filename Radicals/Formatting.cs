@@ -4,8 +4,23 @@ using System.Text;
 
 namespace Radicals
 {
-    public partial struct Radical
+    public readonly partial struct Radical : IFormattable
     {
-        
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            return ToString();
+        }
+
+        public override string ToString()
+        {
+            var result = new StringBuilder();
+            for (int i = 0; i < radicals.Length; i++)
+            {
+                if (i > 0)
+                    result.Append(" + ");
+                result.Append(radicals[i].ToString());
+            }
+            return result.ToString();
+        }
     }
 }

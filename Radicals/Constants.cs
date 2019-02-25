@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Radicals
 {
-    public partial struct Radical
+    public readonly partial struct Radical
     {
         /// <summary>
         /// Zero

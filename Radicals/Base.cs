@@ -14,8 +14,6 @@ namespace Radicals
         // bi = ci * sqrt(ri)
         private readonly BasicRadical[] radicals;
 
-        
-
         public Radical(Rational r)
             : this(r.Denominator, r.Numerator * r.Denominator)
         {
@@ -37,20 +35,21 @@ namespace Radicals
             radicals[0] = new BasicRadical(c, r);
         }
 
+        internal Radical(BasicRadical basicRadical)
+        {
+            if (basicRadical == null)
+                throw new ArgumentNullException(nameof(basicRadical));
+            radicals = new BasicRadical[1] { basicRadical };
+        }
+
         internal Radical(BasicRadical[] basicRadicals)
         {
             if (basicRadicals == null)
                 throw new ArgumentNullException(nameof(basicRadicals));
-            
             if (basicRadicals.Length == 0)
-            {
-                radicals = new BasicRadical[1];
-                radicals[0] = BasicRadical.Zero;
-            }
-            else
-            {
-                radicals = BasicRadical.SimplifyRadicals(basicRadicals);
-            }
+                throw new Exception("No basic radicals in array");
+            
+            radicals = BasicRadical.SimplifyRadicals(basicRadicals);
         }
 
     }
