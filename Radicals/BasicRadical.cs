@@ -17,6 +17,16 @@ namespace Radicals
         public readonly Rational c;
         public readonly BigInteger r;
 
+        /// <summary>
+        /// Zero
+        /// </summary>
+        public static readonly BasicRadical Zero = new BasicRadical(0, 0);
+
+        /// <summary>
+        /// One
+        /// </summary>
+        public static readonly BasicRadical One = new BasicRadical(1, 1);
+
         public BasicRadical(Rational c, BigInteger r)
         {
             c_original = c;
@@ -140,6 +150,49 @@ namespace Radicals
             return c == other.c && r == other.r;
         }
 
+        public static BasicRadical AddCompatible(BasicRadical left, BasicRadical right)
+        {
+            if (left.r != right.r)
+                throw new Exception("Trying to add compatible radicals that aren't compatible");
+            return new BasicRadical(left.c + right.c, left.r);
+        }
+
+        public static BasicRadical[] Add(BasicRadical left, BasicRadical right)
+        {
+            BasicRadical[] result;
+            if (left.IsCompatibleRadical(right))
+            {
+                result = new BasicRadical[1];
+                result[0] = AddCompatible(left, right);
+            }
+            else
+            {
+                result = new BasicRadical[2];
+                result[0] = left;
+                result[1] = right;
+            }
+            return result;
+        }
+
+        public static BasicRadical[] Subtract(BasicRadical left, BasicRadical right)
+        {
+            return Add(left, -right);
+        }
+
+        public static BasicRadical Multiply(BasicRadical left, BasicRadical right)
+        {
+            return new BasicRadical(left.c * right.c, left.r * right.r);
+        }
+
+        public static BasicRadical Divide(BasicRadical left, BasicRadical right)
+        {
+            // r' = [c1 * sqrt(r1)] / [c2 * sqrt(r2)]
+            //    = [c1 / c2] * sqrt(r1 / r2)
+            //    = [c1 / c2] * sqrt(r1 * r2 / r2 * r2)
+            //    = [c1 / (c2 * r2)] * sqrt(r1 * r2)
+            return new BasicRadical(left.c / (right.c * right.r), left.r * right.r);
+        }
+
         public static BasicRadical operator -(BasicRadical value)
         {
             return new BasicRadical(-value.c, value.r);
@@ -150,9 +203,76 @@ namespace Radicals
             return value;
         }
 
+        public static BasicRadical[] operator +(BasicRadical left, BasicRadical right)
+        {
+            return Add(left, right);
+        }
+
+        public static BasicRadical[] operator -(BasicRadical left, BasicRadical right)
+        {
+            return Subtract(left, right);
+        }
+
         public static BasicRadical operator *(BasicRadical left, BasicRadical right)
         {
-            return new BasicRadical(left.c * right.c, left.r * right.r);
+            return Multiply(left, right);
+        }
+
+        public static BasicRadical operator /(BasicRadical left, BasicRadical right)
+        {
+            return Divide(left, right);
+        }
+
+        public static bool operator <(BasicRadical left, BasicRadical right)
+        {
+            return left.CompareTo(right) < 0;
+        }
+
+        public static bool operator <=(BasicRadical left, BasicRadical right)
+        {
+            return left.CompareTo(right) <= 0;
+        }
+
+        public static bool operator >(BasicRadical left, BasicRadical right)
+        {
+            return left.CompareTo(right) > 0;
+        }
+        public static bool operator >=(BasicRadical left, BasicRadical right)
+        {
+            return left.CompareTo(right) >= 0;
+        }
+
+        public static bool operator ==(BasicRadical left, BasicRadical right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(BasicRadical left, BasicRadical right)
+        {
+            return !left.Equals(right);
+        }
+
+        public static BasicRadical[] SimplifyRadicals(BasicRadical[] basicRadicals)
+        {
+            if (basicRadicals == null)
+                return null;
+            if (basicRadicals.Length == 0)
+                return new BasicRadical[0];
+            if (basicRadicals.Length == 1)
+                return basicRadicals;
+
+            Dictionary<BigInteger, BasicRadical> uniqueRadicals = new Dictionary<BigInteger, BasicRadical>();
+            for (int i = 0; i < basicRadicals.Length; i++)
+            {
+                BasicRadical b = basicRadicals[i];
+                if (uniqueRadicals.ContainsKey(b.r))
+                    uniqueRadicals[b.r] = AddCompatible(uniqueRadicals[b.r], basicRadicals[i]);
+                else
+                    uniqueRadicals[b.r] = b;
+            }
+
+            BasicRadical[] result = uniqueRadicals.Values.OrderBy(f => f).ToArray();
+            return result;
         }
     }
 }

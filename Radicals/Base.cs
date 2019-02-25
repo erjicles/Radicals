@@ -10,14 +10,14 @@ namespace Radicals
     public readonly partial struct Radical
     {
 
-        // R = c * sqrt(r)
-        public Rational C { get; }
-        public BigInteger R { get; }
+        // R = b1 + b2 + ... + bn
+        // bi = ci * sqrt(ri)
+        private readonly BasicRadical[] radicals;
 
         
 
-        public Radical(Rational fractionalRadical)
-            : this(fractionalRadical.Denominator, fractionalRadical.Numerator * fractionalRadical.Denominator)
+        public Radical(Rational r)
+            : this(r.Denominator, r.Numerator * r.Denominator)
         {
         }
 
@@ -25,69 +25,33 @@ namespace Radicals
         {
             if (r < 0)
                 throw new InvalidOperationException("Negative value under radical");
-            C = c;
-            R = r;
+            radicals = new BasicRadical[1];
+            radicals[0] = new BasicRadical(c, r);
         }
 
         public Radical(Rational c, BigInteger r)
         {
             if (r < 0)
                 throw new InvalidOperationException("Negative value under radical");
-            C = c;
-            R = r;
+            radicals = new BasicRadical[1];
+            radicals[0] = new BasicRadical(c, r);
         }
 
-        /// <summary>
-        /// Simplest form is irreducible radical where the radical is the smallest possible integer
-        /// </summary>
-        public Radical SimplestForm
+        internal Radical(BasicRadical[] basicRadicals)
         {
-            get
+            if (basicRadicals == null)
+                throw new ArgumentNullException(nameof(basicRadicals));
+            
+            if (basicRadicals.Length == 0)
             {
-                if (C.IsZero)
-                    return Zero;
-                if (R.IsZero)
-                    return Zero;
-
-                List<BigInteger> perfectSquareFactors = new List<BigInteger>();
-                List<BigInteger> finalFactors = new List<BigInteger>();
-                var currentCount = 0;
-                BigInteger currentFactor = 0;
-                foreach (BigInteger factor in Prime.Factors(R).OrderBy(f => f))
-                {
-                    if (factor != currentFactor)
-                    {
-                        if (currentCount > 0)
-                            finalFactors.Add(currentFactor);
-                        currentCount = 0;
-                        currentFactor = factor;
-                    }
-                    currentCount++;
-                    if (currentCount == 2)
-                    {
-                        perfectSquareFactors.Add(currentFactor);
-                        currentCount = 0;
-                        currentFactor = 0;
-                    }
-                    else if (currentCount > 2)
-                        throw new Exception("This shouldn't happen");
-                }
-                if (currentCount == 1)
-                    finalFactors.Add(currentFactor);
-                else if (currentCount == 2)
-                    throw new Exception("This should not happen");
-
-                Rational simplestCoefficient = C;
-                BigInteger simplestRadical = 1;
-
-                foreach (BigInteger perfectSquareFactor in perfectSquareFactors)
-                    simplestCoefficient *= perfectSquareFactor;
-                foreach (BigInteger factor in finalFactors)
-                    simplestRadical *= factor;
-
-                var simplest = new Radical(simplestCoefficient.CanonicalForm, simplestRadical);
-                return simplest;
+                radicals = new BasicRadical[1];
+                radicals[0] = BasicRadical.Zero;
+            }
+            else
+            {
+                radicals = BasicRadical.SimplifyRadicals(basicRadicals);
             }
         }
+
     }
 }
