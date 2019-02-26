@@ -98,7 +98,7 @@ namespace Radicals
 
         public static BasicRadical operator -(BasicRadical value)
         {
-            return new BasicRadical(-value.C, value.R);
+            return Negate(value);
         }
 
         public static BasicRadical operator +(BasicRadical value)
@@ -111,9 +111,30 @@ namespace Radicals
             return Add(left, right);
         }
 
+        public static BasicRadical[] operator +(BasicRadical left, BasicRadical[] right)
+        {
+            return Add(left, right);
+        }
+
+        public static BasicRadical[] operator +(BasicRadical[] left, BasicRadical right)
+        {
+            return Add(right, left);
+        }
+
         public static BasicRadical[] operator -(BasicRadical left, BasicRadical right)
         {
             return Subtract(left, right);
+        }
+
+        public static BasicRadical[] operator -(BasicRadical left, BasicRadical[] right)
+        {
+            return Subtract(left, right);
+        }
+
+        public static BasicRadical[] operator -(BasicRadical[] left, BasicRadical right)
+        {
+            // a - b = -b - (-a)
+            return Subtract(Negate(right), Negate(left));
         }
 
         public static BasicRadical operator *(BasicRadical left, BasicRadical right)
@@ -131,6 +152,16 @@ namespace Radicals
             return Multiply(new BasicRadical(left, 1), right);
         }
 
+        public static BasicRadical[] operator *(BasicRadical left, BasicRadical[] right)
+        {
+            return Multiply(left, right);
+        }
+
+        public static BasicRadical[] operator *(BasicRadical[] left, BasicRadical right)
+        {
+            return Multiply(right, left);
+        }
+
         public static BasicRadical operator /(BasicRadical left, BasicRadical right)
         {
             return Divide(left, right);
@@ -145,5 +176,6 @@ namespace Radicals
         {
             return Divide(new BasicRadical(left, 1), right);
         }
+        
     }
 }
