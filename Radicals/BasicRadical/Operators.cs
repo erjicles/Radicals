@@ -176,6 +176,11 @@ namespace Radicals
         {
             return Divide(new BasicRadical(left, 1), right);
         }
-        
+
+        public static BasicRadical[] operator /(BasicRadical[] left, BasicRadical right)
+        {
+            return Divide(left, right);
+        }
+
     }
 }
