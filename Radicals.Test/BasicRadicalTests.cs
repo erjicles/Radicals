@@ -22,12 +22,34 @@ namespace Radicals.Test
             // sqrt(1/2) = (1/2)sqrt(2)
             var actual3 = new BasicRadical(new Rational(1, 2));
             var expected3 = new BasicRadical(new Rational(1, 2), 2);
+            // 0 = 0
+            BasicRadical actual41 = 0;
+            var actual42 = new BasicRadical(0);
+            var actual43 = new BasicRadical(0, 0);
+            var actual44 = new BasicRadical();
+            var actual45 = new BasicRadical(3, 0);
+            var actual46 = new BasicRadical(0, 5);
+            var expected4 = BasicRadical.Zero;
+            // 1 = 1
+            BasicRadical actual51 = 1;
+            var actual52 = new BasicRadical(1, 1);
+            var actual53 = new BasicRadical(1);
+            var expected5 = BasicRadical.One;
 
 
             // assert
             Assert.Equal(expected1, actual1);
             Assert.Equal(expected2, actual2);
             Assert.Equal(expected3, actual3);
+            Assert.Equal(expected4, actual41);
+            Assert.Equal(expected4, actual42);
+            Assert.Equal(expected4, actual43);
+            Assert.Equal(expected4, actual44);
+            Assert.Equal(expected4, actual45);
+            Assert.Equal(expected4, actual46);
+            Assert.Equal(expected5, actual51);
+            Assert.Equal(expected5, actual52);
+            Assert.Equal(expected5, actual53);
         }
 
         [Fact]
@@ -66,12 +88,28 @@ namespace Radicals.Test
                 new BasicRadical(new Rational(5,2),2),
                 new BasicRadical(new Rational(31,3),7)
             };
+            // (3/2)*sqrt(5) + 0 = (3/2)*sqrt(5)
+            // 0 + (3/2)*sqrt(5) = (3/2)*sqrt(5)
+            var b61 = new BasicRadical(new Rational(3, 2), 5);
+            var b62 = BasicRadical.Zero;
+            var actual61 = b61 + b62;
+            var actual62 = b62 + b61;
+            var expected6 = new BasicRadical[1] { new BasicRadical(new Rational(3, 2), 5) };
+
+            // (3/2)*sqrt(5) + (-3/2)*sqrt(5) = 0
+            var b71 = new BasicRadical(new Rational(3, 2), 5);
+            var b72 = new BasicRadical(new Rational(-3, 2), 5);
+            var actual7 = b71 + b72;
+            var expected7 = new BasicRadical[1] { BasicRadical.Zero };
 
             Assert.Equal(expected1, actual1);
             Assert.Equal(expected2, actual2);
             Assert.Equal(expected3, actual3);
             Assert.Equal(expected4, actual4);
             Assert.Equal(expected5, actual5);
+            Assert.Equal(expected6, actual61);
+            Assert.Equal(expected6, actual62);
+            Assert.Equal(expected7, actual7);
         }
 
         [Fact]
@@ -110,12 +148,30 @@ namespace Radicals.Test
                 new BasicRadical(new Rational(3,2),2),
                 new BasicRadical(new Rational(29,3),7)
             };
+            // (3/2)*sqrt(5) - 0 = (3/2)*sqrt(5)
+            var b61 = new BasicRadical(new Rational(3, 2), 5);
+            var b62 = BasicRadical.Zero;
+            var actual6 = b61 - b62;
+            var expected6 = new BasicRadical[1] { new BasicRadical(new Rational(3, 2), 5) };
+            // 0 - (3/2)*sqrt(5) = (-3/2)*sqrt(5)
+            var b71 = BasicRadical.Zero;
+            var b72 = new BasicRadical(new Rational(3, 2), 5);
+            var actual7 = b71 - b72;
+            var expected7 = new BasicRadical[1] { new BasicRadical(new Rational(-3, 2), 5) };
+            // (3/2)*sqrt(5) - (3/2)*sqrt(5) = 0
+            var b81 = new BasicRadical(new Rational(3, 2), 5);
+            var b82 = new BasicRadical(new Rational(3, 2), 5);
+            var actual8 = b81 - b82;
+            var expected8 = new BasicRadical[1] { BasicRadical.Zero };
 
             Assert.Equal(expected1, actual1);
             Assert.Equal(expected2, actual2);
             Assert.Equal(expected3, actual3);
             Assert.Equal(expected4, actual4);
             Assert.Equal(expected5, actual5);
+            Assert.Equal(expected6, actual6);
+            Assert.Equal(expected7, actual7);
+            Assert.Equal(expected8, actual8);
         }
 
         [Fact]
@@ -151,6 +207,48 @@ namespace Radicals.Test
             var expected4 = new BasicRadical[2] {
                 new BasicRadical(new Rational(121, 12), 1),
                 new BasicRadical(new Rational(-154, 15), 10) };
+            // (3/2)*sqrt(5) * 1 = (3/2)*sqrt(5)
+            var b51 = new BasicRadical(new Rational(3, 2), 5);
+            var b52 = new BasicRadical(1, 1);
+            var b53 = 1;
+            var b54 = new BasicRadical(1);
+            var b55 = BasicRadical.One;
+            var actual51 = b51 * b52;
+            var actual52 = b51 * b53;
+            var actual53 = b51 * b54;
+            var actual54 = b51 * b55;
+            var actual55 = b52 * b51;
+            var actual56 = b53 * b51;
+            var actual57 = b54 * b51;
+            var actual58 = b55 * b51;
+            var expected5 = new BasicRadical(new Rational(3, 2), 5);
+            // (3/2)*sqrt(5) * -1 = (-3/2)*sqrt(5)
+            var b61 = new BasicRadical(new Rational(3, 2), 5);
+            var b62 = -BasicRadical.One;
+            var b63 = -1;
+            var b64 = new BasicRadical(-1, 1);
+            var actual61 = b61 * b62;
+            var actual62 = b61 * b63;
+            var actual63 = b61 * b64;
+            var actual64 = b62 * b61;
+            var actual65 = b63 * b61;
+            var actual66 = b64 * b61;
+            var expected6 = new BasicRadical(new Rational(-3, 2), 5);
+            // (3/2)*sqrt(5) * 0 = 0
+            var b71 = new BasicRadical(new Rational(3, 2), 5);
+            var b72 = 0;
+            var b73 = BasicRadical.Zero;
+            var b74 = new BasicRadical(0);
+            var b75 = new BasicRadical(0, 0);
+            var actual71 = b71 * b72;
+            var actual72 = b71 * b73;
+            var actual73 = b71 * b74;
+            var actual74 = b71 * b75;
+            var actual75 = b72 * b71;
+            var actual76 = b73 * b71;
+            var actual77 = b74 * b71;
+            var actual78 = b75 * b71;
+            var expected7 = BasicRadical.Zero;
 
             Assert.Equal(expected1, actual1);
             Assert.Equal(expected2, actual2);
@@ -158,6 +256,28 @@ namespace Radicals.Test
             Assert.Equal(expected3, actual32);
             Assert.Equal(expected4, actual41);
             Assert.Equal(expected4, actual42);
+            Assert.Equal(expected5, actual51);
+            Assert.Equal(expected5, actual52);
+            Assert.Equal(expected5, actual53);
+            Assert.Equal(expected5, actual54);
+            Assert.Equal(expected5, actual55);
+            Assert.Equal(expected5, actual56);
+            Assert.Equal(expected5, actual57);
+            Assert.Equal(expected5, actual58);
+            Assert.Equal(expected6, actual61);
+            Assert.Equal(expected6, actual62);
+            Assert.Equal(expected6, actual63);
+            Assert.Equal(expected6, actual64);
+            Assert.Equal(expected6, actual65);
+            Assert.Equal(expected6, actual66);
+            Assert.Equal(expected7, actual71);
+            Assert.Equal(expected7, actual72);
+            Assert.Equal(expected7, actual73);
+            Assert.Equal(expected7, actual74);
+            Assert.Equal(expected7, actual75);
+            Assert.Equal(expected7, actual76);
+            Assert.Equal(expected7, actual77);
+            Assert.Equal(expected7, actual78);
         }
 
         [Fact]
@@ -196,11 +316,39 @@ namespace Radicals.Test
             var expected5 = new BasicRadical[2] {
                 new BasicRadical(new Rational(2, 3), 1),
                 new BasicRadical(new Rational(-112, 165), 10) };
+            // (3/2)*sqrt(5) / 1 = (3/2)*sqrt(5)
+            var b61 = new BasicRadical(new Rational(3, 2), 5);
+            var b62 = new BasicRadical(1, 1);
+            var b63 = 1;
+            var b64 = new BasicRadical(1);
+            var b65 = BasicRadical.One;
+            var actual61 = b61 / b62;
+            var actual62 = b61 / b63;
+            var actual63 = b61 / b64;
+            var actual64 = b61 / b65;
+            var expected6 = new BasicRadical(new Rational(3, 2), 5);
+            // (3/2)*sqrt(5) / -1 = (-3/2)*sqrt(5)
+            var b71 = new BasicRadical(new Rational(3, 2), 5);
+            var b72 = new BasicRadical(-1, 1);
+            var b73 = -1;
+            var b74 = -BasicRadical.One;
+            var actual71 = b71 / b72;
+            var actual72 = b71 / b73;
+            var actual73 = b71 / b74;
+            var expected7 = new BasicRadical(new Rational(-3, 2), 5);
 
             Assert.Equal(expected1, actual1);
             Assert.Equal(expected2, actual2);
             Assert.Equal(expected3, actual3);
             Assert.Equal(expected4, actual4);
-            Assert.Equal(expected5, actual5);        }
+            Assert.Equal(expected5, actual5);
+            Assert.Equal(expected6, actual61);
+            Assert.Equal(expected6, actual62);
+            Assert.Equal(expected6, actual63);
+            Assert.Equal(expected6, actual64);
+            Assert.Equal(expected7, actual71);
+            Assert.Equal(expected7, actual72);
+            Assert.Equal(expected7, actual73);
+        }
     }
 }
