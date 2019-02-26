@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rationals;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -35,6 +36,14 @@ namespace Radicals
             for (int i = 0; i < left.radicals.Length; i++)
                 for (int j = 0; j < right.radicals.Length; j++)
                     z[(i * right.radicals.Length) + j] = left.radicals[i] * right.radicals[j];
+            return new CompositeRadical(z);
+        }
+
+        public static CompositeRadical Divide(CompositeRadical left, Rational right)
+        {
+            var z = new BasicRadical[left.radicals.Length];
+            for (int i = 0; i < left.radicals.Length; i++)
+                z[i] = left.radicals[i] / right;
             return new CompositeRadical(z);
         }
     }

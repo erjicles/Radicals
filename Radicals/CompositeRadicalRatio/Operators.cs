@@ -12,18 +12,59 @@ namespace Radicals
             return left.CompareTo(right) < 0;
         }
 
+        public static bool operator <(CompositeRadicalRatio left, Rational right)
+        {
+            return left.CompareTo(new CompositeRadicalRatio(right, 1)) < 0;
+        }
+
+        public static bool operator <(Rational left, CompositeRadicalRatio right)
+        {
+            return (new CompositeRadicalRatio(left, 1)).CompareTo(right) < 0;
+        }
+
         public static bool operator <=(CompositeRadicalRatio left, CompositeRadicalRatio right)
         {
             return left.CompareTo(right) <= 0;
+        }
+
+        public static bool operator <=(CompositeRadicalRatio left, Rational right)
+        {
+            return left.CompareTo(new CompositeRadicalRatio(right, 1)) <= 0;
+        }
+
+        public static bool operator <=(Rational left, CompositeRadicalRatio right)
+        {
+            return (new CompositeRadicalRatio(left, 1)).CompareTo(right) <= 0;
         }
 
         public static bool operator >(CompositeRadicalRatio left, CompositeRadicalRatio right)
         {
             return left.CompareTo(right) > 0;
         }
+
+        public static bool operator >(CompositeRadicalRatio left, Rational right)
+        {
+            return left.CompareTo(new CompositeRadicalRatio(right, 1)) > 0;
+        }
+
+        public static bool operator >(Rational left, CompositeRadicalRatio right)
+        {
+            return (new CompositeRadicalRatio(left, 1)).CompareTo(right) > 0;
+        }
+
         public static bool operator >=(CompositeRadicalRatio left, CompositeRadicalRatio right)
         {
             return left.CompareTo(right) >= 0;
+        }
+
+        public static bool operator >=(CompositeRadicalRatio left, Rational right)
+        {
+            return left.CompareTo(new CompositeRadicalRatio(right, 1)) >= 0;
+        }
+
+        public static bool operator >=(Rational left, CompositeRadicalRatio right)
+        {
+            return (new CompositeRadicalRatio(left, 1)).CompareTo(right) >= 0;
         }
 
         public static bool operator ==(CompositeRadicalRatio left, CompositeRadicalRatio right)
@@ -31,9 +72,29 @@ namespace Radicals
             return left.Equals(right);
         }
 
+        public static bool operator ==(CompositeRadicalRatio left, Rational right)
+        {
+            return left.Equals(new CompositeRadicalRatio(right, 1));
+        }
+
+        public static bool operator ==(Rational left, CompositeRadicalRatio right)
+        {
+            return (new CompositeRadicalRatio(left, 1)).Equals(right);
+        }
+
         public static bool operator !=(CompositeRadicalRatio left, CompositeRadicalRatio right)
         {
             return !left.Equals(right);
+        }
+
+        public static bool operator !=(CompositeRadicalRatio left, Rational right)
+        {
+            return !left.Equals(new CompositeRadicalRatio(right, 1));
+        }
+
+        public static bool operator !=(Rational left, CompositeRadicalRatio right)
+        {
+            return !(new CompositeRadicalRatio(left, 1)).Equals(right);
         }
 
         public static CompositeRadicalRatio operator -(CompositeRadicalRatio value)

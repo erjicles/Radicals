@@ -23,6 +23,12 @@ namespace Radicals
 
         public bool Equals(CompositeRadicalRatio other)
         {
+            if (other == null)
+                return false;
+            if (numerator == null)
+            {
+                return (other.numerator == null || other.numerator == 0);
+            }
             return (numerator == other.numerator
                 && denominator == other.denominator);
         }

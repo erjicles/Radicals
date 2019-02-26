@@ -11,18 +11,59 @@ namespace Radicals
             return left.CompareTo(right) < 0;
         }
 
+        public static bool operator <(BasicRadical left, Rational right)
+        {
+            return left.CompareTo(new BasicRadical(right, 1)) < 0;
+        }
+
+        public static bool operator <(Rational left, BasicRadical right)
+        {
+            return (new BasicRadical(left, 1)).CompareTo(right) < 0;
+        }
+
         public static bool operator <=(BasicRadical left, BasicRadical right)
         {
             return left.CompareTo(right) <= 0;
+        }
+
+        public static bool operator <=(BasicRadical left, Rational right)
+        {
+            return left.CompareTo(new BasicRadical(right, 1)) <= 0;
+        }
+
+        public static bool operator <=(Rational left, BasicRadical right)
+        {
+            return (new BasicRadical(left, 1)).CompareTo(right) <= 0;
         }
 
         public static bool operator >(BasicRadical left, BasicRadical right)
         {
             return left.CompareTo(right) > 0;
         }
+
+        public static bool operator >(BasicRadical left, Rational right)
+        {
+            return left.CompareTo(new BasicRadical(right, 1)) > 0;
+        }
+
+        public static bool operator >(Rational left, BasicRadical right)
+        {
+            return (new BasicRadical(left, 1)).CompareTo(right) > 0;
+        }
+
         public static bool operator >=(BasicRadical left, BasicRadical right)
         {
             return left.CompareTo(right) >= 0;
+        }
+
+        public static bool operator >=(BasicRadical left, Rational right)
+        {
+            return left.CompareTo(new BasicRadical(right, 1)) >= 0;
+        }
+
+        public static bool operator >=(Rational left, BasicRadical right)
+        {
+            return (new BasicRadical(left, 1)).CompareTo(right) >= 0;
         }
 
         public static bool operator ==(BasicRadical left, BasicRadical right)
@@ -30,9 +71,29 @@ namespace Radicals
             return left.Equals(right);
         }
 
+        public static bool operator ==(BasicRadical left, Rational right)
+        {
+            return left.Equals(new BasicRadical(right, 1));
+        }
+
+        public static bool operator ==(Rational left, BasicRadical right)
+        {
+            return (new BasicRadical(left, 1)).Equals(right);
+        }
+
         public static bool operator !=(BasicRadical left, BasicRadical right)
         {
             return !left.Equals(right);
+        }
+
+        public static bool operator !=(BasicRadical left, Rational right)
+        {
+            return !left.Equals(new BasicRadical(right, 1));
+        }
+
+        public static bool operator !=(Rational left, BasicRadical right)
+        {
+            return !(new BasicRadical(left, 1)).Equals(right);
         }
 
         public static BasicRadical operator -(BasicRadical value)
