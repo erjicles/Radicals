@@ -18,7 +18,7 @@ namespace Radicals
             get
             {
                 if (_radicals == null)
-                    return new BasicRadical[0];
+                    return new BasicRadical[1] { BasicRadical.Zero };
                 return _radicals;
             }
         }

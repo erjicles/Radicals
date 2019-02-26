@@ -29,6 +29,8 @@ namespace Radicals
             {
                 if (_denominator == null)
                     return CompositeRadical.One;
+                if (_denominator == CompositeRadical.Zero)
+                    return CompositeRadical.One;
                 return _denominator;
             }
         }
