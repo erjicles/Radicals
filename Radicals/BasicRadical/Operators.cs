@@ -60,9 +60,29 @@ namespace Radicals
             return Multiply(left, right);
         }
 
+        public static BasicRadical operator *(BasicRadical left, Rational right)
+        {
+            return Multiply(left, new BasicRadical(right, 1));
+        }
+
+        public static BasicRadical operator *(Rational left, BasicRadical right)
+        {
+            return Multiply(new BasicRadical(left, 1), right);
+        }
+
         public static BasicRadical operator /(BasicRadical left, BasicRadical right)
         {
             return Divide(left, right);
+        }
+
+        public static BasicRadical operator /(BasicRadical left, Rational right)
+        {
+            return Divide(left, new BasicRadical(right, 1));
+        }
+
+        public static BasicRadical operator /(Rational left, BasicRadical right)
+        {
+            return Divide(new BasicRadical(left, 1), right);
         }
     }
 }
