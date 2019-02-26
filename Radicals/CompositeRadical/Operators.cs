@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rationals;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -50,14 +51,44 @@ namespace Radicals
             return Add(left, right);
         }
 
+        public static CompositeRadical operator +(CompositeRadical left, Rational right)
+        {
+            return Add(left, new CompositeRadical(right, 1));
+        }
+
+        public static CompositeRadical operator +(Rational left, CompositeRadical right)
+        {
+            return Add(new CompositeRadical(left, 1), right);
+        }
+
         public static CompositeRadical operator -(CompositeRadical left, CompositeRadical right)
         {
             return Subtract(left, right);
         }
 
+        public static CompositeRadical operator -(CompositeRadical left, Rational right)
+        {
+            return Subtract(left, new CompositeRadical(right, 1));
+        }
+
+        public static CompositeRadical operator -(Rational left, CompositeRadical right)
+        {
+            return Subtract(new CompositeRadical(left, 1), right);
+        }
+
         public static CompositeRadical operator *(CompositeRadical left, CompositeRadical right)
         {
             return Multiply(left, right);
+        }
+
+        public static CompositeRadical operator *(CompositeRadical left, Rational right)
+        {
+            return Multiply(left, new CompositeRadical(right, 1));
+        }
+
+        public static CompositeRadical operator *(Rational left, CompositeRadical right)
+        {
+            return Multiply(new CompositeRadical(left, 1), right);
         }
     }
 }
