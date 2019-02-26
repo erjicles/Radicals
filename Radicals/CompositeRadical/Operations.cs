@@ -4,38 +4,38 @@ using System.Text;
 
 namespace Radicals
 {
-    public readonly partial struct Radical
+    public readonly partial struct CompositeRadical
     {
-        public static Radical Negate(Radical value)
+        public static CompositeRadical Negate(CompositeRadical value)
         {
             BasicRadical[] result = new BasicRadical[value.radicals.Length];
             for (int i = 0; i < value.radicals.Length; i++)
                 result[i] = -value.radicals[i];
-            return new Radical(result);
+            return new CompositeRadical(result);
         }
 
-        public static Radical Add(Radical left, Radical right)
+        public static CompositeRadical Add(CompositeRadical left, CompositeRadical right)
         {
             var z = new BasicRadical[left.radicals.Length + right.radicals.Length];
             for (int i = 0; i < left.radicals.Length; i++)
                 z[i] = left.radicals[i];
             for (int i = 0; i < right.radicals.Length; i++)
                 z[i + left.radicals.Length] = right.radicals[i];
-            return new Radical(z);
+            return new CompositeRadical(z);
         }
 
-        public static Radical Subtract(Radical left, Radical right)
+        public static CompositeRadical Subtract(CompositeRadical left, CompositeRadical right)
         {
             return Add(left, -right);
         }
 
-        public static Radical Multiply(Radical left, Radical right)
+        public static CompositeRadical Multiply(CompositeRadical left, CompositeRadical right)
         {
             var z = new BasicRadical[left.radicals.Length * right.radicals.Length];
             for (int i = 0; i < left.radicals.Length; i++)
                 for (int j = 0; j < right.radicals.Length; j++)
                     z[(i * right.radicals.Length) + j] = left.radicals[i] * right.radicals[j];
-            return new Radical(z);
+            return new CompositeRadical(z);
         }
     }
 }

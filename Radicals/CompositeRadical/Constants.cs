@@ -4,16 +4,16 @@ using System.Text;
 
 namespace Radicals
 {
-    public readonly partial struct Radical
+    public readonly partial struct CompositeRadical
     {
         /// <summary>
         /// Zero
         /// </summary>
-        public static readonly Radical Zero = new Radical(0, 0);
+        public static readonly CompositeRadical Zero = new CompositeRadical(0, 0);
 
         /// <summary>
         /// One
         /// </summary>
-        public static readonly Radical One = new Radical(1, 1);
+        public static readonly CompositeRadical One = new CompositeRadical(1, 1);
     }
 }
