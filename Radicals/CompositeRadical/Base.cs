@@ -14,7 +14,7 @@ namespace Radicals
         // bi = ci * sqrt(ri)
         private readonly BasicRadical[] radicals;
 
-        public CompositeRadical(Rational r)
+        internal CompositeRadical(Rational r)
             : this(r.Denominator, r.Numerator * r.Denominator)
         {
         }
