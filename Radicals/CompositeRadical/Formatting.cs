@@ -14,11 +14,11 @@ namespace Radicals
         public override string ToString()
         {
             var result = new StringBuilder();
-            for (int i = 0; i < radicals.Length; i++)
+            for (int i = 0; i < Radicals.Length; i++)
             {
                 if (i > 0)
                     result.Append(" + ");
-                result.Append(radicals[i].ToString());
+                result.Append(Radicals[i].ToString());
             }
             return result.ToString();
         }

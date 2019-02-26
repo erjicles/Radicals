@@ -10,12 +10,12 @@ namespace Radicals
     {
         public void GetCommonFactors(out BigInteger[] upstairs, out BigInteger[] downstairs)
         {
-            var numerators = new BigInteger[radicals.Length];
-            var denominators = new BigInteger[radicals.Length];
-            for (int i = 0; i < radicals.Length; i++)
+            var numerators = new BigInteger[Radicals.Length];
+            var denominators = new BigInteger[Radicals.Length];
+            for (int i = 0; i < Radicals.Length; i++)
             {
-                numerators[i] = radicals[i].c.Numerator;
-                denominators[i] = radicals[i].c.Denominator;
+                numerators[i] = Radicals[i].C.Numerator;
+                denominators[i] = Radicals[i].C.Denominator;
             }
             var numeratorFactors = new List<BigInteger>();
             var denominatorFactors = new List<BigInteger>();

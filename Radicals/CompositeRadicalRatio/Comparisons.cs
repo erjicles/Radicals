@@ -25,12 +25,8 @@ namespace Radicals
         {
             if (other == null)
                 return false;
-            if (numerator == null)
-            {
-                return (other.numerator == null || other.numerator == 0);
-            }
-            return (numerator == other.numerator
-                && denominator == other.denominator);
+            return (Numerator == other.Numerator
+                && Denominator == other.Denominator);
         }
 
         public override bool Equals(object obj)
@@ -44,8 +40,8 @@ namespace Radicals
 
         public override int GetHashCode()
         {
-            int h1 = numerator.GetHashCode();
-            int h2 = denominator.GetHashCode();
+            int h1 = Numerator.GetHashCode();
+            int h2 = Denominator.GetHashCode();
             return (((h1 << 5) + h1) ^ h2);
         }
     }

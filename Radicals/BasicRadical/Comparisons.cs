@@ -15,15 +15,18 @@ namespace Radicals
 
         public int CompareTo(BasicRadical other)
         {
-            if (c == other.c && r == other.r)
+            if (other == null)
+                return 1;
+
+            if (C == other.C && R == other.R)
                 return 0;
 
-            return (c * c * r).CompareTo(other.c * other.c * other.r);
+            return (C * C * R).CompareTo(other.C * other.C * other.R);
         }
 
         public bool Equals(BasicRadical other)
         {
-            return c == other.c && r == other.r;
+            return C == other.C && R == other.R;
         }
 
         public override bool Equals(object obj)
@@ -37,14 +40,14 @@ namespace Radicals
 
         public override int GetHashCode()
         {
-            int h1 = c.GetHashCode();
-            int h2 = r.GetHashCode();
+            int h1 = C.GetHashCode();
+            int h2 = R.GetHashCode();
             return (((h1 << 5) + h1) ^ h2);
         }
 
         public bool IsCompatibleRadical(BasicRadical b)
         {
-            return r == b.r;
+            return R == b.R;
         }
 
     }

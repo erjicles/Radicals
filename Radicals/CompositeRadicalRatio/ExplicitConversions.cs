@@ -8,7 +8,7 @@ namespace Radicals
     {
         public double ToDouble()
         {
-            return numerator.ToDouble() / denominator.ToDouble();
+            return Numerator.ToDouble() / Denominator.ToDouble();
         }
 
         public static explicit operator double(CompositeRadicalRatio value)

@@ -6,9 +6,9 @@ namespace Radicals
     {
         public static BasicRadical AddCompatible(BasicRadical left, BasicRadical right)
         {
-            if (left.r != right.r)
+            if (left.R != right.R)
                 throw new Exception("Trying to add compatible radicals that aren't compatible");
-            return new BasicRadical(left.c + right.c, left.r);
+            return new BasicRadical(left.C + right.C, left.R);
         }
 
         public static BasicRadical[] Add(BasicRadical left, BasicRadical right)
@@ -35,7 +35,7 @@ namespace Radicals
 
         public static BasicRadical Multiply(BasicRadical left, BasicRadical right)
         {
-            return new BasicRadical(left.c * right.c, left.r * right.r);
+            return new BasicRadical(left.C * right.C, left.R * right.R);
         }
 
         public static BasicRadical Divide(BasicRadical left, BasicRadical right)
@@ -44,7 +44,7 @@ namespace Radicals
             //    = [c1 / c2] * sqrt(r1 / r2)
             //    = [c1 / c2] * sqrt(r1 * r2 / r2 * r2)
             //    = [c1 / (c2 * r2)] * sqrt(r1 * r2)
-            return new BasicRadical(left.c / (right.c * right.r), left.r * right.r);
+            return new BasicRadical(left.C / (right.C * right.R), left.R * right.R);
         }
         
     }

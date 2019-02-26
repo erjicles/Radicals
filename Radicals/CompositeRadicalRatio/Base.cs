@@ -12,8 +12,26 @@ namespace Radicals
         //     ---------------------
         //     b21 + b22 + ... + b2n
         // bi = ci * sqrt(ri)
-        private readonly CompositeRadical numerator;
-        private readonly CompositeRadical denominator;
+        private readonly CompositeRadical _numerator;
+        private readonly CompositeRadical _denominator;
+        public CompositeRadical Numerator
+        {
+            get
+            {
+                if (_numerator == null)
+                    return CompositeRadical.Zero;
+                return _numerator;
+            }
+        }
+        public CompositeRadical Denominator
+        {
+            get
+            {
+                if (_denominator == null)
+                    return CompositeRadical.One;
+                return _denominator;
+            }
+        }
 
         public CompositeRadicalRatio(Rational r)
             : this(new CompositeRadical(r), CompositeRadical.One)
@@ -36,11 +54,11 @@ namespace Radicals
                 throw new ArgumentException("Denominator cannot be zero", nameof(d));
             if (d < CompositeRadical.Zero)
             {
-                ToSimplestForm(-n, -d, out numerator, out denominator);
+                ToSimplestForm(-n, -d, out _numerator, out _denominator);
             }
             else
             {
-                ToSimplestForm(n, d, out numerator, out denominator);
+                ToSimplestForm(n, d, out _numerator, out _denominator);
             }
         }
 
@@ -50,11 +68,11 @@ namespace Radicals
                 throw new ArgumentException("Denominator cannot be zero", nameof(d));
             if (d < CompositeRadical.Zero)
             {
-                ToSimplestForm(-n, -d, out numerator, out denominator);
+                ToSimplestForm(-n, -d, out _numerator, out _denominator);
             }
             else
             {
-                ToSimplestForm(n, d, out numerator, out denominator);
+                ToSimplestForm(n, d, out _numerator, out _denominator);
             }
         }
     }

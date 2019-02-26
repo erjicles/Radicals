@@ -8,7 +8,7 @@ namespace Radicals
     {
         public double ToDouble()
         {
-            return (double)c * Math.Sqrt((double)r);
+            return (double)C * Math.Sqrt((double)R);
         }
 
         public static explicit operator double(BasicRadical basicRadical)

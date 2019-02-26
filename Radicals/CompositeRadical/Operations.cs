@@ -9,19 +9,19 @@ namespace Radicals
     {
         public static CompositeRadical Negate(CompositeRadical value)
         {
-            BasicRadical[] result = new BasicRadical[value.radicals.Length];
-            for (int i = 0; i < value.radicals.Length; i++)
-                result[i] = -value.radicals[i];
+            BasicRadical[] result = new BasicRadical[value.Radicals.Length];
+            for (int i = 0; i < value.Radicals.Length; i++)
+                result[i] = -value.Radicals[i];
             return new CompositeRadical(result);
         }
 
         public static CompositeRadical Add(CompositeRadical left, CompositeRadical right)
         {
-            var z = new BasicRadical[left.radicals.Length + right.radicals.Length];
-            for (int i = 0; i < left.radicals.Length; i++)
-                z[i] = left.radicals[i];
-            for (int i = 0; i < right.radicals.Length; i++)
-                z[i + left.radicals.Length] = right.radicals[i];
+            var z = new BasicRadical[left.Radicals.Length + right.Radicals.Length];
+            for (int i = 0; i < left.Radicals.Length; i++)
+                z[i] = left.Radicals[i];
+            for (int i = 0; i < right.Radicals.Length; i++)
+                z[i + left.Radicals.Length] = right.Radicals[i];
             return new CompositeRadical(z);
         }
 
@@ -32,18 +32,18 @@ namespace Radicals
 
         public static CompositeRadical Multiply(CompositeRadical left, CompositeRadical right)
         {
-            var z = new BasicRadical[left.radicals.Length * right.radicals.Length];
-            for (int i = 0; i < left.radicals.Length; i++)
-                for (int j = 0; j < right.radicals.Length; j++)
-                    z[(i * right.radicals.Length) + j] = left.radicals[i] * right.radicals[j];
+            var z = new BasicRadical[left.Radicals.Length * right.Radicals.Length];
+            for (int i = 0; i < left.Radicals.Length; i++)
+                for (int j = 0; j < right.Radicals.Length; j++)
+                    z[(i * right.Radicals.Length) + j] = left.Radicals[i] * right.Radicals[j];
             return new CompositeRadical(z);
         }
 
         public static CompositeRadical Divide(CompositeRadical left, Rational right)
         {
-            var z = new BasicRadical[left.radicals.Length];
-            for (int i = 0; i < left.radicals.Length; i++)
-                z[i] = left.radicals[i] / right;
+            var z = new BasicRadical[left.Radicals.Length];
+            for (int i = 0; i < left.Radicals.Length; i++)
+                z[i] = left.Radicals[i] / right;
             return new CompositeRadical(z);
         }
     }

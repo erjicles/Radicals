@@ -13,7 +13,7 @@ namespace Radicals
 
         public override string ToString()
         {
-            return "[" + numerator.ToString() + "] / [" + denominator.ToString() + "]";
+            return "[" + Numerator.ToString() + "] / [" + Denominator.ToString() + "]";
         }
     }
 }

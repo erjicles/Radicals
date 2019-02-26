@@ -9,9 +9,9 @@ namespace Radicals
         public double ToDouble()
         {
             double result = 0;
-            for (int i = 0; i < radicals.Length; i++)
+            for (int i = 0; i < Radicals.Length; i++)
             {
-                result += radicals[i].ToDouble();
+                result += Radicals[i].ToDouble();
             }
             return result;
         }

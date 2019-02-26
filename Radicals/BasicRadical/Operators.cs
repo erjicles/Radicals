@@ -98,7 +98,7 @@ namespace Radicals
 
         public static BasicRadical operator -(BasicRadical value)
         {
-            return new BasicRadical(-value.c, value.r);
+            return new BasicRadical(-value.C, value.R);
         }
 
         public static BasicRadical operator +(BasicRadical value)

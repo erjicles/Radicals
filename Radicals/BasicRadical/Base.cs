@@ -11,8 +11,27 @@ namespace Radicals
         // R = c * sqrt(r)
         public readonly Rational c_original;
         public readonly BigInteger r_original;
-        public readonly Rational c;
-        public readonly BigInteger r;
+        private readonly Rational _c;
+        private readonly BigInteger _r;
+
+        public Rational C
+        {
+            get
+            {
+                if (_c == null)
+                    return 0;
+                return _c;
+            }
+        }
+        public BigInteger R
+        {
+            get
+            {
+                if (_r == null)
+                    return 0;
+                return _r;
+            }
+        }
 
         public BasicRadical(Rational c, BigInteger r)
         {
@@ -21,8 +40,8 @@ namespace Radicals
             ToSimplestForm(
                 c_orig: c,
                 r_orig: r,
-                c_final: out this.c,
-                r_final: out this.r);
+                c_final: out this._c,
+                r_final: out this._r);
         }
         
     }

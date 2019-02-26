@@ -24,11 +24,14 @@ namespace Radicals
 
         public bool Equals(CompositeRadical other)
         {
-            if (radicals.Length != other.radicals.Length)
+            if (other == null)
                 return false;
 
-            for (int i = 0; i < radicals.Length; i++)
-                if (radicals[i] != other.radicals[i])
+            if (Radicals.Length != other.Radicals.Length)
+                return false;
+
+            for (int i = 0; i < Radicals.Length; i++)
+                if (Radicals[i] != other.Radicals[i])
                     return false;
 
             return true;
@@ -45,10 +48,12 @@ namespace Radicals
 
         public override int GetHashCode()
         {
-            int h = radicals[0].GetHashCode();
-            for (int i = 1; i < radicals.Length; i++)
+            if (Radicals.Length == 0)
+                return 0;
+            int h = Radicals[0].GetHashCode();
+            for (int i = 1; i < Radicals.Length; i++)
             {
-                h = (((h << 5) + h) ^ radicals[i].GetHashCode());
+                h = (((h << 5) + h) ^ Radicals[i].GetHashCode());
             }
             return h;
         }

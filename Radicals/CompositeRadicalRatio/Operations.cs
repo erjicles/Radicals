@@ -8,7 +8,7 @@ namespace Radicals
     {
         public static CompositeRadicalRatio Negate(CompositeRadicalRatio value)
         {
-            return new CompositeRadicalRatio(-value.numerator, value.denominator);
+            return new CompositeRadicalRatio(-value.Numerator, value.Denominator);
         }
 
         public static CompositeRadicalRatio Add(
@@ -19,9 +19,9 @@ namespace Radicals
             // -- + -- = ---------------------
             // d1   d2          d1 * d2
             CompositeRadical numerator =
-                (left.numerator * right.denominator)
-                + (right.numerator * left.denominator);
-            CompositeRadical denominator = left.denominator * right.denominator;
+                (left.Numerator * right.Denominator)
+                + (right.Numerator * left.Denominator);
+            CompositeRadical denominator = left.Denominator * right.Denominator;
             return new CompositeRadicalRatio(numerator, denominator);
         }
 
@@ -36,8 +36,8 @@ namespace Radicals
             CompositeRadicalRatio left, 
             CompositeRadicalRatio right)
         {
-            CompositeRadical numerator = left.numerator * right.numerator;
-            CompositeRadical denominator = left.denominator * right.denominator;
+            CompositeRadical numerator = left.Numerator * right.Numerator;
+            CompositeRadical denominator = left.Denominator * right.Denominator;
             return new CompositeRadicalRatio(numerator, denominator);
         }
 
@@ -45,8 +45,8 @@ namespace Radicals
             CompositeRadicalRatio left,
             CompositeRadicalRatio right)
         {
-            CompositeRadical numerator = left.numerator * right.denominator;
-            CompositeRadical denominator = left.denominator * right.numerator;
+            CompositeRadical numerator = left.Numerator * right.Denominator;
+            CompositeRadical denominator = left.Denominator * right.Numerator;
             return new CompositeRadicalRatio(numerator, denominator);
         }
     }
