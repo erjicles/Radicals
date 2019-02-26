@@ -9,9 +9,7 @@ namespace Radicals
     {
         public static CompositeRadical Negate(CompositeRadical value)
         {
-            BasicRadical[] result = new BasicRadical[value.Radicals.Length];
-            for (int i = 0; i < value.Radicals.Length; i++)
-                result[i] = -value.Radicals[i];
+            var result = BasicRadical.Negate(value.Radicals);
             return new CompositeRadical(result);
         }
 
@@ -32,18 +30,13 @@ namespace Radicals
 
         public static CompositeRadical Multiply(CompositeRadical left, CompositeRadical right)
         {
-            var z = new BasicRadical[left.Radicals.Length * right.Radicals.Length];
-            for (int i = 0; i < left.Radicals.Length; i++)
-                for (int j = 0; j < right.Radicals.Length; j++)
-                    z[(i * right.Radicals.Length) + j] = left.Radicals[i] * right.Radicals[j];
+            var z = BasicRadical.Multiply(left.Radicals, right.Radicals);
             return new CompositeRadical(z);
         }
 
         public static CompositeRadical Divide(CompositeRadical left, BasicRadical right)
         {
-            var z = new BasicRadical[left.Radicals.Length];
-            for (int i = 0; i < left.Radicals.Length; i++)
-                z[i] = left.Radicals[i] / right;
+            var z = BasicRadical.Divide(left.Radicals, right);
             return new CompositeRadical(z);
         }
     }
