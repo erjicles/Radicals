@@ -81,7 +81,7 @@ namespace Radicals
                 BasicRadical b = basicRadicals[i];
                 if (uniqueRadicals.ContainsKey(b.R))
                     uniqueRadicals[b.R] = AddCompatible(uniqueRadicals[b.R], basicRadicals[i]);
-                else
+                else if (BasicRadical.Zero != b)
                     uniqueRadicals[b.R] = b;
             }
 
