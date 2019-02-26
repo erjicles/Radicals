@@ -2,7 +2,7 @@
 
 namespace Radicals
 {
-    internal readonly partial struct BasicRadical : IFormattable
+    public readonly partial struct BasicRadical : IFormattable
     {
         public string ToString(string format, IFormatProvider formatProvider)
         {

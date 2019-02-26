@@ -2,7 +2,7 @@
 
 namespace Radicals
 {
-    internal readonly partial struct BasicRadical
+    public readonly partial struct BasicRadical
     {
         public static BasicRadical AddCompatible(BasicRadical left, BasicRadical right)
         {

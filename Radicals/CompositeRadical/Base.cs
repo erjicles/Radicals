@@ -13,7 +13,7 @@ namespace Radicals
         // bi = ci * sqrt(ri)
         private readonly BasicRadical[] _radicals;
 
-        internal BasicRadical[] Radicals
+        public BasicRadical[] Radicals
         {
             get
             {
@@ -23,7 +23,7 @@ namespace Radicals
             }
         }
 
-        internal CompositeRadical(Rational r)
+        public CompositeRadical(Rational r)
             : this(r.Denominator, r.Numerator * r.Denominator)
         {
         }
@@ -44,14 +44,14 @@ namespace Radicals
             _radicals[0] = new BasicRadical(c, r);
         }
 
-        internal CompositeRadical(BasicRadical basicRadical)
+        public CompositeRadical(BasicRadical basicRadical)
         {
             if (basicRadical == null)
                 throw new ArgumentNullException(nameof(basicRadical));
             _radicals = new BasicRadical[1] { basicRadical };
         }
 
-        internal CompositeRadical(BasicRadical[] basicRadicals)
+        public CompositeRadical(BasicRadical[] basicRadicals)
         {
             if (basicRadicals == null)
                 throw new ArgumentNullException(nameof(basicRadicals));

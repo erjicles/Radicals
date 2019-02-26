@@ -44,8 +44,16 @@ namespace Radicals
             var d_reduced = d_in * Rational.Invert(common_factor_d);
             var common_factor_reduced = common_factor_n / common_factor_d;
 
-            n_out = common_factor_reduced * n_reduced;
-            d_out = d_reduced;
+            if (n_reduced == d_reduced)
+            {
+                n_out = common_factor_reduced * CompositeRadical.One;
+                d_out = CompositeRadical.One;
+            }
+            else
+            {
+                n_out = common_factor_reduced * n_reduced;
+                d_out = d_reduced;
+            }
         }
     }
 }

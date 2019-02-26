@@ -2,11 +2,9 @@
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Radicals.Test")]
-
 namespace Radicals
 {
-    internal readonly partial struct BasicRadical 
+    public readonly partial struct BasicRadical 
     {
         // R = c * sqrt(r)
         public readonly Rational c_original;
@@ -31,6 +29,11 @@ namespace Radicals
                     return 0;
                 return _r;
             }
+        }
+
+        public BasicRadical(Rational r)
+            : this(new Rational(1, r.Denominator), r.Numerator * r.Denominator)
+        {
         }
 
         public BasicRadical(Rational c, BigInteger r)

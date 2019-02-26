@@ -7,7 +7,7 @@ using System.Numerics;
 
 namespace Radicals
 {
-    internal readonly partial struct BasicRadical
+    public readonly partial struct BasicRadical
     {
         /// <summary>
         /// Simplest form is irreducible radical where the radical is the smallest possible integer

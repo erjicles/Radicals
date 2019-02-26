@@ -27,8 +27,10 @@ namespace Radicals
         {
             get
             {
+                // Should not happen
                 if (_denominator == null)
                     return CompositeRadical.One;
+                // Should only happen when default constructor used
                 if (_denominator == CompositeRadical.Zero)
                     return CompositeRadical.One;
                 return _denominator;
@@ -42,6 +44,11 @@ namespace Radicals
 
         public CompositeRadicalRatio(Rational c, BigInteger r)
             :this(new CompositeRadical(c, r))
+        {
+        }
+
+        public CompositeRadicalRatio(BasicRadical b)
+            : this(new CompositeRadical(b), CompositeRadical.One)
         {
         }
 

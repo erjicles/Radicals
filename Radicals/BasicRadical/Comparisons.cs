@@ -2,7 +2,7 @@
 
 namespace Radicals
 {
-    internal readonly partial struct BasicRadical : IComparable, IComparable<BasicRadical>, IEquatable<BasicRadical>
+    public readonly partial struct BasicRadical : IComparable, IComparable<BasicRadical>, IEquatable<BasicRadical>
     {
         public int CompareTo(object obj)
         {

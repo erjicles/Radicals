@@ -39,7 +39,7 @@ namespace Radicals
             return new CompositeRadical(z);
         }
 
-        public static CompositeRadical Divide(CompositeRadical left, Rational right)
+        public static CompositeRadical Divide(CompositeRadical left, BasicRadical right)
         {
             var z = new BasicRadical[left.Radicals.Length];
             for (int i = 0; i < left.Radicals.Length; i++)

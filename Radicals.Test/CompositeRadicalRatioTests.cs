@@ -10,10 +10,16 @@ namespace Radicals.Test
     public class CompositeRadicalRatioTests
     {
         [Fact]
-        public void ConstructorTests()
+        public void DefaultConstructorTests()
         {
             var test = new CompositeRadicalRatio();
             Assert.Equal(CompositeRadicalRatio.Zero, test);
+        }
+
+        [Fact]
+        public void SimplificationTests()
+        {
+            
         }
     }
 }

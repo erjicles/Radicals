@@ -1,6 +1,6 @@
 ﻿namespace Radicals
 {
-    internal readonly partial struct BasicRadical
+    public readonly partial struct BasicRadical
     {
         /// <summary>
         /// Zero

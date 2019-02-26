@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Radicals
 {
-    internal readonly partial struct BasicRadical
+    public readonly partial struct BasicRadical
     {
         public static bool operator <(BasicRadical left, BasicRadical right)
         {

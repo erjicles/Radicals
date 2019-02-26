@@ -22,6 +22,16 @@ namespace Radicals
             return (new CompositeRadical(left, 1)).CompareTo(right) < 0;
         }
 
+        public static bool operator <(CompositeRadical left, BasicRadical right)
+        {
+            return left.CompareTo(new CompositeRadical(right)) < 0;
+        }
+
+        public static bool operator <(BasicRadical left, CompositeRadical right)
+        {
+            return (new CompositeRadical(left)).CompareTo(right) < 0;
+        }
+
         public static bool operator <=(CompositeRadical left, CompositeRadical right)
         {
             return left.CompareTo(right) <= 0;
@@ -35,6 +45,16 @@ namespace Radicals
         public static bool operator <=(Rational left, CompositeRadical right)
         {
             return (new CompositeRadical(left, 1)).CompareTo(right) <= 0;
+        }
+
+        public static bool operator <=(CompositeRadical left, BasicRadical right)
+        {
+            return left.CompareTo(new CompositeRadical(right)) <= 0;
+        }
+
+        public static bool operator <=(BasicRadical left, CompositeRadical right)
+        {
+            return (new CompositeRadical(left)).CompareTo(right) <= 0;
         }
 
         public static bool operator >(CompositeRadical left, CompositeRadical right)
@@ -52,6 +72,16 @@ namespace Radicals
             return (new CompositeRadical(left, 1)).CompareTo(right) > 0;
         }
 
+        public static bool operator >(CompositeRadical left, BasicRadical right)
+        {
+            return left.CompareTo(new CompositeRadical(right)) > 0;
+        }
+
+        public static bool operator >(BasicRadical left, CompositeRadical right)
+        {
+            return (new CompositeRadical(left)).CompareTo(right) > 0;
+        }
+
         public static bool operator >=(CompositeRadical left, CompositeRadical right)
         {
             return left.CompareTo(right) >= 0;
@@ -65,6 +95,16 @@ namespace Radicals
         public static bool operator >=(Rational left, CompositeRadical right)
         {
             return (new CompositeRadical(left, 1)).CompareTo(right) >= 0;
+        }
+
+        public static bool operator >=(CompositeRadical left, BasicRadical right)
+        {
+            return left.CompareTo(new CompositeRadical(right)) >= 0;
+        }
+
+        public static bool operator >=(BasicRadical left, CompositeRadical right)
+        {
+            return (new CompositeRadical(left)).CompareTo(right) >= 0;
         }
 
         public static bool operator ==(CompositeRadical left, CompositeRadical right)
@@ -82,6 +122,16 @@ namespace Radicals
             return (new CompositeRadical(left, 1)).Equals(right);
         }
 
+        public static bool operator ==(CompositeRadical left, BasicRadical right)
+        {
+            return left.Equals(new CompositeRadical(right));
+        }
+
+        public static bool operator ==(BasicRadical left, CompositeRadical right)
+        {
+            return (new CompositeRadical(left)).Equals(right);
+        }
+
         public static bool operator !=(CompositeRadical left, CompositeRadical right)
         {
             return !left.Equals(right);
@@ -95,6 +145,16 @@ namespace Radicals
         public static bool operator !=(Rational left, CompositeRadical right)
         {
             return !(new CompositeRadical(left, 1)).Equals(right);
+        }
+
+        public static bool operator !=(CompositeRadical left, BasicRadical right)
+        {
+            return !left.Equals(new CompositeRadical(right));
+        }
+
+        public static bool operator !=(BasicRadical left, CompositeRadical right)
+        {
+            return !(new CompositeRadical(left)).Equals(right);
         }
 
         public static CompositeRadical operator -(CompositeRadical value)
@@ -122,6 +182,16 @@ namespace Radicals
             return Add(new CompositeRadical(left, 1), right);
         }
 
+        public static CompositeRadical operator +(CompositeRadical left, BasicRadical right)
+        {
+            return Add(left, new CompositeRadical(right));
+        }
+
+        public static CompositeRadical operator +(BasicRadical left, CompositeRadical right)
+        {
+            return Add(new CompositeRadical(left), right);
+        }
+
         public static CompositeRadical operator -(CompositeRadical left, CompositeRadical right)
         {
             return Subtract(left, right);
@@ -135,6 +205,16 @@ namespace Radicals
         public static CompositeRadical operator -(Rational left, CompositeRadical right)
         {
             return Subtract(new CompositeRadical(left, 1), right);
+        }
+
+        public static CompositeRadical operator -(CompositeRadical left, BasicRadical right)
+        {
+            return Subtract(left, new CompositeRadical(right));
+        }
+
+        public static CompositeRadical operator -(BasicRadical left, CompositeRadical right)
+        {
+            return Subtract(new CompositeRadical(left), right);
         }
 
         public static CompositeRadical operator *(CompositeRadical left, CompositeRadical right)
@@ -152,7 +232,22 @@ namespace Radicals
             return Multiply(new CompositeRadical(left, 1), right);
         }
 
+        public static CompositeRadical operator *(CompositeRadical left, BasicRadical right)
+        {
+            return Multiply(left, new CompositeRadical(right));
+        }
+
+        public static CompositeRadical operator *(BasicRadical left, CompositeRadical right)
+        {
+            return Multiply(new CompositeRadical(left), right);
+        }
+
         public static CompositeRadical operator /(CompositeRadical left, Rational right)
+        {
+            return Divide(left, new BasicRadical(right,1));
+        }
+
+        public static CompositeRadical operator /(CompositeRadical left, BasicRadical right)
         {
             return Divide(left, right);
         }
