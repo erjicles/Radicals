@@ -61,7 +61,7 @@ namespace Radicals
             foreach (BigInteger factor in finalFactors)
                 simplestRadical *= factor;
 
-            c_final = simplestCoefficient;
+            c_final = simplestCoefficient.CanonicalForm;
             r_final = simplestRadical;
             return;
         }
