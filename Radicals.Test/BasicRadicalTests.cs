@@ -134,7 +134,8 @@ namespace Radicals.Test
             // 11 * sqrt(4/9) = 22/3
             var b31 = 11;
             var b32 = new BasicRadical(new Rational(4, 9));
-            var actual3 = b31 * b32;
+            var actual31 = b31 * b32;
+            var actual32 = b32 * b31;
             var expected3 = new BasicRadical(new Rational(22, 3), 1);
             // [(3/2)*sqrt(2) - (7/3)*sqrt(5) + (1/3)*sqrt(2) - (7/5)*sqrt(5)] * (11/4)*sqrt(2)
             // = [(11/6)*sqrt(2) - (56/15)*sqrt(5)] * (11/4)*sqrt(2)
@@ -153,7 +154,8 @@ namespace Radicals.Test
 
             Assert.Equal(expected1, actual1);
             Assert.Equal(expected2, actual2);
-            Assert.Equal(expected3, actual3);
+            Assert.Equal(expected3, actual31);
+            Assert.Equal(expected3, actual32);
             Assert.Equal(expected4, actual41);
             Assert.Equal(expected4, actual42);
         }
@@ -161,7 +163,44 @@ namespace Radicals.Test
         [Fact]
         public void DivisionTests()
         {
+            // (3*sqrt(2)) / ((5/3)*sqrt(3)) = (9/5)*sqrt(2/3) = (3/5)*sqrt(6)
+            var b11 = new BasicRadical(3, 2);
+            var b12 = new BasicRadical(new Rational(5, 3), 3);
+            var actual1 = b11 / b12;
+            var expected1 = new BasicRadical(new Rational(3,5), 6);
+            // 11 / sqrt(4/9) = 33/2
+            var b21 = new BasicRadical(11, 1);
+            var b22 = new BasicRadical(new Rational(4, 9));
+            var actual2 = b21 / b22;
+            var expected2 = new BasicRadical(new Rational(33, 2), 1);
+            // 11 / sqrt(4/9) = 33/2
+            var b31 = 11;
+            var b32 = new BasicRadical(new Rational(4, 9));
+            var actual3 = b31 / b32;
+            var expected3 = new BasicRadical(new Rational(33, 2), 1);
+            // sqrt(4/9) / 11 = 2/33
+            var b41 = new BasicRadical(new Rational(4, 9));
+            var b42 = 11;
+            var actual4 = b41 / b42;
+            var expected4 = new BasicRadical(new Rational(2, 33), 1);
+            // [(3/2)*sqrt(2) - (7/3)*sqrt(5) + (1/3)*sqrt(2) - (7/5)*sqrt(5)] / (11/4)*sqrt(2)
+            // = [(11/6)*sqrt(2) - (56/15)*sqrt(5)] / (11/4)*sqrt(2)
+            // = (2/3) - (224/165)*sqrt(5/2)
+            // = (2/3) - (112/165)*sqrt(10)
+            var b51 = new BasicRadical(new Rational(3, 2), 2);
+            var b52 = new BasicRadical(new Rational(7, 3), 5);
+            var b53 = new BasicRadical(new Rational(1, 3), 2);
+            var b54 = new BasicRadical(new Rational(7, 5), 5);
+            var b55 = new BasicRadical(new Rational(11, 4), 2);
+            var actual5 = (b51 - b52 + b53 - b54) / b55;
+            var expected5 = new BasicRadical[2] {
+                new BasicRadical(new Rational(2, 3), 1),
+                new BasicRadical(new Rational(-112, 165), 10) };
 
-        }
+            Assert.Equal(expected1, actual1);
+            Assert.Equal(expected2, actual2);
+            Assert.Equal(expected3, actual3);
+            Assert.Equal(expected4, actual4);
+            Assert.Equal(expected5, actual5);        }
     }
 }
