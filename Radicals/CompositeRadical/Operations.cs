@@ -51,5 +51,10 @@ namespace Radicals
                 z[i] = left.Radicals[i] / right;
             return new CompositeRadical(z);
         }
+
+        public static CompositeRadicalRatio Divide(CompositeRadical left, CompositeRadical right)
+        {
+            return new CompositeRadicalRatio(left, right);
+        }
     }
 }

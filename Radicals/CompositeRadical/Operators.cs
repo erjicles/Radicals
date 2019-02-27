@@ -251,5 +251,10 @@ namespace Radicals
         {
             return Divide(left, right);
         }
+
+        public static CompositeRadicalRatio operator /(CompositeRadical left, CompositeRadical right)
+        {
+            return Divide(left, right);
+        }
     }
 }
