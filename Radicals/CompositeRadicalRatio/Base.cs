@@ -52,6 +52,16 @@ namespace Radicals
         {
         }
 
+        public CompositeRadicalRatio(BasicRadical[] n)
+            :this(new CompositeRadical(n), CompositeRadical.One)
+        {
+        }
+
+        public CompositeRadicalRatio(BasicRadical[] n, BasicRadical[] d)
+            :this(new CompositeRadical(n), new CompositeRadical(d))
+        {
+        }
+
         public CompositeRadicalRatio(CompositeRadical n)
             : this(n, CompositeRadical.One)
         {
