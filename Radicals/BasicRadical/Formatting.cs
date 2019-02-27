@@ -22,6 +22,8 @@ namespace Radicals
                 cPart = C.ToString();
             if (!R.IsOne)
                 rPart = "Sqrt(" + R.ToString() + ")";
+            if (this == One)
+                cPart = "1";
             if (cPart.Length > 0 && rPart.Length > 0)
             {
                 if (C.Denominator == 1)
