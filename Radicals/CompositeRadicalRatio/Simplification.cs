@@ -49,6 +49,11 @@ namespace Radicals
                 n_out = common_factor_reduced * CompositeRadical.One;
                 d_out = CompositeRadical.One;
             }
+            else if (d_reduced.Radicals.Length == 1)
+            {
+                n_out = common_factor_reduced * n_reduced / d_reduced.Radicals[0];
+                d_out = CompositeRadical.One;
+            }
             else
             {
                 n_out = common_factor_reduced * n_reduced;
