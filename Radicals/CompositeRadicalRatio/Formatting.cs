@@ -13,6 +13,8 @@ namespace Radicals
 
         public override string ToString()
         {
+            if (CompositeRadical.One == Denominator)
+                return Numerator.ToString();
             return "[" + Numerator.ToString() + "] / [" + Denominator.ToString() + "]";
         }
     }
