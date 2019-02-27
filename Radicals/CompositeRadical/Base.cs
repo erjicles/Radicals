@@ -24,7 +24,7 @@ namespace Radicals
         }
 
         public CompositeRadical(Rational r)
-            : this(r.Denominator, r.Numerator * r.Denominator)
+            : this(new BasicRadical(r))
         {
         }
 
@@ -32,16 +32,14 @@ namespace Radicals
         {
             if (r < 0)
                 throw new InvalidOperationException("Negative value under radical");
-            _radicals = new BasicRadical[1];
-            _radicals[0] = new BasicRadical(c, r);
+            _radicals = new BasicRadical[1] { new BasicRadical(c, r) };
         }
 
         public CompositeRadical(Rational c, BigInteger r)
         {
             if (r < 0)
                 throw new InvalidOperationException("Negative value under radical");
-            _radicals = new BasicRadical[1];
-            _radicals[0] = new BasicRadical(c, r);
+            _radicals = new BasicRadical[1] { new BasicRadical(c, r) };
         }
 
         public CompositeRadical(BasicRadical basicRadical)
