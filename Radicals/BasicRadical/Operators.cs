@@ -106,35 +106,34 @@ namespace Radicals
             return value;
         }
 
-        public static BasicRadical[] operator +(BasicRadical left, BasicRadical right)
+        public static CompositeRadical operator +(BasicRadical left, BasicRadical right)
         {
             return Add(left, right);
         }
 
-        public static BasicRadical[] operator +(BasicRadical left, BasicRadical[] right)
+        public static CompositeRadical operator +(BasicRadical left, Rational right)
         {
-            return Add(left, right);
+            return Add(left, new BasicRadical(right, 1));
         }
 
-        public static BasicRadical[] operator +(BasicRadical[] left, BasicRadical right)
+        public static CompositeRadical operator +(Rational left, BasicRadical right)
         {
-            return Add(right, left);
+            return Add(new BasicRadical(left, 1), right);
         }
 
-        public static BasicRadical[] operator -(BasicRadical left, BasicRadical right)
+        public static CompositeRadical operator -(BasicRadical left, BasicRadical right)
         {
             return Subtract(left, right);
         }
 
-        public static BasicRadical[] operator -(BasicRadical left, BasicRadical[] right)
+        public static CompositeRadical operator -(BasicRadical left, Rational right)
         {
-            return Subtract(left, right);
+            return Subtract(left, new BasicRadical(right, 1));
         }
 
-        public static BasicRadical[] operator -(BasicRadical[] left, BasicRadical right)
+        public static CompositeRadical operator -(Rational left, BasicRadical right)
         {
-            // a - b = -b - (-a)
-            return Subtract(Negate(right), Negate(left));
+            return Subtract(new BasicRadical(left, 1), right);
         }
 
         public static BasicRadical operator *(BasicRadical left, BasicRadical right)
@@ -152,16 +151,6 @@ namespace Radicals
             return Multiply(new BasicRadical(left, 1), right);
         }
 
-        public static BasicRadical[] operator *(BasicRadical left, BasicRadical[] right)
-        {
-            return Multiply(left, right);
-        }
-
-        public static BasicRadical[] operator *(BasicRadical[] left, BasicRadical right)
-        {
-            return Multiply(right, left);
-        }
-
         public static BasicRadical operator /(BasicRadical left, BasicRadical right)
         {
             return Divide(left, right);
@@ -175,11 +164,6 @@ namespace Radicals
         public static BasicRadical operator /(Rational left, BasicRadical right)
         {
             return Divide(new BasicRadical(left, 1), right);
-        }
-
-        public static BasicRadical[] operator /(BasicRadical[] left, BasicRadical right)
-        {
-            return Divide(left, right);
         }
 
     }
