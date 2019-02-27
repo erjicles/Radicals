@@ -249,6 +249,26 @@ namespace Radicals.Test
             var actual77 = b74 * b71;
             var actual78 = b75 * b71;
             var expected7 = CompositeRadical.Zero;
+            // [(5/3)*sqrt(7) - (2/9)*sqrt(11) - 6*sqrt(13)] * [2*sqrt(6) - 3*sqrt(8)]
+            // = (10/3)*sqrt(42) - (4/9)*sqrt(66) - 12*sqrt(78) - 5*sqrt(56) + (2/3)*sqrt(88) + 18*sqrt(104)
+            // = (10/3)*sqrt(42) - 5*sqrt(56) - (4/9)*sqrt(66) - (34/3)*sqrt(88) + 18*sqrt(104) - 12*sqrt(78)
+            // = -10*sqrt(14) + (4/3)*sqrt(22) + 36*sqrt(26) + (10/3)*sqrt(42) - (4/9)*sqrt(66) - 12*sqrt(78)
+            var b81 = new CompositeRadical(new Rational(5, 3), 7);
+            var b82 = new CompositeRadical(new Rational(2, 9), 11);
+            var b83 = new CompositeRadical(6, 13);
+            var b84 = new CompositeRadical(2, 6);
+            var b85 = new CompositeRadical(3, 8);
+            var c81 = b81 - b82 - b83;
+            var c82 = b84 - b85;
+            var actual8 = c81 * c82;
+            var expected8 = new CompositeRadical(new BasicRadical[6] {
+                new BasicRadical(-10, 14),
+                new BasicRadical(new Rational(4,3),22),
+                new BasicRadical(36, 26),
+                new BasicRadical(new Rational(10,3),42),
+                new BasicRadical(new Rational(-4,9),66),
+                new BasicRadical(-12,78)
+            });
 
             Assert.Equal(expected1, actual1);
             Assert.Equal(expected2, actual2);
@@ -278,6 +298,7 @@ namespace Radicals.Test
             Assert.Equal(expected7, actual76);
             Assert.Equal(expected7, actual77);
             Assert.Equal(expected7, actual78);
+            Assert.Equal(expected8, actual8);
         }
 
         [Fact]
