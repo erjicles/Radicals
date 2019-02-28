@@ -1,4 +1,5 @@
 ﻿using Open.Numeric.Primes;
+using Rationals;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -8,7 +9,7 @@ namespace Radicals
 {
     public readonly partial struct CompositeRadical
     {
-        public void GetCommonFactors(out BigInteger[] upstairs, out BigInteger[] downstairs)
+        private void GetCommonFactors(out BigInteger[] upstairs, out BigInteger[] downstairs)
         {
             var numerators = new BigInteger[Radicals.Length];
             var denominators = new BigInteger[Radicals.Length];
@@ -27,6 +28,15 @@ namespace Radicals
             denominatorFactors.Sort();
             upstairs = numeratorFactors.ToArray();
             downstairs = denominatorFactors.ToArray();
+        }
+
+        public Rational GetCommonFactor()
+        {
+            BigInteger[] upstairs = new BigInteger[0];
+            BigInteger[] downstairs = new BigInteger[0];
+            GetCommonFactors(upstairs: out upstairs, downstairs: out downstairs);
+            var result = new Rational(Utilities.CombineFactors(upstairs), Utilities.CombineFactors(downstairs));
+            return result.CanonicalForm;
         }
     }
 }

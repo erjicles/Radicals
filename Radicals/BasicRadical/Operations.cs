@@ -37,6 +37,8 @@ namespace Radicals
             //    = [c1 / c2] * sqrt(r1 / r2)
             //    = [c1 / c2] * sqrt(r1 * r2 / r2 * r2)
             //    = [c1 / (c2 * r2)] * sqrt(r1 * r2)
+            if (right == 0)
+                throw new DivideByZeroException("Cannot divide by zero");
             return new BasicRadical(left.C / (right.C * right.R), left.R * right.R);
         }
         

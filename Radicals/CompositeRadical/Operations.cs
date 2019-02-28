@@ -46,6 +46,8 @@ namespace Radicals
 
         public static CompositeRadical Divide(CompositeRadical left, BasicRadical right)
         {
+            if (right == 0)
+                throw new DivideByZeroException("Cannot divide by zero");
             var z = new BasicRadical[left.Radicals.Length];
             for (int i = 0; i < left.Radicals.Length; i++)
                 z[i] = left.Radicals[i] / right;
@@ -54,6 +56,8 @@ namespace Radicals
 
         public static CompositeRadicalRatio Divide(CompositeRadical left, CompositeRadical right)
         {
+            if (right == 0)
+                throw new DivideByZeroException("Cannot divide by zero");
             return new CompositeRadicalRatio(left, right);
         }
     }
