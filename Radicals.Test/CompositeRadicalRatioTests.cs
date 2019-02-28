@@ -36,6 +36,17 @@ namespace Radicals.Test
             var actual52 = new CompositeRadicalRatio(1, 1);
             var actual53 = new CompositeRadicalRatio(1);
             var expected5 = CompositeRadicalRatio.One;
+            // [(3/2)*sqrt(7) - (2/3)*sqrt(5)] / [(1/2)*sqrt(7) + (4/5)*sqrt(6)]
+            var c61 = new CompositeRadical(new BasicRadical[2] {
+                new BasicRadical(new Rational(3,2), 7),
+                new BasicRadical(new Rational(-2,3), 5)
+            });
+            var c62 = new CompositeRadical(new BasicRadical[2] {
+                new BasicRadical(new Rational(1,2), 7),
+                new BasicRadical(new Rational(4,5), 6)
+            });
+            var actual6 = c61 / c62;
+            var expected6 = new CompositeRadicalRatio(c61, c62);
 
 
             // assert
@@ -51,6 +62,7 @@ namespace Radicals.Test
             Assert.Equal(expected5, actual51);
             Assert.Equal(expected5, actual52);
             Assert.Equal(expected5, actual53);
+            Assert.Equal(expected6, actual6);
         }
 
         [Fact]
@@ -96,12 +108,40 @@ namespace Radicals.Test
             var actual61 = b61 + b62;
             var actual62 = b62 + b61;
             var expected6 = new CompositeRadicalRatio(new BasicRadical(new Rational(3, 2), 5));
-
             // (3/2)*sqrt(5) + (-3/2)*sqrt(5) = 0
             var b71 = new CompositeRadicalRatio(new Rational(3, 2), 5);
             var b72 = new CompositeRadicalRatio(new Rational(-3, 2), 5);
             var actual7 = b71 + b72;
             var expected7 = CompositeRadicalRatio.Zero;
+            // {[(2/3)*sqrt(3) - (3/2)*sqrt(2)] / [(2/3)*sqrt(3) + (3/2)*sqrt(2)]} - {[(5/6)*sqrt(3) + (7/3)*sqrt(2)] / [(4/3)*sqrt(3) - (5/7)*sqrt(2)]}
+            // = [(8/9)*3 - (10/21)*sqrt(6) - (12/6)*sqrt(6) + (15/14)*2 - (10/18)*3 - (14/9)*sqrt(6) - (15/12)*sqrt(6) - (21/6)*2] / [(8/9)*3 - (10/21)*sqrt(6) + (12/6)*sqrt(6) - (15/14)*2]
+            // = [(8/3) - (1331/252)*sqrt(6) + (15/7) - (10/6) - (21/3)] / [(8/3) + (32/21)*sqrt(6) - (15/7)]
+            // = [(-27/7) - (1331/252)*sqrt(6)] / [(11/21) + (32/21)*sqrt(6)]
+            // = [(-81) - (1331/12)*sqrt(6)] / [(11) + 32*sqrt(6)]
+            var b81 = new BasicRadical(new Rational(2, 3), 3);
+            var b82 = new BasicRadical(new Rational(3, 2), 2);
+            var b83 = new BasicRadical(new Rational(2, 3), 3);
+            var b84 = new BasicRadical(new Rational(3, 2), 2);
+            var b85 = new BasicRadical(new Rational(5, 6), 3);
+            var b86 = new BasicRadical(new Rational(7, 3), 2);
+            var b87 = new BasicRadical(new Rational(4, 3), 3);
+            var b88 = new BasicRadical(new Rational(5, 7), 2);
+            var c81 = b81 - b82;
+            var c82 = b83 + b84;
+            var c83 = b85 + b86;
+            var c84 = b87 - b88;
+            var cr81 = new CompositeRadicalRatio(c81, c82);
+            var cr82 = new CompositeRadicalRatio(c83, c84);
+            var actual8 = cr81 - cr82;
+            var expected8 = new CompositeRadicalRatio(
+                new CompositeRadical(new BasicRadical[2] {
+                    new BasicRadical(new Rational(-81), 1),
+                    new BasicRadical(new Rational(-1331,12), 6)
+                }),
+                new CompositeRadical(new BasicRadical[2] {
+                    new BasicRadical(new Rational(11),1),
+                    new BasicRadical(new Rational(32), 6)
+                }));
 
             Assert.Equal(expected1, actual1);
             Assert.Equal(expected2, actual2);
@@ -111,6 +151,7 @@ namespace Radicals.Test
             Assert.Equal(expected6, actual61);
             Assert.Equal(expected6, actual62);
             Assert.Equal(expected7, actual7);
+            Assert.Equal(expected8, actual8);
         }
 
         [Fact]
