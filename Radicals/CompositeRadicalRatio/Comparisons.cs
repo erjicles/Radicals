@@ -25,8 +25,8 @@ namespace Radicals
         {
             if (other == null)
                 return false;
-            return (Numerator == other.Numerator
-                && Denominator == other.Denominator);
+            return Numerator == other.Numerator
+                && Denominator == other.Denominator;
         }
 
         public override bool Equals(object obj)
