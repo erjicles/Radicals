@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace Radicals
@@ -8,14 +9,14 @@ namespace Radicals
     {
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            return ToString();
+            if (CompositeRadical.One == Denominator)
+                return Numerator.ToString(format, formatProvider);
+            return "[" + Numerator.ToString(format, formatProvider) + "] / [" + Denominator.ToString(format, formatProvider) + "]";
         }
 
         public override string ToString()
         {
-            if (CompositeRadical.One == Denominator)
-                return Numerator.ToString();
-            return "[" + Numerator.ToString() + "] / [" + Denominator.ToString() + "]";
+            return ToString("S", CultureInfo.InvariantCulture);
         }
     }
 }
