@@ -528,5 +528,36 @@ namespace Radicals.Test
             Assert.Equal(expected7, actual73);
             Assert.Equal(expected9, actual9);
         }
+
+        [Fact]
+        public void ConversionTests()
+        {
+            // [3*sqrt(2) + (7/2)*sqrt(3)] / [(-9/3)*sqrt(2) + (-14/4)*sqrt(3)] = -1
+            var b11 = new BasicRadical(3, 2);
+            var b12 = new BasicRadical(new Rational(7, 2), 3);
+            var b13 = new BasicRadical(new Rational(-9, 3), 2);
+            var b14 = new BasicRadical(new Rational(-14, 4), 3);
+            var c11 = new CompositeRadical(new BasicRadical[2] { b11, b12 });
+            var c12 = new CompositeRadical(new BasicRadical[2] { b13, b14 });
+            var cr1 = new CompositeRadicalRatio(c11, c12);
+            bool actual11 = cr1.IsRational();
+            var actual12 = cr1.ToRational();
+            bool expected11 = true;
+            var expected12 = new Rational(-1);
+
+            // (3*sqrt(2)) / ((5/3)*sqrt(3)) = (9/5)*sqrt(2/3) = (3/5)*sqrt(6)
+            var b21 = new CompositeRadicalRatio(3, 2);
+            var b22 = new CompositeRadicalRatio(new Rational(5, 3), 3);
+            var b23 = b21 / b22;
+            var actual21 = b23.IsRational();
+            var actual22 = b23.ToDouble();
+            var expected21 = false;
+            double expected22 = 1.4696938456699068589183704448235;
+
+            Assert.Equal(expected11, actual11);
+            Assert.Equal(expected12, actual12);
+            Assert.Equal(expected21, actual21);
+            Assert.Equal(expected22.ToString("0.000000"), actual22.ToString("0.000000"));
+        }
     }
 }
