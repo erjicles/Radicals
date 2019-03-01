@@ -24,6 +24,14 @@ namespace Radicals
                 numeratorFactors.Add(factor);
             foreach (BigInteger factor in Prime.CommonFactors(denominators))
                 denominatorFactors.Add(factor);
+            // Prime.CommonFactors doesn't get -1, account for this:
+            BigInteger sign = -1;
+            foreach (BigInteger numerator in numerators)
+                if (numerator >= 0)
+                    sign = 1;
+            if (sign == -1)
+                numeratorFactors.Add(sign);
+
             numeratorFactors.Sort();
             denominatorFactors.Sort();
             upstairs = numeratorFactors.ToArray();
