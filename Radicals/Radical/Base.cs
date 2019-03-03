@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Radicals
 {
-    public readonly partial struct BasicRadical 
+    public readonly partial struct Radical 
     {
         // R = Coefficient * sqrt(Radicand)
         public readonly Rational c_original;
@@ -31,12 +31,12 @@ namespace Radicals
             }
         }
 
-        public BasicRadical(Rational r)
+        public Radical(Rational r)
             : this(new Rational(1, r.Denominator), r.Numerator * r.Denominator)
         {
         }
 
-        public BasicRadical(Rational c, BigInteger r)
+        public Radical(Rational c, BigInteger r)
         {
             c_original = c;
             radicand_unsimplified = r;

@@ -2,18 +2,18 @@
 
 namespace Radicals
 {
-    public readonly partial struct BasicRadical : IComparable, IComparable<BasicRadical>, IEquatable<BasicRadical>
+    public readonly partial struct Radical : IComparable, IComparable<Radical>, IEquatable<Radical>
     {
         public int CompareTo(object obj)
         {
             if (obj == null)
                 return 1;
-            if (!(obj is BasicRadical))
+            if (!(obj is Radical))
                 throw new ArgumentException("Invalid type comparison", nameof(obj));
-            return CompareTo((BasicRadical)obj);
+            return CompareTo((Radical)obj);
         }
 
-        public int CompareTo(BasicRadical other)
+        public int CompareTo(Radical other)
         {
             if (other == null)
                 return 1;
@@ -24,7 +24,7 @@ namespace Radicals
             return (Coefficient * Coefficient * Radicand).CompareTo(other.Coefficient * other.Coefficient * other.Radicand);
         }
 
-        public bool Equals(BasicRadical other)
+        public bool Equals(Radical other)
         {
             return Coefficient == other.Coefficient && Radicand == other.Radicand;
         }
@@ -33,9 +33,9 @@ namespace Radicals
         {
             if (obj == null)
                 return false;
-            if (!(obj is BasicRadical))
+            if (!(obj is Radical))
                 throw new ArgumentException("Invalid type equality check", nameof(obj));
-            return Equals((BasicRadical)obj);
+            return Equals((Radical)obj);
         }
 
         public override int GetHashCode()
@@ -45,7 +45,7 @@ namespace Radicals
             return (((h1 << 5) + h1) ^ h2);
         }
 
-        public bool IsCompatibleRadical(BasicRadical b)
+        public bool IsCompatibleRadical(Radical b)
         {
             return Radicand == b.Radicand;
         }

@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace Radicals
 {
-    public readonly partial struct BasicRadical : IFormattable
+    public readonly partial struct Radical : IFormattable
     {
         /// <summary>
         /// S = simplest form, R = all under the radical

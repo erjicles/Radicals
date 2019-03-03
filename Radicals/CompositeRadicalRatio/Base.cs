@@ -47,17 +47,17 @@ namespace Radicals
         {
         }
 
-        public CompositeRadicalRatio(BasicRadical b)
+        public CompositeRadicalRatio(Radical b)
             : this(new CompositeRadical(b), CompositeRadical.One)
         {
         }
 
-        public CompositeRadicalRatio(BasicRadical[] n)
+        public CompositeRadicalRatio(Radical[] n)
             :this(new CompositeRadical(n), CompositeRadical.One)
         {
         }
 
-        public CompositeRadicalRatio(BasicRadical[] n, BasicRadical[] d)
+        public CompositeRadicalRatio(Radical[] n, Radical[] d)
             :this(new CompositeRadical(n), new CompositeRadical(d))
         {
         }

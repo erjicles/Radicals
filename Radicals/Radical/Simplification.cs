@@ -7,7 +7,7 @@ using System.Numerics;
 
 namespace Radicals
 {
-    public readonly partial struct BasicRadical
+    public readonly partial struct Radical
     {
         /// <summary>
         /// Simplest form is irreducible radical where the radical is the smallest possible integer
@@ -66,26 +66,26 @@ namespace Radicals
             return;
         }
 
-        public static BasicRadical[] SimplifyRadicals(BasicRadical[] basicRadicals)
+        public static Radical[] SimplifyRadicals(Radical[] basicRadicals)
         {
             if (basicRadicals == null)
                 return null;
             if (basicRadicals.Length == 0)
-                return new BasicRadical[0];
+                return new Radical[0];
             if (basicRadicals.Length == 1)
                 return basicRadicals;
 
-            Dictionary<BigInteger, BasicRadical> uniqueRadicals = new Dictionary<BigInteger, BasicRadical>();
+            Dictionary<BigInteger, Radical> uniqueRadicals = new Dictionary<BigInteger, Radical>();
             for (int i = 0; i < basicRadicals.Length; i++)
             {
-                BasicRadical b = basicRadicals[i];
+                Radical b = basicRadicals[i];
                 if (uniqueRadicals.ContainsKey(b.Radicand))
                     uniqueRadicals[b.Radicand] = AddCompatible(uniqueRadicals[b.Radicand], basicRadicals[i]);
-                else if (BasicRadical.Zero != b)
+                else if (Radical.Zero != b)
                     uniqueRadicals[b.Radicand] = b;
             }
 
-            BasicRadical[] result = uniqueRadicals.Values.OrderBy(f => f.Radicand).ToArray();
+            Radical[] result = uniqueRadicals.Values.OrderBy(f => f.Radicand).ToArray();
             return result;
         }
     }
