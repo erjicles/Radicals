@@ -5,24 +5,24 @@ using System.Text;
 
 namespace Radicals
 {
-    public readonly partial struct CompositeRadical
-        : IComparable, IComparable<CompositeRadical>, IEquatable<CompositeRadical>
+    public readonly partial struct RadicalSum
+        : IComparable, IComparable<RadicalSum>, IEquatable<RadicalSum>
     {
         public int CompareTo(object obj)
         {
             if (obj == null)
                 return 1;
-            if (!(obj is CompositeRadical))
+            if (!(obj is RadicalSum))
                 throw new ArgumentException("Invalid type comparison", nameof(obj));
-            return CompareTo((CompositeRadical)obj);
+            return CompareTo((RadicalSum)obj);
         }
 
-        public int CompareTo(CompositeRadical other)
+        public int CompareTo(RadicalSum other)
         {
             return ToDouble().CompareTo(other.ToDouble());
         }
 
-        public bool Equals(CompositeRadical other)
+        public bool Equals(RadicalSum other)
         {
             if (other == null)
                 return false;
@@ -41,9 +41,9 @@ namespace Radicals
         {
             if (obj == null)
                 return false;
-            if (!(obj is CompositeRadical))
+            if (!(obj is RadicalSum))
                 throw new ArgumentException("Invalid type equality check", nameof(obj));
-            return Equals((CompositeRadical)obj);
+            return Equals((RadicalSum)obj);
         }
 
         public override int GetHashCode()

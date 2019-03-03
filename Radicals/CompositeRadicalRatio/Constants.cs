@@ -9,11 +9,11 @@ namespace Radicals
         /// <summary>
         /// Zero
         /// </summary>
-        public static readonly CompositeRadicalRatio Zero = new CompositeRadicalRatio(CompositeRadical.Zero, CompositeRadical.One);
+        public static readonly CompositeRadicalRatio Zero = new CompositeRadicalRatio(RadicalSum.Zero, RadicalSum.One);
 
         /// <summary>
         /// One
         /// </summary>
-        public static readonly CompositeRadicalRatio One = new CompositeRadicalRatio(CompositeRadical.One, CompositeRadical.One);
+        public static readonly CompositeRadicalRatio One = new CompositeRadicalRatio(RadicalSum.One, RadicalSum.One);
     }
 }

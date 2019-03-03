@@ -9,10 +9,10 @@ namespace Radicals
     public readonly partial struct CompositeRadicalRatio
     {
         private static void ToSimplestForm(
-            CompositeRadical n_in,
-            CompositeRadical d_in,
-            out CompositeRadical n_out,
-            out CompositeRadical d_out)
+            RadicalSum n_in,
+            RadicalSum d_in,
+            out RadicalSum n_out,
+            out RadicalSum d_out)
         {
             // First extract common factors from numerator and denominator:
             // N = common_factor_n * (N/common_factor_n); n_reduced === N/common_factor_n
@@ -31,13 +31,13 @@ namespace Radicals
 
             if (n_reduced == d_reduced)
             {
-                n_out = common_factor * CompositeRadical.One;
-                d_out = CompositeRadical.One;
+                n_out = common_factor * RadicalSum.One;
+                d_out = RadicalSum.One;
             }
             else if (d_reduced.Radicals.Length == 1)
             {
                 n_out = common_factor * n_reduced / d_reduced.Radicals[0];
-                d_out = CompositeRadical.One;
+                d_out = RadicalSum.One;
             }
             else
             {

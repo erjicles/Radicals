@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Radicals
 {
-    public readonly partial struct CompositeRadical
+    public readonly partial struct RadicalSum
     {
         public double ToDouble()
         {
@@ -16,7 +16,7 @@ namespace Radicals
             return result;
         }
 
-        public static explicit operator double(CompositeRadical radical)
+        public static explicit operator double(RadicalSum radical)
         {
             return radical.ToDouble();
         }

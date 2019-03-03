@@ -106,32 +106,32 @@ namespace Radicals
             return value;
         }
 
-        public static CompositeRadical operator +(Radical left, Radical right)
+        public static RadicalSum operator +(Radical left, Radical right)
         {
             return Add(left, right);
         }
 
-        public static CompositeRadical operator +(Radical left, Rational right)
+        public static RadicalSum operator +(Radical left, Rational right)
         {
             return Add(left, new Radical(right, 1));
         }
 
-        public static CompositeRadical operator +(Rational left, Radical right)
+        public static RadicalSum operator +(Rational left, Radical right)
         {
             return Add(new Radical(left, 1), right);
         }
 
-        public static CompositeRadical operator -(Radical left, Radical right)
+        public static RadicalSum operator -(Radical left, Radical right)
         {
             return Subtract(left, right);
         }
 
-        public static CompositeRadical operator -(Radical left, Rational right)
+        public static RadicalSum operator -(Radical left, Rational right)
         {
             return Subtract(left, new Radical(right, 1));
         }
 
-        public static CompositeRadical operator -(Rational left, Radical right)
+        public static RadicalSum operator -(Rational left, Radical right)
         {
             return Subtract(new Radical(left, 1), right);
         }

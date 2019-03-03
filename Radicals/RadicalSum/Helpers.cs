@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Radicals
 {
-    public readonly partial struct CompositeRadical
+    public readonly partial struct RadicalSum
     {
         private void GetCommonFactors(out BigInteger[] upstairs, out BigInteger[] downstairs)
         {

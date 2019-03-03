@@ -32,12 +32,12 @@ namespace Radicals
             return (new CompositeRadicalRatio(left)).CompareTo(right) < 0;
         }
 
-        public static bool operator <(CompositeRadicalRatio left, CompositeRadical right)
+        public static bool operator <(CompositeRadicalRatio left, RadicalSum right)
         {
             return left.CompareTo(new CompositeRadicalRatio(right)) < 0;
         }
 
-        public static bool operator <(CompositeRadical left, CompositeRadicalRatio right)
+        public static bool operator <(RadicalSum left, CompositeRadicalRatio right)
         {
             return (new CompositeRadicalRatio(left)).CompareTo(right) < 0;
         }
@@ -67,12 +67,12 @@ namespace Radicals
             return (new CompositeRadicalRatio(left)).CompareTo(right) <= 0;
         }
 
-        public static bool operator <=(CompositeRadicalRatio left, CompositeRadical right)
+        public static bool operator <=(CompositeRadicalRatio left, RadicalSum right)
         {
             return left.CompareTo(new CompositeRadicalRatio(right)) <= 0;
         }
 
-        public static bool operator <=(CompositeRadical left, CompositeRadicalRatio right)
+        public static bool operator <=(RadicalSum left, CompositeRadicalRatio right)
         {
             return (new CompositeRadicalRatio(left)).CompareTo(right) <= 0;
         }
@@ -102,12 +102,12 @@ namespace Radicals
             return (new CompositeRadicalRatio(left)).CompareTo(right) > 0;
         }
 
-        public static bool operator >(CompositeRadicalRatio left, CompositeRadical right)
+        public static bool operator >(CompositeRadicalRatio left, RadicalSum right)
         {
             return left.CompareTo(new CompositeRadicalRatio(right)) > 0;
         }
 
-        public static bool operator >(CompositeRadical left, CompositeRadicalRatio right)
+        public static bool operator >(RadicalSum left, CompositeRadicalRatio right)
         {
             return (new CompositeRadicalRatio(left)).CompareTo(right) > 0;
         }
@@ -137,12 +137,12 @@ namespace Radicals
             return (new CompositeRadicalRatio(left)).CompareTo(right) >= 0;
         }
 
-        public static bool operator >=(CompositeRadicalRatio left, CompositeRadical right)
+        public static bool operator >=(CompositeRadicalRatio left, RadicalSum right)
         {
             return left.CompareTo(new CompositeRadicalRatio(right)) >= 0;
         }
 
-        public static bool operator >=(CompositeRadical left, CompositeRadicalRatio right)
+        public static bool operator >=(RadicalSum left, CompositeRadicalRatio right)
         {
             return (new CompositeRadicalRatio(left)).CompareTo(right) >= 0;
         }
@@ -172,12 +172,12 @@ namespace Radicals
             return (new CompositeRadicalRatio(left)).Equals(right);
         }
 
-        public static bool operator ==(CompositeRadicalRatio left, CompositeRadical right)
+        public static bool operator ==(CompositeRadicalRatio left, RadicalSum right)
         {
             return left.Equals(new CompositeRadicalRatio(right));
         }
 
-        public static bool operator ==(CompositeRadical left, CompositeRadicalRatio right)
+        public static bool operator ==(RadicalSum left, CompositeRadicalRatio right)
         {
             return (new CompositeRadicalRatio(left)).Equals(right);
         }
@@ -207,12 +207,12 @@ namespace Radicals
             return !(new CompositeRadicalRatio(left)).Equals(right);
         }
 
-        public static bool operator !=(CompositeRadicalRatio left, CompositeRadical right)
+        public static bool operator !=(CompositeRadicalRatio left, RadicalSum right)
         {
             return !left.Equals(new CompositeRadicalRatio(right));
         }
 
-        public static bool operator !=(CompositeRadical left, CompositeRadicalRatio right)
+        public static bool operator !=(RadicalSum left, CompositeRadicalRatio right)
         {
             return !(new CompositeRadicalRatio(left)).Equals(right);
         }
@@ -264,13 +264,13 @@ namespace Radicals
 
         public static CompositeRadicalRatio operator +(
             CompositeRadicalRatio left,
-            CompositeRadical right)
+            RadicalSum right)
         {
             return Add(left, new CompositeRadicalRatio(right));
         }
 
         public static CompositeRadicalRatio operator +(
-            CompositeRadical left,
+            RadicalSum left,
             CompositeRadicalRatio right)
         {
             return Add(new CompositeRadicalRatio(left), right);
@@ -313,13 +313,13 @@ namespace Radicals
 
         public static CompositeRadicalRatio operator -(
             CompositeRadicalRatio left,
-            CompositeRadical right)
+            RadicalSum right)
         {
             return Subtract(left, new CompositeRadicalRatio(right));
         }
 
         public static CompositeRadicalRatio operator -(
-            CompositeRadical left,
+            RadicalSum left,
             CompositeRadicalRatio right)
         {
             return Subtract(new CompositeRadicalRatio(left), right);
@@ -362,13 +362,13 @@ namespace Radicals
 
         public static CompositeRadicalRatio operator *(
             CompositeRadicalRatio left,
-            CompositeRadical right)
+            RadicalSum right)
         {
             return Multiply(left, new CompositeRadicalRatio(right));
         }
 
         public static CompositeRadicalRatio operator *(
-            CompositeRadical left,
+            RadicalSum left,
             CompositeRadicalRatio right)
         {
             return Multiply(new CompositeRadicalRatio(left), right);
@@ -411,13 +411,13 @@ namespace Radicals
 
         public static CompositeRadicalRatio operator /(
             CompositeRadicalRatio left,
-            CompositeRadical right)
+            RadicalSum right)
         {
             return Divide(left, new CompositeRadicalRatio(right));
         }
 
         public static CompositeRadicalRatio operator /(
-            CompositeRadical left,
+            RadicalSum left,
             CompositeRadicalRatio right)
         {
             return Divide(new CompositeRadicalRatio(left), right);

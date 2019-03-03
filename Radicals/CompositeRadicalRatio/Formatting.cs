@@ -9,7 +9,7 @@ namespace Radicals
     {
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            if (CompositeRadical.One == Denominator)
+            if (RadicalSum.One == Denominator)
                 return Numerator.ToString(format, formatProvider);
             return "[" + Numerator.ToString(format, formatProvider) + "] / [" + Denominator.ToString(format, formatProvider) + "]";
         }

@@ -24,10 +24,10 @@ namespace Radicals
             // n1   n2   (n1 * d2) + (n2 * d1)
             // -- + -- = ---------------------
             // d1   d2          d1 * d2
-            CompositeRadical numerator =
+            RadicalSum numerator =
                 (left.Numerator * right.Denominator)
                 + (right.Numerator * left.Denominator);
-            CompositeRadical denominator = left.Denominator * right.Denominator;
+            RadicalSum denominator = left.Denominator * right.Denominator;
             return new CompositeRadicalRatio(numerator, denominator);
         }
 
@@ -62,17 +62,17 @@ namespace Radicals
             var d_right = right.Denominator;
             if (c_left_n_reduced == d_right)
             {
-                c_left_n_reduced = CompositeRadical.One;
-                d_right = CompositeRadical.One;
+                c_left_n_reduced = RadicalSum.One;
+                d_right = RadicalSum.One;
             }
             if (c_right_n_reduced == d_left)
             {
-                c_right_n_reduced = CompositeRadical.One;
-                d_left = CompositeRadical.One;
+                c_right_n_reduced = RadicalSum.One;
+                d_left = RadicalSum.One;
             }
 
-            CompositeRadical numerator = commonFactor * c_left_n_reduced * c_right_n_reduced;
-            CompositeRadical denominator = d_left * d_right;
+            RadicalSum numerator = commonFactor * c_left_n_reduced * c_right_n_reduced;
+            RadicalSum denominator = d_left * d_right;
 
             var result = new CompositeRadicalRatio(numerator, denominator);
             return result;

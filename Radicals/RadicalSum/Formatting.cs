@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Radicals
 {
-    public readonly partial struct CompositeRadical : IFormattable
+    public readonly partial struct RadicalSum : IFormattable
     {
         public string ToString(string format, IFormatProvider formatProvider)
         {

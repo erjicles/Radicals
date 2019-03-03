@@ -16,12 +16,12 @@ namespace Radicals
             return new Radical(left.Coefficient + right.Coefficient, left.Radicand);
         }
 
-        public static CompositeRadical Add(Radical left, Radical right)
+        public static RadicalSum Add(Radical left, Radical right)
         {
-            return new CompositeRadical(new Radical[2] { left, right });
+            return new RadicalSum(new Radical[2] { left, right });
         }
 
-        public static CompositeRadical Subtract(Radical left, Radical right)
+        public static RadicalSum Subtract(Radical left, Radical right)
         {
             return Add(left, Negate(right));
         }

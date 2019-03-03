@@ -12,66 +12,66 @@ namespace Radicals
         //     ---------------------
         //     b21 + b22 + ... + b2n
         // bi = ci * sqrt(ri)
-        private readonly CompositeRadical _numerator;
-        private readonly CompositeRadical _denominator;
-        public CompositeRadical Numerator
+        private readonly RadicalSum _numerator;
+        private readonly RadicalSum _denominator;
+        public RadicalSum Numerator
         {
             get
             {
                 if (_numerator == null)
-                    return CompositeRadical.Zero;
+                    return RadicalSum.Zero;
                 return _numerator;
             }
         }
-        public CompositeRadical Denominator
+        public RadicalSum Denominator
         {
             get
             {
                 // Should not happen
                 if (_denominator == null)
-                    return CompositeRadical.One;
+                    return RadicalSum.One;
                 // Should only happen when default constructor used
-                if (_denominator == CompositeRadical.Zero)
-                    return CompositeRadical.One;
+                if (_denominator == RadicalSum.Zero)
+                    return RadicalSum.One;
                 return _denominator;
             }
         }
 
         public CompositeRadicalRatio(Rational r)
-            : this(new CompositeRadical(r), CompositeRadical.One)
+            : this(new RadicalSum(r), RadicalSum.One)
         {
         }
 
         public CompositeRadicalRatio(Rational c, BigInteger r)
-            :this(new CompositeRadical(c, r))
+            :this(new RadicalSum(c, r))
         {
         }
 
         public CompositeRadicalRatio(Radical b)
-            : this(new CompositeRadical(b), CompositeRadical.One)
+            : this(new RadicalSum(b), RadicalSum.One)
         {
         }
 
         public CompositeRadicalRatio(Radical[] n)
-            :this(new CompositeRadical(n), CompositeRadical.One)
+            :this(new RadicalSum(n), RadicalSum.One)
         {
         }
 
         public CompositeRadicalRatio(Radical[] n, Radical[] d)
-            :this(new CompositeRadical(n), new CompositeRadical(d))
+            :this(new RadicalSum(n), new RadicalSum(d))
         {
         }
 
-        public CompositeRadicalRatio(CompositeRadical n)
-            : this(n, CompositeRadical.One)
+        public CompositeRadicalRatio(RadicalSum n)
+            : this(n, RadicalSum.One)
         {
         }
 
-        public CompositeRadicalRatio(ref CompositeRadical n, ref CompositeRadical d)
+        public CompositeRadicalRatio(ref RadicalSum n, ref RadicalSum d)
         {
-            if (CompositeRadical.Zero == d)
+            if (RadicalSum.Zero == d)
                 throw new ArgumentException("Denominator cannot be zero", nameof(d));
-            if (d < CompositeRadical.Zero)
+            if (d < RadicalSum.Zero)
             {
                 ToSimplestForm(-n, -d, out _numerator, out _denominator);
             }
@@ -81,11 +81,11 @@ namespace Radicals
             }
         }
 
-        public CompositeRadicalRatio(CompositeRadical n, CompositeRadical d)
+        public CompositeRadicalRatio(RadicalSum n, RadicalSum d)
         {
-            if (CompositeRadical.Zero == d)
+            if (RadicalSum.Zero == d)
                 throw new ArgumentException("Denominator cannot be zero", nameof(d));
-            if (d < CompositeRadical.Zero)
+            if (d < RadicalSum.Zero)
             {
                 ToSimplestForm(-n, -d, out _numerator, out _denominator);
             }

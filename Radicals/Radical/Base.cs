@@ -1,4 +1,5 @@
 ﻿using Rationals;
+using System;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
@@ -7,7 +8,7 @@ namespace Radicals
     public readonly partial struct Radical 
     {
         // R = Coefficient * sqrt(Radicand)
-        public readonly Rational c_original;
+        public readonly Rational coefficient_unsimplified;
         public readonly BigInteger radicand_unsimplified;
         private readonly Rational _coefficient;
         private readonly BigInteger _radicand;
@@ -31,18 +32,20 @@ namespace Radicals
             }
         }
 
-        public Radical(Rational r)
-            : this(new Rational(1, r.Denominator), r.Numerator * r.Denominator)
+        public Radical(Rational radicand)
+            : this(new Rational(1, radicand.Denominator), radicand.Numerator * radicand.Denominator)
         {
         }
 
-        public Radical(Rational c, BigInteger r)
+        public Radical(Rational coefficient, BigInteger radicand)
         {
-            c_original = c;
-            radicand_unsimplified = r;
+            if (radicand < 0)
+                throw new ArgumentException("Cannot have negative radicand");
+            coefficient_unsimplified = coefficient;
+            radicand_unsimplified = radicand;
             ToSimplestForm(
-                c_orig: c,
-                r_orig: r,
+                c_orig: coefficient,
+                r_orig: radicand,
                 c_final: out this._coefficient,
                 r_final: out this._radicand);
         }
