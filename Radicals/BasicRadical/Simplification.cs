@@ -79,13 +79,13 @@ namespace Radicals
             for (int i = 0; i < basicRadicals.Length; i++)
             {
                 BasicRadical b = basicRadicals[i];
-                if (uniqueRadicals.ContainsKey(b.R))
-                    uniqueRadicals[b.R] = AddCompatible(uniqueRadicals[b.R], basicRadicals[i]);
+                if (uniqueRadicals.ContainsKey(b.Radicand))
+                    uniqueRadicals[b.Radicand] = AddCompatible(uniqueRadicals[b.Radicand], basicRadicals[i]);
                 else if (BasicRadical.Zero != b)
-                    uniqueRadicals[b.R] = b;
+                    uniqueRadicals[b.Radicand] = b;
             }
 
-            BasicRadical[] result = uniqueRadicals.Values.OrderBy(f => f.R).ToArray();
+            BasicRadical[] result = uniqueRadicals.Values.OrderBy(f => f.Radicand).ToArray();
             return result;
         }
     }

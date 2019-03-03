@@ -16,9 +16,9 @@ namespace Radicals
             Rational n = 0;
             Rational d = 0;
             for (int i = 0; i < Numerator.Radicals.Length; i++)
-                n += Numerator.Radicals[i].C * (Rational)Math.Sqrt((double)Numerator.Radicals[i].R);
+                n += Numerator.Radicals[i].Coefficient * (Rational)Math.Sqrt((double)Numerator.Radicals[i].Radicand);
             for (int i = 0; i < Denominator.Radicals.Length; i++)
-                d += Denominator.Radicals[i].C * (Rational)Math.Sqrt((double)Denominator.Radicals[i].R);
+                d += Denominator.Radicals[i].Coefficient * (Rational)Math.Sqrt((double)Denominator.Radicals[i].Radicand);
             return n / d;
         }
 

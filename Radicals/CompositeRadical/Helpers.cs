@@ -15,8 +15,8 @@ namespace Radicals
             var denominators = new BigInteger[Radicals.Length];
             for (int i = 0; i < Radicals.Length; i++)
             {
-                numerators[i] = Radicals[i].C.Numerator;
-                denominators[i] = Radicals[i].C.Denominator;
+                numerators[i] = Radicals[i].Coefficient.Numerator;
+                denominators[i] = Radicals[i].Coefficient.Denominator;
             }
             var numeratorFactors = new List<BigInteger>();
             var denominatorFactors = new List<BigInteger>();

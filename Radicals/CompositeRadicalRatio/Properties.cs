@@ -10,8 +10,8 @@ namespace Radicals
         {
             if (Numerator.Radicals.Length == 1)
                 if (Denominator.Radicals.Length == 1)
-                    if (Numerator.Radicals[0].R == 1)
-                        if (Denominator.Radicals[0].R == 1)
+                    if (Numerator.Radicals[0].Radicand == 1)
+                        if (Denominator.Radicals[0].Radicand == 1)
                             return true;
             return false;
         }

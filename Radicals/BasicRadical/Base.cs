@@ -6,28 +6,28 @@ namespace Radicals
 {
     public readonly partial struct BasicRadical 
     {
-        // R = c * sqrt(r)
+        // R = Coefficient * sqrt(Radicand)
         public readonly Rational c_original;
-        public readonly BigInteger r_original;
-        private readonly Rational _c;
-        private readonly BigInteger _r;
+        public readonly BigInteger radicand_unsimplified;
+        private readonly Rational _coefficient;
+        private readonly BigInteger _radicand;
 
-        public Rational C
+        public Rational Coefficient
         {
             get
             {
-                if (_c == null)
+                if (_coefficient == null)
                     return 0;
-                return _c;
+                return _coefficient;
             }
         }
-        public BigInteger R
+        public BigInteger Radicand
         {
             get
             {
-                if (_r == null)
+                if (_radicand == null)
                     return 0;
-                return _r;
+                return _radicand;
             }
         }
 
@@ -39,12 +39,12 @@ namespace Radicals
         public BasicRadical(Rational c, BigInteger r)
         {
             c_original = c;
-            r_original = r;
+            radicand_unsimplified = r;
             ToSimplestForm(
                 c_orig: c,
                 r_orig: r,
-                c_final: out this._c,
-                r_final: out this._r);
+                c_final: out this._coefficient,
+                r_final: out this._radicand);
         }
         
     }

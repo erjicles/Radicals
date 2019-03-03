@@ -14,9 +14,9 @@ namespace Radicals
         /// <returns></returns>
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            if (C.IsZero)
+            if (Coefficient.IsZero)
                 return "0";
-            if (R.IsZero)
+            if (Radicand.IsZero)
                 return "0";
 
             string cPart = "";
@@ -24,25 +24,25 @@ namespace Radicals
 
             if ("S".Equals(format))
             {
-                if (!C.IsOne)
-                    cPart = C.ToString();
-                if (!R.IsOne)
-                    rPart = "Sqrt(" + R.ToString() + ")";
+                if (!Coefficient.IsOne)
+                    cPart = Coefficient.ToString();
+                if (!Radicand.IsOne)
+                    rPart = "Sqrt(" + Radicand.ToString() + ")";
                 if (this == One)
                     cPart = "1";
                 if (cPart.Length > 0 && rPart.Length > 0)
                 {
-                    if (C.Denominator == 1)
+                    if (Coefficient.Denominator == 1)
                         cPart = cPart + " * ";
                     else
                         cPart = "(" + cPart + ") * ";
                 }
             } else if ("R".Equals(format))
             {
-                if (R.IsOne)
-                    return C.ToString();
-                Rational r = new Rational(C.Numerator * C.Numerator * R, C.Denominator * C.Denominator);
-                int sign = (C >= 0) ? 1 : -1;
+                if (Radicand.IsOne)
+                    return Coefficient.ToString();
+                Rational r = new Rational(Coefficient.Numerator * Coefficient.Numerator * Radicand, Coefficient.Denominator * Coefficient.Denominator);
+                int sign = (Coefficient >= 0) ? 1 : -1;
                 if (sign == -1)
                     rPart += "-";
                 rPart += "Sqrt(" + r.CanonicalForm.ToString() + ")";
