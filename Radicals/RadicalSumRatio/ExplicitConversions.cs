@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Radicals
 {
-    public readonly partial struct CompositeRadicalRatio
+    public readonly partial struct RadicalSumRatio
     {
         public double ToDouble()
         {
@@ -22,11 +22,11 @@ namespace Radicals
             return n / d;
         }
 
-        public static explicit operator double(CompositeRadicalRatio value)
+        public static explicit operator double(RadicalSumRatio value)
         {
             return value.ToDouble();
         }
-        public static explicit operator Rational(CompositeRadicalRatio value)
+        public static explicit operator Rational(RadicalSumRatio value)
         {
             return value.ToRational();
         }

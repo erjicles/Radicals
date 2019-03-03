@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Radicals
 {
-    public readonly partial struct CompositeRadicalRatio
+    public readonly partial struct RadicalSumRatio
     {
         private static void ToSimplestForm(
             RadicalSum n_in,

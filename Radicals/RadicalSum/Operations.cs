@@ -54,11 +54,11 @@ namespace Radicals
             return new RadicalSum(z);
         }
 
-        public static CompositeRadicalRatio Divide(RadicalSum left, RadicalSum right)
+        public static RadicalSumRatio Divide(RadicalSum left, RadicalSum right)
         {
             if (right == 0)
                 throw new DivideByZeroException("Cannot divide by zero");
-            return new CompositeRadicalRatio(left, right);
+            return new RadicalSumRatio(left, right);
         }
     }
 }

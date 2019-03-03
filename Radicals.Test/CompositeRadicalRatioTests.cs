@@ -15,27 +15,27 @@ namespace Radicals.Test
             // (3/4) * sqrt(12)
             // = (2*3/4) * sqrt(3)
             // = (3/2) * sqrt(3)
-            var actual1 = new CompositeRadicalRatio(new Rational(3, 4), 12);
-            var expected1 = new CompositeRadicalRatio(new Rational(3, 2), 3);
+            var actual1 = new RadicalSumRatio(new Rational(3, 4), 12);
+            var expected1 = new RadicalSumRatio(new Rational(3, 2), 3);
             // sqrt(2/9) = (1/3)sqrt(2)
-            var actual2 = new CompositeRadicalRatio(new Rational(2, 9));
-            var expected2 = new CompositeRadicalRatio(new Rational(1, 3), 2);
+            var actual2 = new RadicalSumRatio(new Rational(2, 9));
+            var expected2 = new RadicalSumRatio(new Rational(1, 3), 2);
             // sqrt(1/2) = (1/2)sqrt(2)
-            var actual3 = new CompositeRadicalRatio(new Rational(1, 2));
-            var expected3 = new CompositeRadicalRatio(new Rational(1, 2), 2);
+            var actual3 = new RadicalSumRatio(new Rational(1, 2));
+            var expected3 = new RadicalSumRatio(new Rational(1, 2), 2);
             // 0 = 0
-            CompositeRadicalRatio actual41 = 0;
-            var actual42 = new CompositeRadicalRatio(0);
-            var actual43 = new CompositeRadicalRatio(0, 0);
-            var actual44 = new CompositeRadicalRatio();
-            var actual45 = new CompositeRadicalRatio(3, 0);
-            var actual46 = new CompositeRadicalRatio(0, 5);
-            var expected4 = CompositeRadicalRatio.Zero;
+            RadicalSumRatio actual41 = 0;
+            var actual42 = new RadicalSumRatio(0);
+            var actual43 = new RadicalSumRatio(0, 0);
+            var actual44 = new RadicalSumRatio();
+            var actual45 = new RadicalSumRatio(3, 0);
+            var actual46 = new RadicalSumRatio(0, 5);
+            var expected4 = RadicalSumRatio.Zero;
             // 1 = 1
-            CompositeRadicalRatio actual51 = 1;
-            var actual52 = new CompositeRadicalRatio(1, 1);
-            var actual53 = new CompositeRadicalRatio(1);
-            var expected5 = CompositeRadicalRatio.One;
+            RadicalSumRatio actual51 = 1;
+            var actual52 = new RadicalSumRatio(1, 1);
+            var actual53 = new RadicalSumRatio(1);
+            var expected5 = RadicalSumRatio.One;
             // [(3/2)*sqrt(7) - (2/3)*sqrt(5)] / [(1/2)*sqrt(7) + (4/5)*sqrt(6)]
             var c61 = new RadicalSum(new Radical[2] {
                 new Radical(new Rational(3,2), 7),
@@ -46,7 +46,7 @@ namespace Radicals.Test
                 new Radical(new Rational(4,5), 6)
             });
             var actual6 = c61 / c62;
-            var expected6 = new CompositeRadicalRatio(c61, c62);
+            var expected6 = new RadicalSumRatio(c61, c62);
 
 
             // assert
@@ -69,50 +69,50 @@ namespace Radicals.Test
         public void AdditionTests()
         {
             // sqrt(2) + sqrt(3)
-            var b11 = new CompositeRadicalRatio(1, 2);
-            var b12 = new CompositeRadicalRatio(1, 3);
+            var b11 = new RadicalSumRatio(1, 2);
+            var b12 = new RadicalSumRatio(1, 3);
             var actual1 = b11 + b12;
-            var expected1 = new CompositeRadicalRatio(new Radical[2] { new Radical(1, 2), new Radical(1, 3) });
+            var expected1 = new RadicalSumRatio(new Radical[2] { new Radical(1, 2), new Radical(1, 3) });
             // sqrt(2) + 2 * sqrt(2) = 3 * sqrt(2)
-            var b21 = new CompositeRadicalRatio(1, 2);
-            var b22 = new CompositeRadicalRatio(2, 2);
+            var b21 = new RadicalSumRatio(1, 2);
+            var b22 = new RadicalSumRatio(2, 2);
             var actual2 = b21 + b22;
-            var expected2 = new CompositeRadicalRatio(new Radical(3, 2));
+            var expected2 = new RadicalSumRatio(new Radical(3, 2));
             // 5*sqrt(27) + 7*sqrt(12) = 15*sqrt(3) + 14*sqrt(3) = 29*sqrt(3)
-            var b31 = new CompositeRadicalRatio(5, 27);
-            var b32 = new CompositeRadicalRatio(7, 12);
+            var b31 = new RadicalSumRatio(5, 27);
+            var b32 = new RadicalSumRatio(7, 12);
             var actual3 = b31 + b32;
-            var expected3 = new CompositeRadicalRatio(new Radical(29, 3));
+            var expected3 = new RadicalSumRatio(new Radical(29, 3));
             // 3*sqrt(2) + 2*sqrt(3)
-            var b41 = new CompositeRadicalRatio(3, 2);
-            var b42 = new CompositeRadicalRatio(2, 3);
+            var b41 = new RadicalSumRatio(3, 2);
+            var b42 = new RadicalSumRatio(2, 3);
             var actual4 = b41 + b42;
-            var expected4 = new CompositeRadicalRatio(new Radical[2] { new Radical(3, 2), new Radical(2, 3) });
+            var expected4 = new RadicalSumRatio(new Radical[2] { new Radical(3, 2), new Radical(2, 3) });
             // 2*sqrt(2) + 5*sqrt(28) + sqrt(1/2) + 3 + sqrt(7/9) + 11*sqrt(4) = 25 + (5/2)sqrt(2) + (31/3)*sqrt(7)
-            var b51 = new CompositeRadicalRatio(2, 2);
-            var b52 = new CompositeRadicalRatio(5, 28);
-            var b53 = new CompositeRadicalRatio(new Rational(1, 2));
-            var b54 = new CompositeRadicalRatio(3, 1);
-            var b55 = new CompositeRadicalRatio(new Rational(7, 9));
-            var b56 = new CompositeRadicalRatio(11, 4);
+            var b51 = new RadicalSumRatio(2, 2);
+            var b52 = new RadicalSumRatio(5, 28);
+            var b53 = new RadicalSumRatio(new Rational(1, 2));
+            var b54 = new RadicalSumRatio(3, 1);
+            var b55 = new RadicalSumRatio(new Rational(7, 9));
+            var b56 = new RadicalSumRatio(11, 4);
             var actual5 = b51 + b52 + b53 + b54 + b55 + b56;
-            var expected5 = new CompositeRadicalRatio(new Radical[3] {
+            var expected5 = new RadicalSumRatio(new Radical[3] {
                 new Radical(25, 1),
                 new Radical(new Rational(5,2),2),
                 new Radical(new Rational(31,3),7)
             });
             // (3/2)*sqrt(5) + 0 = (3/2)*sqrt(5)
             // 0 + (3/2)*sqrt(5) = (3/2)*sqrt(5)
-            var b61 = new CompositeRadicalRatio(new Rational(3, 2), 5);
-            var b62 = CompositeRadicalRatio.Zero;
+            var b61 = new RadicalSumRatio(new Rational(3, 2), 5);
+            var b62 = RadicalSumRatio.Zero;
             var actual61 = b61 + b62;
             var actual62 = b62 + b61;
-            var expected6 = new CompositeRadicalRatio(new Radical(new Rational(3, 2), 5));
+            var expected6 = new RadicalSumRatio(new Radical(new Rational(3, 2), 5));
             // (3/2)*sqrt(5) + (-3/2)*sqrt(5) = 0
-            var b71 = new CompositeRadicalRatio(new Rational(3, 2), 5);
-            var b72 = new CompositeRadicalRatio(new Rational(-3, 2), 5);
+            var b71 = new RadicalSumRatio(new Rational(3, 2), 5);
+            var b72 = new RadicalSumRatio(new Rational(-3, 2), 5);
             var actual7 = b71 + b72;
-            var expected7 = CompositeRadicalRatio.Zero;
+            var expected7 = RadicalSumRatio.Zero;
             // {[(2/3)*sqrt(3) - (3/2)*sqrt(2)] / [(2/3)*sqrt(3) + (3/2)*sqrt(2)]} + {[(5/6)*sqrt(3) + (7/3)*sqrt(2)] / [(4/3)*sqrt(3) - (5/7)*sqrt(2)]}
             // = [(8/9)*3 - (10/21)*sqrt(6) - (12/6)*sqrt(6) + (15/14)*2 + (10/18)*3 + (14/9)*sqrt(6) + (15/12)*sqrt(6) + (21/6)*2] / [(8/9)*3 - (10/21)*sqrt(6) + (12/6)*sqrt(6) - (15/14)*2]
             // = [(8/3) + (83/252)*sqrt(6) + (15/7) + (10/6) + (21/3)] / [(8/3) + (32/21)*sqrt(6) - (15/7)]
@@ -130,10 +130,10 @@ namespace Radicals.Test
             var c82 = b83 + b84;
             var c83 = b85 + b86;
             var c84 = b87 - b88;
-            var cr81 = new CompositeRadicalRatio(c81, c82);
-            var cr82 = new CompositeRadicalRatio(c83, c84);
+            var cr81 = new RadicalSumRatio(c81, c82);
+            var cr82 = new RadicalSumRatio(c83, c84);
             var actual8 = cr81 + cr82;
-            var expected8 = new CompositeRadicalRatio(
+            var expected8 = new RadicalSumRatio(
                 new RadicalSum(new Radical[2] {
                     new Radical(new Rational(283), 1),
                     new Radical(new Rational(83,12), 6)
@@ -151,10 +151,10 @@ namespace Radicals.Test
             var c92 = new RadicalSum(b92);
             var c93 = new RadicalSum(b93);
             var c94 = new RadicalSum(b94);
-            var cr91 = new CompositeRadicalRatio(c91, c92);
-            var cr92 = new CompositeRadicalRatio(c93, c94);
+            var cr91 = new RadicalSumRatio(c91, c92);
+            var cr92 = new RadicalSumRatio(c93, c94);
             var actual9 = cr91 + cr92;
-            var expected9 = CompositeRadicalRatio.One;
+            var expected9 = RadicalSumRatio.One;
 
             Assert.Equal(expected1, actual1);
             Assert.Equal(expected2, actual2);
@@ -172,53 +172,53 @@ namespace Radicals.Test
         public void SubtractionTests()
         {
             // sqrt(2) - sqrt(3)
-            var b11 = new CompositeRadicalRatio(1, 2);
-            var b12 = new CompositeRadicalRatio(1, 3);
+            var b11 = new RadicalSumRatio(1, 2);
+            var b12 = new RadicalSumRatio(1, 3);
             var actual1 = b11 - b12;
-            var expected1 = new CompositeRadicalRatio(new Radical[2] { new Radical(1, 2), new Radical(-1, 3) });
+            var expected1 = new RadicalSumRatio(new Radical[2] { new Radical(1, 2), new Radical(-1, 3) });
             // sqrt(2) - 2 * sqrt(2) = -1 * sqrt(2)
-            var b21 = new CompositeRadicalRatio(1, 2);
-            var b22 = new CompositeRadicalRatio(2, 2);
+            var b21 = new RadicalSumRatio(1, 2);
+            var b22 = new RadicalSumRatio(2, 2);
             var actual2 = b21 - b22;
-            var expected2 = new CompositeRadicalRatio(new Radical(-1, 2));
+            var expected2 = new RadicalSumRatio(new Radical(-1, 2));
             // 5*sqrt(27) - 7*sqrt(12) = 15*sqrt(3) - 14*sqrt(3) = 1*sqrt(3)
-            var b31 = new CompositeRadicalRatio(5, 27);
-            var b32 = new CompositeRadicalRatio(7, 12);
+            var b31 = new RadicalSumRatio(5, 27);
+            var b32 = new RadicalSumRatio(7, 12);
             var actual3 = b31 - b32;
-            var expected3 = new CompositeRadicalRatio(new Radical(1, 3));
+            var expected3 = new RadicalSumRatio(new Radical(1, 3));
             // 3*sqrt(2) - 2*sqrt(3)
-            var b41 = new CompositeRadicalRatio(3, 2);
-            var b42 = new CompositeRadicalRatio(2, 3);
+            var b41 = new RadicalSumRatio(3, 2);
+            var b42 = new RadicalSumRatio(2, 3);
             var actual4 = b41 - b42;
-            var expected4 = new CompositeRadicalRatio(new Radical[2] { new Radical(3, 2), new Radical(-2, 3) });
+            var expected4 = new RadicalSumRatio(new Radical[2] { new Radical(3, 2), new Radical(-2, 3) });
             // 2*sqrt(2) + 5*sqrt(28) - sqrt(1/2) + 3 - sqrt(7/9) + 11*sqrt(4) = 25 + (3/2)sqrt(2) + (29/3)*sqrt(7)
-            var b51 = new CompositeRadicalRatio(2, 2);
-            var b52 = new CompositeRadicalRatio(5, 28);
-            var b53 = new CompositeRadicalRatio(new Rational(1, 2));
-            var b54 = new CompositeRadicalRatio(3, 1);
-            var b55 = new CompositeRadicalRatio(new Rational(7, 9));
-            var b56 = new CompositeRadicalRatio(11, 4);
+            var b51 = new RadicalSumRatio(2, 2);
+            var b52 = new RadicalSumRatio(5, 28);
+            var b53 = new RadicalSumRatio(new Rational(1, 2));
+            var b54 = new RadicalSumRatio(3, 1);
+            var b55 = new RadicalSumRatio(new Rational(7, 9));
+            var b56 = new RadicalSumRatio(11, 4);
             var actual5 = b51 + b52 - b53 + b54 - b55 + b56;
-            var expected5 = new CompositeRadicalRatio(new Radical[3] {
+            var expected5 = new RadicalSumRatio(new Radical[3] {
                 new Radical(25, 1),
                 new Radical(new Rational(3,2),2),
                 new Radical(new Rational(29,3),7)
             });
             // (3/2)*sqrt(5) - 0 = (3/2)*sqrt(5)
-            var b61 = new CompositeRadicalRatio(new Rational(3, 2), 5);
-            var b62 = CompositeRadicalRatio.Zero;
+            var b61 = new RadicalSumRatio(new Rational(3, 2), 5);
+            var b62 = RadicalSumRatio.Zero;
             var actual6 = b61 - b62;
-            var expected6 = new CompositeRadicalRatio(new Radical(new Rational(3, 2), 5));
+            var expected6 = new RadicalSumRatio(new Radical(new Rational(3, 2), 5));
             // 0 - (3/2)*sqrt(5) = (-3/2)*sqrt(5)
-            var b71 = CompositeRadicalRatio.Zero;
-            var b72 = new CompositeRadicalRatio(new Rational(3, 2), 5);
+            var b71 = RadicalSumRatio.Zero;
+            var b72 = new RadicalSumRatio(new Rational(3, 2), 5);
             var actual7 = b71 - b72;
-            var expected7 = new CompositeRadicalRatio(new Radical(new Rational(-3, 2), 5));
+            var expected7 = new RadicalSumRatio(new Radical(new Rational(-3, 2), 5));
             // (3/2)*sqrt(5) - (3/2)*sqrt(5) = 0
-            var b81 = new CompositeRadicalRatio(new Rational(3, 2), 5);
-            var b82 = new CompositeRadicalRatio(new Rational(3, 2), 5);
+            var b81 = new RadicalSumRatio(new Rational(3, 2), 5);
+            var b82 = new RadicalSumRatio(new Rational(3, 2), 5);
             var actual8 = b81 - b82;
-            var expected8 = CompositeRadicalRatio.Zero;
+            var expected8 = RadicalSumRatio.Zero;
             // {[(2/3)*sqrt(3) - (3/2)*sqrt(2)] / [(2/3)*sqrt(3) + (3/2)*sqrt(2)]} - {[(5/6)*sqrt(3) + (7/3)*sqrt(2)] / [(4/3)*sqrt(3) - (5/7)*sqrt(2)]}
             // = [(8/9)*3 - (10/21)*sqrt(6) - (12/6)*sqrt(6) + (15/14)*2 - (10/18)*3 - (14/9)*sqrt(6) - (15/12)*sqrt(6) - (21/6)*2] / [(8/9)*3 - (10/21)*sqrt(6) + (12/6)*sqrt(6) - (15/14)*2]
             // = [(8/3) - (1331/252)*sqrt(6) + (15/7) - (10/6) - (21/3)] / [(8/3) + (32/21)*sqrt(6) - (15/7)]
@@ -236,10 +236,10 @@ namespace Radicals.Test
             var c92 = b93 + b94;
             var c93 = b95 + b96;
             var c94 = b97 - b98;
-            var cr91 = new CompositeRadicalRatio(c91, c92);
-            var cr92 = new CompositeRadicalRatio(c93, c94);
+            var cr91 = new RadicalSumRatio(c91, c92);
+            var cr92 = new RadicalSumRatio(c93, c94);
             var actual9 = cr91 - cr92;
-            var expected9 = new CompositeRadicalRatio(
+            var expected9 = new RadicalSumRatio(
                 new RadicalSum(new Radical[2] {
                     new Radical(new Rational(-81), 1),
                     new Radical(new Rational(-1331,12), 6)
@@ -257,10 +257,10 @@ namespace Radicals.Test
             var c102 = new RadicalSum(b102);
             var c103 = new RadicalSum(b103);
             var c104 = new RadicalSum(b104);
-            var cr101 = new CompositeRadicalRatio(c101, c102);
-            var cr102 = new CompositeRadicalRatio(c103, c104);
+            var cr101 = new RadicalSumRatio(c101, c102);
+            var cr102 = new RadicalSumRatio(c103, c104);
             var actual10 = cr101 - cr102;
-            var expected10 = new CompositeRadicalRatio(
+            var expected10 = new RadicalSumRatio(
                 new RadicalSum(new Radical(1,1)),
                 new RadicalSum(new Radical(3,1))
                 );
@@ -281,41 +281,41 @@ namespace Radicals.Test
         public void MultiplicationTests()
         {
             // (3*sqrt(2)) * ((5/3)*sqrt(3)) = (15/3)*sqrt(6) = 5*sqrt(6)
-            var b11 = new CompositeRadicalRatio(3, 2);
-            var b12 = new CompositeRadicalRatio(new Rational(5, 3), 3);
+            var b11 = new RadicalSumRatio(3, 2);
+            var b12 = new RadicalSumRatio(new Rational(5, 3), 3);
             var actual1 = b11 * b12;
-            var expected1 = new CompositeRadicalRatio(5, 6);
+            var expected1 = new RadicalSumRatio(5, 6);
             // 11 * sqrt(4/9) = 22/3
-            var b21 = new CompositeRadicalRatio(11, 1);
-            var b22 = new CompositeRadicalRatio(new Rational(4, 9));
+            var b21 = new RadicalSumRatio(11, 1);
+            var b22 = new RadicalSumRatio(new Rational(4, 9));
             var actual2 = b21 * b22;
-            var expected2 = new CompositeRadicalRatio(new Rational(22, 3), 1);
+            var expected2 = new RadicalSumRatio(new Rational(22, 3), 1);
             // 11 * sqrt(4/9) = 22/3
             var b31 = 11;
-            var b32 = new CompositeRadicalRatio(new Rational(4, 9));
+            var b32 = new RadicalSumRatio(new Rational(4, 9));
             var actual31 = b31 * b32;
             var actual32 = b32 * b31;
-            var expected3 = new CompositeRadicalRatio(new Rational(22, 3), 1);
+            var expected3 = new RadicalSumRatio(new Rational(22, 3), 1);
             // [(3/2)*sqrt(2) - (7/3)*sqrt(5) + (1/3)*sqrt(2) - (7/5)*sqrt(5)] * (11/4)*sqrt(2)
             // = [(11/6)*sqrt(2) - (56/15)*sqrt(5)] * (11/4)*sqrt(2)
             // = (121/24)*2 - (154/15)*sqrt(10)
             // = (121/12) - (56/15)*sqrt(10)
-            var b41 = new CompositeRadicalRatio(new Rational(3, 2), 2);
-            var b42 = new CompositeRadicalRatio(new Rational(7, 3), 5);
-            var b43 = new CompositeRadicalRatio(new Rational(1, 3), 2);
-            var b44 = new CompositeRadicalRatio(new Rational(7, 5), 5);
-            var b45 = new CompositeRadicalRatio(new Rational(11, 4), 2);
+            var b41 = new RadicalSumRatio(new Rational(3, 2), 2);
+            var b42 = new RadicalSumRatio(new Rational(7, 3), 5);
+            var b43 = new RadicalSumRatio(new Rational(1, 3), 2);
+            var b44 = new RadicalSumRatio(new Rational(7, 5), 5);
+            var b45 = new RadicalSumRatio(new Rational(11, 4), 2);
             var actual41 = (b41 - b42 + b43 - b44) * b45;
             var actual42 = b45 * (b41 - b42 + b43 - b44);
-            var expected4 = new CompositeRadicalRatio(new Radical[2] {
+            var expected4 = new RadicalSumRatio(new Radical[2] {
                 new Radical(new Rational(121, 12), 1),
                 new Radical(new Rational(-154, 15), 10) });
             // (3/2)*sqrt(5) * 1 = (3/2)*sqrt(5)
-            var b51 = new CompositeRadicalRatio(new Rational(3, 2), 5);
-            var b52 = new CompositeRadicalRatio(1, 1);
+            var b51 = new RadicalSumRatio(new Rational(3, 2), 5);
+            var b52 = new RadicalSumRatio(1, 1);
             var b53 = 1;
-            var b54 = new CompositeRadicalRatio(1);
-            var b55 = CompositeRadicalRatio.One;
+            var b54 = new RadicalSumRatio(1);
+            var b55 = RadicalSumRatio.One;
             var actual51 = b51 * b52;
             var actual52 = b51 * b53;
             var actual53 = b51 * b54;
@@ -324,25 +324,25 @@ namespace Radicals.Test
             var actual56 = b53 * b51;
             var actual57 = b54 * b51;
             var actual58 = b55 * b51;
-            var expected5 = new CompositeRadicalRatio(new Rational(3, 2), 5);
+            var expected5 = new RadicalSumRatio(new Rational(3, 2), 5);
             // (3/2)*sqrt(5) * -1 = (-3/2)*sqrt(5)
-            var b61 = new CompositeRadicalRatio(new Rational(3, 2), 5);
-            var b62 = -CompositeRadicalRatio.One;
+            var b61 = new RadicalSumRatio(new Rational(3, 2), 5);
+            var b62 = -RadicalSumRatio.One;
             var b63 = -1;
-            var b64 = new CompositeRadicalRatio(-1, 1);
+            var b64 = new RadicalSumRatio(-1, 1);
             var actual61 = b61 * b62;
             var actual62 = b61 * b63;
             var actual63 = b61 * b64;
             var actual64 = b62 * b61;
             var actual65 = b63 * b61;
             var actual66 = b64 * b61;
-            var expected6 = new CompositeRadicalRatio(new Rational(-3, 2), 5);
+            var expected6 = new RadicalSumRatio(new Rational(-3, 2), 5);
             // (3/2)*sqrt(5) * 0 = 0
-            var b71 = new CompositeRadicalRatio(new Rational(3, 2), 5);
+            var b71 = new RadicalSumRatio(new Rational(3, 2), 5);
             var b72 = 0;
-            var b73 = CompositeRadicalRatio.Zero;
-            var b74 = new CompositeRadicalRatio(0);
-            var b75 = new CompositeRadicalRatio(0, 0);
+            var b73 = RadicalSumRatio.Zero;
+            var b74 = new RadicalSumRatio(0);
+            var b75 = new RadicalSumRatio(0, 0);
             var actual71 = b71 * b72;
             var actual72 = b71 * b73;
             var actual73 = b71 * b74;
@@ -351,20 +351,20 @@ namespace Radicals.Test
             var actual76 = b73 * b71;
             var actual77 = b74 * b71;
             var actual78 = b75 * b71;
-            var expected7 = CompositeRadicalRatio.Zero;
+            var expected7 = RadicalSumRatio.Zero;
             // [(5/3)*sqrt(7) - (2/9)*sqrt(11) - 6*sqrt(13)] * [2*sqrt(6) - 3*sqrt(8)]
             // = (10/3)*sqrt(42) - (4/9)*sqrt(66) - 12*sqrt(78) - 5*sqrt(56) + (2/3)*sqrt(88) + 18*sqrt(104)
             // = (10/3)*sqrt(42) - 5*sqrt(56) - (4/9)*sqrt(66) - (34/3)*sqrt(88) + 18*sqrt(104) - 12*sqrt(78)
             // = -10*sqrt(14) + (4/3)*sqrt(22) + 36*sqrt(26) + (10/3)*sqrt(42) - (4/9)*sqrt(66) - 12*sqrt(78)
-            var b81 = new CompositeRadicalRatio(new Rational(5, 3), 7);
-            var b82 = new CompositeRadicalRatio(new Rational(2, 9), 11);
-            var b83 = new CompositeRadicalRatio(6, 13);
-            var b84 = new CompositeRadicalRatio(2, 6);
-            var b85 = new CompositeRadicalRatio(3, 8);
+            var b81 = new RadicalSumRatio(new Rational(5, 3), 7);
+            var b82 = new RadicalSumRatio(new Rational(2, 9), 11);
+            var b83 = new RadicalSumRatio(6, 13);
+            var b84 = new RadicalSumRatio(2, 6);
+            var b85 = new RadicalSumRatio(3, 8);
             var c81 = b81 - b82 - b83;
             var c82 = b84 - b85;
             var actual8 = c81 * c82;
-            var expected8 = new CompositeRadicalRatio(new Radical[6] {
+            var expected8 = new RadicalSumRatio(new Radical[6] {
                 new Radical(-10, 14),
                 new Radical(new Rational(4,3),22),
                 new Radical(36, 26),
@@ -388,10 +388,10 @@ namespace Radicals.Test
             var c92 = b93 + b94;
             var c93 = b95 + b96;
             var c94 = b97 - b98;
-            var cr91 = new CompositeRadicalRatio(c91, c92);
-            var cr92 = new CompositeRadicalRatio(c93, c94);
+            var cr91 = new RadicalSumRatio(c91, c92);
+            var cr92 = new RadicalSumRatio(c93, c94);
             var actual9 = cr91 * cr92;
-            var expected9 = new CompositeRadicalRatio(
+            var expected9 = new RadicalSumRatio(
                 new RadicalSum(new Radical[2] {
                     new Radical(new Rational(-112), 1),
                     new Radical(new Rational(77,12), 6)
@@ -437,36 +437,36 @@ namespace Radicals.Test
         public void DivisionTests()
         {
             // (3*sqrt(2)) / ((5/3)*sqrt(3)) = (9/5)*sqrt(2/3) = (3/5)*sqrt(6)
-            var b11 = new CompositeRadicalRatio(3, 2);
-            var b12 = new CompositeRadicalRatio(new Rational(5, 3), 3);
+            var b11 = new RadicalSumRatio(3, 2);
+            var b12 = new RadicalSumRatio(new Rational(5, 3), 3);
             var actual1 = b11 / b12;
-            var expected1 = new CompositeRadicalRatio(new Rational(3, 5), 6);
+            var expected1 = new RadicalSumRatio(new Rational(3, 5), 6);
             // 11 / sqrt(4/9) = 33/2
-            var b21 = new CompositeRadicalRatio(11, 1);
-            var b22 = new CompositeRadicalRatio(new Rational(4, 9));
+            var b21 = new RadicalSumRatio(11, 1);
+            var b22 = new RadicalSumRatio(new Rational(4, 9));
             var actual2 = b21 / b22;
-            var expected2 = new CompositeRadicalRatio(new Rational(33, 2), 1);
+            var expected2 = new RadicalSumRatio(new Rational(33, 2), 1);
             // sqrt(4/9) / 11 = 2/33
-            var b41 = new CompositeRadicalRatio(new Rational(4, 9));
+            var b41 = new RadicalSumRatio(new Rational(4, 9));
             var b42 = 11;
             var actual4 = b41 / b42;
-            var expected4 = new CompositeRadicalRatio(new Rational(2, 33), 1);
+            var expected4 = new RadicalSumRatio(new Rational(2, 33), 1);
             // [(3/2)*sqrt(2) - (7/3)*sqrt(5) + (1/3)*sqrt(2) - (7/5)*sqrt(5)] / (11/4)*sqrt(2)
             // = [(11/6)*sqrt(2) - (56/15)*sqrt(5)] / (11/4)*sqrt(2)
             // = (2/3) - (224/165)*sqrt(5/2)
             // = (2/3) - (112/165)*sqrt(10)
-            var b51 = new CompositeRadicalRatio(new Rational(3, 2), 2);
-            var b52 = new CompositeRadicalRatio(new Rational(7, 3), 5);
-            var b53 = new CompositeRadicalRatio(new Rational(1, 3), 2);
-            var b54 = new CompositeRadicalRatio(new Rational(7, 5), 5);
-            var b55 = new CompositeRadicalRatio(new Rational(11, 4), 2);
+            var b51 = new RadicalSumRatio(new Rational(3, 2), 2);
+            var b52 = new RadicalSumRatio(new Rational(7, 3), 5);
+            var b53 = new RadicalSumRatio(new Rational(1, 3), 2);
+            var b54 = new RadicalSumRatio(new Rational(7, 5), 5);
+            var b55 = new RadicalSumRatio(new Rational(11, 4), 2);
             var actual5 = (b51 - b52 + b53 - b54) / b55;
-            var expected5 = new CompositeRadicalRatio(new Radical[2] {
+            var expected5 = new RadicalSumRatio(new Radical[2] {
                 new Radical(new Rational(2, 3), 1),
                 new Radical(new Rational(-112, 165), 10) });
             // (3/2)*sqrt(5) / 1 = (3/2)*sqrt(5)
-            var b61 = new CompositeRadicalRatio(new Rational(3, 2), 5);
-            var b62 = new CompositeRadicalRatio(1, 1);
+            var b61 = new RadicalSumRatio(new Rational(3, 2), 5);
+            var b62 = new RadicalSumRatio(1, 1);
             var b63 = 1;
             var b64 = new Radical(1);
             var b65 = Radical.One;
@@ -474,16 +474,16 @@ namespace Radicals.Test
             var actual62 = b61 / b63;
             var actual63 = b61 / b64;
             var actual64 = b61 / b65;
-            var expected6 = new CompositeRadicalRatio(new Rational(3, 2), 5);
+            var expected6 = new RadicalSumRatio(new Rational(3, 2), 5);
             // (3/2)*sqrt(5) / -1 = (-3/2)*sqrt(5)
-            var b71 = new CompositeRadicalRatio(new Rational(3, 2), 5);
+            var b71 = new RadicalSumRatio(new Rational(3, 2), 5);
             var b72 = new Radical(-1, 1);
             var b73 = -1;
             var b74 = -Radical.One;
             var actual71 = b71 / b72;
             var actual72 = b71 / b73;
             var actual73 = b71 / b74;
-            var expected7 = new CompositeRadicalRatio(new Rational(-3, 2), 5);
+            var expected7 = new RadicalSumRatio(new Rational(-3, 2), 5);
             // {[(2/3)*sqrt(3) - (3/2)*sqrt(2)] / [(2/3)*sqrt(3) + (3/2)*sqrt(2)]} / {[(5/6)*sqrt(3) + (7/3)*sqrt(2)] / [(4/3)*sqrt(3) - (5/7)*sqrt(2)]}
             // = {[(2/3)*sqrt(3) - (3/2)*sqrt(2)] / [(2/3)*sqrt(3) + (3/2)*sqrt(2)]} * {[(4/3)*sqrt(3) - (5/7)*sqrt(2)] / [(5/6)*sqrt(3) + (7/3)*sqrt(2)]}
             // = [(8/9)*3 - (10/21)*sqrt(6) - (12/6)*sqrt(6) + (15/14)*2] / [(10/18)*3 + (14/9)*sqrt(6) + (15/12)*sqrt(6) + (21/6)*2]
@@ -501,10 +501,10 @@ namespace Radicals.Test
             var c92 = b93 + b94;
             var c93 = b95 + b96;
             var c94 = b97 - b98;
-            var cr91 = new CompositeRadicalRatio(c91, c92);
-            var cr92 = new CompositeRadicalRatio(c93, c94);
+            var cr91 = new RadicalSumRatio(c91, c92);
+            var cr92 = new RadicalSumRatio(c93, c94);
             var actual9 = cr91 / cr92;
-            var expected9 = new CompositeRadicalRatio(
+            var expected9 = new RadicalSumRatio(
                 new RadicalSum(new Radical[2] {
                     new Radical(new Rational(101,7), 1),
                     new Radical(new Rational(-52,7), 6)
@@ -539,15 +539,15 @@ namespace Radicals.Test
             var b14 = new Radical(new Rational(-14, 4), 3);
             var c11 = new RadicalSum(new Radical[2] { b11, b12 });
             var c12 = new RadicalSum(new Radical[2] { b13, b14 });
-            var cr1 = new CompositeRadicalRatio(c11, c12);
+            var cr1 = new RadicalSumRatio(c11, c12);
             bool actual11 = cr1.IsRational();
             var actual12 = cr1.ToRational();
             bool expected11 = true;
             var expected12 = new Rational(-1);
 
             // (3*sqrt(2)) / ((5/3)*sqrt(3)) = (9/5)*sqrt(2/3) = (3/5)*sqrt(6)
-            var b21 = new CompositeRadicalRatio(3, 2);
-            var b22 = new CompositeRadicalRatio(new Rational(5, 3), 3);
+            var b21 = new RadicalSumRatio(3, 2);
+            var b22 = new RadicalSumRatio(new Rational(5, 3), 3);
             var b23 = b21 / b22;
             var actual21 = b23.IsRational();
             var actual22 = b23.ToDouble();

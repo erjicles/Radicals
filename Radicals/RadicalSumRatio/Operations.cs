@@ -5,21 +5,21 @@ using System.Text;
 
 namespace Radicals
 {
-    public readonly partial struct CompositeRadicalRatio
+    public readonly partial struct RadicalSumRatio
     {
-        public static CompositeRadicalRatio Negate(CompositeRadicalRatio value)
+        public static RadicalSumRatio Negate(RadicalSumRatio value)
         {
-            return new CompositeRadicalRatio(-value.Numerator, value.Denominator);
+            return new RadicalSumRatio(-value.Numerator, value.Denominator);
         }
 
-        public static CompositeRadicalRatio Invert(CompositeRadicalRatio value)
+        public static RadicalSumRatio Invert(RadicalSumRatio value)
         {
-            return new CompositeRadicalRatio(value.Denominator, value.Numerator);
+            return new RadicalSumRatio(value.Denominator, value.Numerator);
         }
 
-        public static CompositeRadicalRatio Add(
-            CompositeRadicalRatio left, 
-            CompositeRadicalRatio right)
+        public static RadicalSumRatio Add(
+            RadicalSumRatio left, 
+            RadicalSumRatio right)
         {
             // n1   n2   (n1 * d2) + (n2 * d1)
             // -- + -- = ---------------------
@@ -28,19 +28,19 @@ namespace Radicals
                 (left.Numerator * right.Denominator)
                 + (right.Numerator * left.Denominator);
             RadicalSum denominator = left.Denominator * right.Denominator;
-            return new CompositeRadicalRatio(numerator, denominator);
+            return new RadicalSumRatio(numerator, denominator);
         }
 
-        public static CompositeRadicalRatio Subtract(
-            CompositeRadicalRatio left, 
-            CompositeRadicalRatio right)
+        public static RadicalSumRatio Subtract(
+            RadicalSumRatio left, 
+            RadicalSumRatio right)
         {
             return Add(left, -right);
         }
 
-        public static CompositeRadicalRatio Multiply(
-            CompositeRadicalRatio left, 
-            CompositeRadicalRatio right)
+        public static RadicalSumRatio Multiply(
+            RadicalSumRatio left, 
+            RadicalSumRatio right)
         {
             //               C1n   C2n   commonFactorLeft * C1n_reduced   commonFactorRight * C2n_reduced
             // R = R1 * R2 = --- * --- = ------------------------------ * -------------------------------
@@ -74,13 +74,13 @@ namespace Radicals
             RadicalSum numerator = commonFactor * c_left_n_reduced * c_right_n_reduced;
             RadicalSum denominator = d_left * d_right;
 
-            var result = new CompositeRadicalRatio(numerator, denominator);
+            var result = new RadicalSumRatio(numerator, denominator);
             return result;
         }
 
-        public static CompositeRadicalRatio Divide(
-            CompositeRadicalRatio left,
-            CompositeRadicalRatio right)
+        public static RadicalSumRatio Divide(
+            RadicalSumRatio left,
+            RadicalSumRatio right)
         {
             if (right == 0)
                 throw new DivideByZeroException("Cannot divide by zero");

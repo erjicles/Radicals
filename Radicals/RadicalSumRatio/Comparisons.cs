@@ -4,24 +4,24 @@ using System.Text;
 
 namespace Radicals
 {
-    public readonly partial struct CompositeRadicalRatio
-        : IComparable, IComparable<CompositeRadicalRatio>, IEquatable<CompositeRadicalRatio>
+    public readonly partial struct RadicalSumRatio
+        : IComparable, IComparable<RadicalSumRatio>, IEquatable<RadicalSumRatio>
     {
         public int CompareTo(object obj)
         {
             if (obj == null)
                 return 1;
-            if (!(obj is CompositeRadicalRatio))
+            if (!(obj is RadicalSumRatio))
                 throw new ArgumentException("Invalid type comparison", nameof(obj));
-            return CompareTo((CompositeRadicalRatio)obj);
+            return CompareTo((RadicalSumRatio)obj);
         }
 
-        public int CompareTo(CompositeRadicalRatio other)
+        public int CompareTo(RadicalSumRatio other)
         {
             return ToDouble().CompareTo(other.ToDouble());
         }
 
-        public bool Equals(CompositeRadicalRatio other)
+        public bool Equals(RadicalSumRatio other)
         {
             if (other == null)
                 return false;
@@ -33,9 +33,9 @@ namespace Radicals
         {
             if (obj == null)
                 return false;
-            if (!(obj is CompositeRadicalRatio))
+            if (!(obj is RadicalSumRatio))
                 throw new ArgumentException("Invalid type equality check", nameof(obj));
-            return Equals((CompositeRadicalRatio)obj);
+            return Equals((RadicalSumRatio)obj);
         }
 
         public override int GetHashCode()

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Radicals
 {
-    public readonly partial struct CompositeRadicalRatio
+    public readonly partial struct RadicalSumRatio
     {
         public bool IsRational()
         {
