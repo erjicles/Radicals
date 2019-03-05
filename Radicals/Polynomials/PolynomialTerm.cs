@@ -47,7 +47,27 @@ namespace Radicals.Polynomials
 
         public static PolynomialTerm Zero = new PolynomialTerm(RadicalSum.Zero, 0);
         public static PolynomialTerm One = new PolynomialTerm(RadicalSum.One, 0);
-        
+
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+                return false;
+            if (!(obj is PolynomialTerm))
+                throw new ArgumentException("Invalid type equality check", nameof(obj));
+            return Equals((PolynomialTerm)obj);
+        }
+
+        public bool Equals(PolynomialTerm other)
+        {
+            return Degree == other.Degree && Coefficient == other.Coefficient;
+        }
+
+        public override int GetHashCode()
+        {
+            int h1 = Coefficient.GetHashCode();
+            int h2 = Degree.GetHashCode();
+            return (((h1 << 5) + h1) ^ h2);
+        }
 
         public static PolynomialTerm Negate(PolynomialTerm value)
         {
@@ -68,11 +88,6 @@ namespace Radicals.Polynomials
         public static PolynomialTerm Multiply(PolynomialTerm left, PolynomialTerm right)
         {
             return new PolynomialTerm(left.Coefficient * right.Coefficient, left.Degree + right.Degree);
-        }
-
-        public bool Equals(PolynomialTerm other)
-        {
-            return Degree == other.Degree && Coefficient == other.Coefficient;
         }
 
         public static PolynomialTerm operator -(PolynomialTerm value)
