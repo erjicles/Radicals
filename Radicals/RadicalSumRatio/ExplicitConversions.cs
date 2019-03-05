@@ -21,6 +21,10 @@ namespace Radicals
                 d += Denominator.Radicals[i].Coefficient * (Rational)Math.Sqrt((double)Denominator.Radicals[i].Radicand);
             return n / d;
         }
+        public RadicalSum ToRadicalSum()
+        {
+            return Numerator / Denominator;
+        }
 
         public static explicit operator double(RadicalSumRatio value)
         {
@@ -29,6 +33,18 @@ namespace Radicals
         public static explicit operator Rational(RadicalSumRatio value)
         {
             return value.ToRational();
+        }
+        public static explicit operator RadicalSumRatio(Radical value)
+        {
+            return new RadicalSumRatio(value);
+        }
+        public static explicit operator RadicalSumRatio(RadicalSum value)
+        {
+            return new RadicalSumRatio(value);
+        }
+        public static explicit operator RadicalSum(RadicalSumRatio value)
+        {
+            return value.ToRadicalSum();
         }
     }
 }
