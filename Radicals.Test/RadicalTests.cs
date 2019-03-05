@@ -50,9 +50,18 @@ namespace Radicals.Test
             Assert.Equal(expected4, actual44);
             Assert.Equal(expected4, actual45);
             Assert.Equal(expected4, actual46);
+            Assert.True(actual41.IsZero);
+            Assert.True(actual42.IsZero);
+            Assert.True(actual43.IsZero);
+            Assert.True(actual44.IsZero);
+            Assert.True(actual45.IsZero);
+            Assert.True(actual46.IsZero);
             Assert.Equal(expected5, actual51);
             Assert.Equal(expected5, actual52);
             Assert.Equal(expected5, actual53);
+            Assert.True(actual51.IsOne);
+            Assert.True(actual52.IsOne);
+            Assert.True(actual53.IsOne);
             Assert.Equal(expected6, actual6);
         }
 

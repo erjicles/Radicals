@@ -75,6 +75,16 @@ namespace Radicals
             }
         }
 
+        public bool IsOne
+        {
+            get { return this == One; }
+        }
+
+        public bool IsZero
+        {
+            get { return this == Zero; }
+        }
+
         public int CompareTo(object obj)
         {
             if (obj == null)

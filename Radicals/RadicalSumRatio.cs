@@ -113,11 +113,21 @@ namespace Radicals
             {
                 if (Numerator.Radicals.Length == 1)
                     if (Denominator.Radicals.Length == 1)
-                        if (Numerator.Radicals[0].Radicand == 1)
-                            if (Denominator.Radicals[0].Radicand == 1)
+                        if (Numerator.Radicals[0].Radicand < 2)
+                            if (Denominator.Radicals[0].Radicand < 2)
                                 return true;
                 return false;
             }
+        }
+
+        public bool IsOne
+        {
+            get { return this == One; }
+        }
+
+        public bool IsZero
+        {
+            get { return this == Zero; }
         }
 
         public int CompareTo(object obj)
