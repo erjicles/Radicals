@@ -54,11 +54,14 @@ namespace Radicals
             return new RadicalSum(z);
         }
 
-        public static RadicalSumRatio Divide(RadicalSum left, RadicalSum right)
+        public static RadicalSum Divide(RadicalSum left, RadicalSum right)
         {
             if (right == 0)
                 throw new DivideByZeroException("Cannot divide by zero");
-            return new RadicalSumRatio(left, right);
+            var right_inverse = RadicalSum.GetRationalizer(right);
+            if (right * right_inverse != RadicalSum.One)
+                throw new Exception("Failed to find inverse");
+            return left * right_inverse;
         }
     }
 }

@@ -252,7 +252,7 @@ namespace Radicals
             return Divide(left, right);
         }
 
-        public static RadicalSumRatio operator /(RadicalSum left, RadicalSum right)
+        public static RadicalSum operator /(RadicalSum left, RadicalSum right)
         {
             return Divide(left, right);
         }
