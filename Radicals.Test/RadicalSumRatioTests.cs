@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Radicals.Test
 {
-    public class CompositeRadicalRatioTests
+    public class RadicalSumRatioTests
     {
         [Fact]
         public void ConstructorTests()
