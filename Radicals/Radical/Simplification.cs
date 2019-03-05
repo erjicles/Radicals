@@ -85,7 +85,13 @@ namespace Radicals
                     uniqueRadicals[b.Radicand] = b;
             }
 
-            Radical[] result = uniqueRadicals.Values.OrderBy(f => f.Radicand).ToArray();
+            Radical[] result = 
+                uniqueRadicals.Values
+                .Where(f => f.Coefficient != 0 && f.Radicand != 0)
+                .OrderBy(f => f.Radicand)
+                .ToArray();
+            if (result.Length == 0)
+                result = new Radical[1] { Radical.Zero };
             return result;
         }
     }
