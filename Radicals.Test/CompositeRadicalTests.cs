@@ -352,6 +352,27 @@ namespace Radicals.Test
             var actual72 = b71 / b73;
             var actual73 = b71 / b74;
             var expected7 = new RadicalSum(new Rational(-3, 2), 5);
+            // 3*sqrt(2) + 2*sqrt(3)
+            var b81 = new RadicalSum(3, 2);
+            var b82 = new RadicalSum(2, 3);
+            var s81 = b81 + b82;
+            var rationalizer81 = RadicalSum.GetRationalizer(s81);
+            var actual81 = s81 * rationalizer81;
+            // sqrt(2) + sqrt(3) + sqrt(11)
+            var b91 = new RadicalSum(1, 2);
+            var b92 = new RadicalSum(1, 3);
+            var b93 = new RadicalSum(1, 11);
+            var s91 = b91 + b92 + b93;
+            var rationalizer91 = RadicalSum.GetRationalizer(s91);
+            var actual91 = s91 * rationalizer91;
+            // 8*sqrt(6) - 3*sqrt(10) - 5*sqrt(12) + 2*sqrt(14)
+            var b10_1 = new RadicalSum(8, 6);
+            var b10_2 = new RadicalSum(-3, 10);
+            var b10_3 = new RadicalSum(-5, 12);
+            var b10_4 = new RadicalSum(2, 14);
+            var s10_1 = b10_1 + b10_2 + b10_3 + b10_4;
+            var rationalizer10_1 = RadicalSum.GetRationalizer(s10_1);
+            var actual10_1 = s10_1 * rationalizer10_1;
 
             Assert.Equal(expected1, actual1);
             Assert.Equal(expected2, actual2);
@@ -365,6 +386,9 @@ namespace Radicals.Test
             Assert.Equal(expected7, actual71);
             Assert.Equal(expected7, actual72);
             Assert.Equal(expected7, actual73);
+            Assert.True(actual81.IsRational());
+            Assert.True(actual91.IsRational());
+            Assert.True(actual10_1.IsRational());
         }
     }
 }
