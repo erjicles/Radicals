@@ -45,7 +45,7 @@ namespace Radicals.Test
                 new Radical(new Rational(1,2), 7),
                 new Radical(new Rational(4,5), 6)
             });
-            var actual6 = c61 / c62;
+            var actual6 = (RadicalSumRatio)c61 / c62;
             var expected6 = new RadicalSumRatio(c61, c62);
 
 

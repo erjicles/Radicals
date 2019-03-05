@@ -373,6 +373,15 @@ namespace Radicals.Test
             var s10_1 = b10_1 + b10_2 + b10_3 + b10_4;
             var rationalizer10_1 = RadicalSum.GetRationalizer(s10_1);
             var actual10_1 = s10_1 * rationalizer10_1;
+            // [3*sqrt(2) + (7/2)*sqrt(3)] / [(-9/3)*sqrt(2) + (-14/4)*sqrt(3)] = -1
+            var b11_1 = new Radical(3, 2);
+            var b11_2 = new Radical(new Rational(7, 2), 3);
+            var b11_3 = new Radical(new Rational(-9, 3), 2);
+            var b11_4 = new Radical(new Rational(-14, 4), 3);
+            var c11_1 = new RadicalSum(new Radical[2] { b11_1, b11_2 });
+            var c11_2 = new RadicalSum(new Radical[2] { b11_3, b11_4 });
+            var actual11 = c11_1 / c11_2;
+            var expected11 = -1;
 
             Assert.Equal(expected1, actual1);
             Assert.Equal(expected2, actual2);
@@ -389,6 +398,7 @@ namespace Radicals.Test
             Assert.True(actual81.IsRational());
             Assert.True(actual91.IsRational());
             Assert.True(actual10_1.IsRational());
+            Assert.Equal(expected11, actual11);
         }
     }
 }
