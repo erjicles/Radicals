@@ -130,6 +130,22 @@ namespace Radicals
             get { return this == Zero; }
         }
 
+        public Rational[] CoefficientsNumerator
+        {
+            get
+            {
+                return Numerator.Coefficients;
+            }
+        }
+
+        public Rational[] CoefficientsDenominator
+        {
+            get
+            {
+                return Denominator.Coefficients;
+            }
+        }
+
         public int CompareTo(object obj)
         {
             if (obj == null)
@@ -305,8 +321,8 @@ namespace Radicals
             // ci_reduced === ci / commonFactori
             // commonFactor === commonFactorLeft * commonFactorRight;
             // Simplest form puts all common factors in numerator
-            var commonFactorLeft = left.Numerator.GetCommonFactor();
-            var commonFactorRight = right.Numerator.GetCommonFactor();
+            var commonFactorLeft = Utilities.GetCommonFactor(left.Numerator.Coefficients);
+            var commonFactorRight = Utilities.GetCommonFactor(right.Numerator.Coefficients);
             var commonFactor = commonFactorLeft * commonFactorRight;
             var c_left_n_reduced = left.Numerator / commonFactorLeft;
             var c_right_n_reduced = right.Numerator / commonFactorRight;
@@ -776,8 +792,8 @@ namespace Radicals
             // First extract common factors from numerator and denominator:
             // N = common_factor_n * (N/common_factor_n); n_reduced === N/common_factor_n
             // D = common_factor_d * (D/common_factor_d); d_reduced === D/common_factor_d
-            Rational common_factor_n = n_in.GetCommonFactor();
-            Rational common_factor_d = d_in.GetCommonFactor();
+            Rational common_factor_n = Utilities.GetCommonFactor(n_in.Coefficients);
+            Rational common_factor_d = Utilities.GetCommonFactor(d_in.Coefficients);
             var n_reduced = n_in * Rational.Invert(common_factor_n);
             var d_reduced = d_in * Rational.Invert(common_factor_d);
 
