@@ -52,7 +52,7 @@ namespace Radicals
             if (radicals.Length == 0)
                 throw new Exception("No radicals provided");
             
-            _radicals = Radical.SimplifyRadicals(radicals);
+            _radicals = SimplifyRadicals(radicals);
         }
 
     }
