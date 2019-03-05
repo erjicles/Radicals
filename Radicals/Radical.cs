@@ -65,11 +65,14 @@ namespace Radicals
         /// </summary>
         public static readonly Radical One = new Radical(1, 1);
 
-        public bool IsRational()
+        public bool IsRational
         {
-            if (Radicand < 2)
-                return true;
-            return false;
+            get
+            {
+                if (Radicand < 2)
+                    return true;
+                return false;
+            }
         }
 
         public int CompareTo(object obj)

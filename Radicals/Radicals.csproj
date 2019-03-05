@@ -10,10 +10,4 @@
     <PackageReference Include="Rationals" Version="1.3.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="RadicalSumRatio\" />
-    <Folder Include="RadicalSum\" />
-    <Folder Include="Radical\" />
-  </ItemGroup>
-
 </Project>

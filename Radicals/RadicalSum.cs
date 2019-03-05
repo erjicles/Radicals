@@ -68,12 +68,15 @@ namespace Radicals
         /// </summary>
         public static readonly RadicalSum One = new RadicalSum(1, 1);
 
-        public bool IsRational()
+        public bool IsRational
         {
-            for (int i = 0; i < Radicals.Length; i++)
-                if (Radicals[i].Radicand > 1)
-                    return false;
-            return true;
+            get
+            {
+                for (int i = 0; i < Radicals.Length; i++)
+                    if (Radicals[i].Radicand > 1)
+                        return false;
+                return true;
+            }
         }
 
         public int CompareTo(object obj)
@@ -664,7 +667,7 @@ namespace Radicals
             p -= constantP;
             if (!p.IsDivisibleByX)
                 throw new Exception("All terms should have at least degree 1");
-            if (!constantTerm.IsRational())
+            if (!constantTerm.IsRational)
                 throw new Exception("No radicals should remain in any terms");
             p = Polynomials.Polynomial.DivideByX(p);
             p /= (Rational)(-constantTerm);

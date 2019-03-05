@@ -395,9 +395,9 @@ namespace Radicals.Test
             Assert.Equal(expected7, actual71);
             Assert.Equal(expected7, actual72);
             Assert.Equal(expected7, actual73);
-            Assert.True(actual81.IsRational());
-            Assert.True(actual91.IsRational());
-            Assert.True(actual10_1.IsRational());
+            Assert.True(actual81.IsRational);
+            Assert.True(actual91.IsRational);
+            Assert.True(actual10_1.IsRational);
             Assert.Equal(expected11, actual11);
         }
     }

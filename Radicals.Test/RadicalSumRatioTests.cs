@@ -540,7 +540,7 @@ namespace Radicals.Test
             var c11 = new RadicalSum(new Radical[2] { b11, b12 });
             var c12 = new RadicalSum(new Radical[2] { b13, b14 });
             var cr1 = new RadicalSumRatio(c11, c12);
-            bool actual11 = cr1.IsRational();
+            bool actual11 = cr1.IsRational;
             var actual12 = cr1.ToRational();
             bool expected11 = true;
             var expected12 = new Rational(-1);
@@ -549,7 +549,7 @@ namespace Radicals.Test
             var b21 = new RadicalSumRatio(3, 2);
             var b22 = new RadicalSumRatio(new Rational(5, 3), 3);
             var b23 = b21 / b22;
-            var actual21 = b23.IsRational();
+            var actual21 = b23.IsRational;
             var actual22 = b23.ToDouble();
             var expected21 = false;
             double expected22 = 1.4696938456699068589183704448235;
