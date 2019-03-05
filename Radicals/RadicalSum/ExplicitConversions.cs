@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rationals;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,9 +17,26 @@ namespace Radicals
             return result;
         }
 
+        public Rational ToRational()
+        {
+            Rational result = 0;
+            for (int i = 0; i < Radicals.Length; i++)
+            {
+                result += (Rational)Radicals[i];
+            }
+            return result;
+        }
+
         public static explicit operator double(RadicalSum radical)
         {
             return radical.ToDouble();
         }
+
+        public static explicit operator Rational(RadicalSum value)
+        {
+            return value.ToRational();
+        }
+
+
     }
 }
