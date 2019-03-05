@@ -17,6 +17,11 @@ namespace Radicals
             return Coefficient;
         }
 
+        public static Radical Sqrt(Rational value)
+        {
+            return new Radical(value);
+        }
+
         public static explicit operator double(Radical basicRadical)
         {
             return basicRadical.ToDouble();

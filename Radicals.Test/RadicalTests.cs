@@ -35,6 +35,9 @@ namespace Radicals.Test
             var actual52 = new Radical(1, 1);
             var actual53 = new Radical(1);
             var expected5 = Radical.One;
+            // Sqrt constructor: Sqrt(3/4) = (1/2)*Sqrt(3)
+            var actual6 = Radical.Sqrt((Rational)3 / 4);
+            var expected6 = new Radical((Rational)1 / 2, 3);
 
 
             // assert
@@ -50,6 +53,7 @@ namespace Radicals.Test
             Assert.Equal(expected5, actual51);
             Assert.Equal(expected5, actual52);
             Assert.Equal(expected5, actual53);
+            Assert.Equal(expected6, actual6);
         }
 
         [Fact]
