@@ -65,5 +65,39 @@ namespace Radicals
             var lcm = leftReduced * right;
             return lcm;
         }
+
+        public static BigInteger Pow(BigInteger number, BigInteger exponent)
+        {
+            var result = (BigInteger)1;
+            for (BigInteger i = 0; i < exponent; i++)
+                result *= number;
+            return result;
+        }
+
+        public static Rational Pow(Rational number, BigInteger exponent)
+        {
+            var result = (Rational)1;
+            for (BigInteger i = 0; i < exponent; i++)
+                result *= number;
+            return result;
+        }
+
+        public static void IntegerIsPerfectPower(
+            BigInteger value, 
+            BigInteger exponent,
+            out bool isPerfectPower,
+            out BigInteger nthRoot)
+        {
+            isPerfectPower = false;
+            nthRoot = -1;
+
+            var root = Rational.Root(value, (double)exponent);
+            var rootNearestInteger = (BigInteger)(root + 0.5);
+            if (Pow(rootNearestInteger, exponent) == value)
+            {
+                isPerfectPower = true;
+                nthRoot = rootNearestInteger;
+            }
+        }
     }
 }

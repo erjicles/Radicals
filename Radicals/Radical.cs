@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace Radicals
 {
@@ -100,10 +101,8 @@ namespace Radicals
         {
             get
             {
-                var result = (Rational)1;
-                for (int i = 0; i < Index; i++)
-                    result *= Coefficient;
-                result *= Radicand;
+                var result = (Rational)Radicand;
+                result *= Utilities.Pow(Coefficient, Index);
                 return result;
             }
         }
@@ -116,6 +115,14 @@ namespace Radicals
         public bool IsZero
         {
             get { return this == Zero; }
+        }
+
+        public int Sign
+        {
+            get
+            {
+                return Coefficient.Sign;
+            }
         }
 
         public int CompareTo(object obj)
@@ -132,7 +139,8 @@ namespace Radicals
             if (other == null)
                 return 1;
 
-            return RaisedToIndexPower.CompareTo(other.RaisedToIndexPower);
+            return (Sign * Rational.Abs(RaisedToIndexPower))
+                .CompareTo(other.Sign * Rational.Abs(other.RaisedToIndexPower));
         }
 
         public bool Equals(Radical other)
@@ -269,7 +277,7 @@ namespace Radicals
 
         public static Radical AddCompatible(Radical left, Radical right)
         {
-            if (left.Radicand != right.Radicand)
+            if (left.Index != right.Index || left.Radicand != right.Radicand)
                 throw new Exception("Trying to add compatible radicals that aren't compatible");
             return new Radical(left.Coefficient + right.Coefficient, left.Radicand, left.Index);
         }
@@ -487,47 +495,75 @@ namespace Radicals
             if (format == null)
                 format = "S";
 
-            string cPart = "";
-            string rPart = "";
+            if (IsZero)
+                return 0.ToString();
+            if (IsOne)
+                return 1.ToString();
 
+            var result = new StringBuilder();
+
+            // Simplest form
             if ("S".Equals(format))
             {
-                if (!Coefficient.IsOne)
-                    cPart = Coefficient.ToString();
-                if (!Radicand.IsOne)
+                // Handle coefficient
+                // TODO: Pass format through
+                if (Coefficient.Denominator.IsOne)
                 {
+                    if (!Coefficient.Numerator.IsOne
+                        || (Coefficient.Numerator.IsOne && Radicand.IsOne))
+                    {
+                        if (Sign < 0)
+                            result.Append("(" + Coefficient.Numerator.ToString() + ")");
+                        else
+                            result.Append(Coefficient.Numerator.ToString());
+                    }   
+                }
+                else
+                    result.Append("(" + Coefficient.ToString() + ")");
+
+                // Handle radicand
+                if (Index > 1 && Radicand > 1)
+                {
+                    if (result.Length > 0)
+                        result.Append("*");
                     if (Index == 2)
-                        rPart += "Sqrt";
+                        result.Append("Sqrt");
                     else
-                        rPart += "Nth-Root[n:" + Index.ToString() + "]";
-                    rPart = "(" + Radicand.ToString() + ")";
-                } 
-                if (this == One)
-                    cPart = "1";
-                if (cPart.Length > 0 && rPart.Length > 0)
-                {
-                    if (Coefficient.Denominator == 1)
-                        cPart = cPart + " * ";
-                    else
-                        cPart = "(" + cPart + ") * ";
+                        result.Append("Nth-Root[index:" + Index.ToString() + "]");
+                    result.Append("(" + Radicand.ToString() + ")");
                 }
             }
             else if ("R".Equals(format))
             {
-                if (Radicand.IsOne)
-                    return Coefficient.ToString();
-                Rational r = new Rational(Coefficient.Numerator * Coefficient.Numerator * Radicand, Coefficient.Denominator * Coefficient.Denominator);
-                int sign = (Coefficient >= 0) ? 1 : -1;
-                if (sign == -1)
-                    rPart += "-";
-                if (Index == 2)
-                    rPart += "Sqrt";
+                if (Index.IsOne)
+                {
+                    if (Coefficient.Denominator.IsOne)
+                    {
+                        if (!Coefficient.Numerator.IsOne
+                            || (Coefficient.Numerator.IsOne && Radicand.IsOne))
+                            result.Append(Coefficient.Numerator.ToString());
+                    }
+                    else
+                        result.Append("(" + Coefficient.ToString() + ")");
+                }
                 else
-                    rPart += "Nth-Root[n:" + Index.ToString() + "]";
-                rPart += "(" + r.CanonicalForm.ToString() + ")";
+                {
+                    if (Sign < 0)
+                        result.Append("-");
+                    // Get the rational for all under the radical
+                    if (Index == 2)
+                        result.Append("Sqrt");
+                    else
+                        result.Append("Nth-Root[index:" + Index.ToString() + "]");
+                    var radicand = RaisedToIndexPower;
+                    if (radicand.Denominator.IsOne)
+                        result.Append("(" + BigInteger.Abs(radicand.Numerator).ToString() + ")");
+                    else
+                        result.Append("(" + Rational.Abs(radicand).ToString() + ")");
+                }
             }
 
-            return cPart + rPart;
+            return result.ToString();
         }
 
         public override string ToString()
@@ -563,7 +599,7 @@ namespace Radicals
                 if (factor != currentFactor)
                 {
                     if (currentCount > 0)
-                        finalFactors.Add(currentFactor);
+                        finalFactors.Add(Utilities.Pow(currentFactor, currentCount));
                     currentCount = 0;
                     currentFactor = factor;
                 }
@@ -578,7 +614,7 @@ namespace Radicals
                     throw new Exception("This shouldn't happen");
             }
             if (currentCount > 0 && currentCount < index_in)
-                finalFactors.Add(currentFactor);
+                finalFactors.Add(Utilities.Pow(currentFactor, currentCount));
             else if (currentCount >= index_in)
                 throw new Exception("This should not happen");
 
@@ -592,6 +628,35 @@ namespace Radicals
                 simplestRadicand *= factor;
             if (simplestRadicand < 2)
                 simplestIndex = 1;
+
+            // Simplify the index
+            // Is the radicand a number raised to a power p where p divides the index?
+            var indexFactors = Prime.Factors(simplestIndex);
+            foreach (BigInteger indexFactor in indexFactors)
+            {
+                if (indexFactor.IsOne)
+                    continue;
+                if (indexFactor == simplestIndex) // Already extracted perfect powers of the index
+                    continue;
+                bool radicandIsFactorPower = false;
+                BigInteger radicandFactorRoot = 0;
+                Utilities.IntegerIsPerfectPower(
+                    simplestRadicand, 
+                    indexFactor, 
+                    out radicandIsFactorPower, 
+                    out radicandFactorRoot);
+                if (radicandIsFactorPower)
+                {
+                    simplestRadicand = radicandFactorRoot;
+                    simplestIndex /= indexFactor;
+                }
+            }
+
+            if (simplestIndex == 1)
+            {
+                simplestCoefficient *= simplestRadicand;
+                simplestRadicand = 1;
+            }
 
             coefficient_out = simplestCoefficient.CanonicalForm;
             radicand_out = simplestRadicand;

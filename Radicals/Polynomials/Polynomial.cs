@@ -2,6 +2,7 @@
 using Rationals;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -9,6 +10,7 @@ using System.Text;
 namespace Radicals.Polynomials
 {
     internal readonly struct Polynomial
+        : IFormattable
     {
         private readonly PolynomialTerm[] _terms;
         public PolynomialTerm[] Terms
@@ -64,7 +66,11 @@ namespace Radicals.Polynomials
             terms_out = result;
         }
 
-        public void ExtractTermsContainingRadicand(BigInteger radicand, out Polynomial p_reduced, out Polynomial p_extract)
+        public void ExtractTermsContainingNthRoot(
+            BigInteger radicand, 
+            BigInteger index,
+            out Polynomial p_reduced, 
+            out Polynomial p_extract)
         {
             p_reduced = Polynomial.Zero;
             p_extract = Polynomial.Zero;
@@ -75,10 +81,13 @@ namespace Radicals.Polynomials
                 RadicalSum coeff_target = RadicalSum.Zero;
                 for (int j = 0; j < coeff.Radicals.Length; j++)
                 {
-                    if (coeff.Radicals[j].Radicand % radicand == 0)
+                    if (coeff.Radicals[j].Index == index)
                     {
-                        coeff_target += coeff.Radicals[j];
-                        coeff_reduced -= coeff.Radicals[j];
+                        if (coeff.Radicals[j].Radicand % radicand == 0)
+                        {
+                            coeff_target += coeff.Radicals[j];
+                            coeff_reduced -= coeff.Radicals[j];
+                        }
                     }
                 }
                 p_reduced += new PolynomialTerm(coeff_reduced, Terms[i].Degree);
@@ -94,9 +103,10 @@ namespace Radicals.Polynomials
             return RadicalSum.Zero;
         }
 
-        public BigInteger[] GetUniquePrimeRadicands()
+        public Tuple<BigInteger,BigInteger>[] GetUniquePrimeNthRoots()
         {
-            var foundRadicands = new HashSet<BigInteger>();
+            // Set of found index/radicand pairs
+            var foundPrimeNthRoots = new HashSet<Tuple<BigInteger,BigInteger>>();
             for (int i = 0; i < Terms.Length; i++)
             {
                 for (int j = 0; j < Terms[i].Coefficient.Radicals.Length; j++)
@@ -104,12 +114,13 @@ namespace Radicals.Polynomials
                     var r = Terms[i].Coefficient.Radicals[j];
                     foreach (BigInteger primeFactor in Prime.Factors(r.Radicand))
                     {
-                        if (!foundRadicands.Contains(primeFactor))
-                            foundRadicands.Add(primeFactor);
+                        var key = new Tuple<BigInteger, BigInteger>(r.Index, primeFactor);
+                        if (!foundPrimeNthRoots.Contains(key))
+                            foundPrimeNthRoots.Add(key);
                     }
                 }
             }
-            return foundRadicands.OrderBy(r => r).ToArray();
+            return foundPrimeNthRoots.OrderBy(k => k.Item1).ThenBy(k => k.Item2).ToArray();
         }
 
         public BigInteger GetLargestRadicand()
@@ -188,6 +199,14 @@ namespace Radicals.Polynomials
             for (int i = 0; i < value.Terms.Length; i++)
                 terms[i] = new PolynomialTerm(value.Terms[i].Coefficient, value.Terms[i].Degree - 1);
             var result = new Polynomial(terms);
+            return result;
+        }
+
+        public static Polynomial Pow(Polynomial value, BigInteger exponent)
+        {
+            var result = One;
+            for (BigInteger i = 0; i < exponent; i++)
+                result *= value;
             return result;
         }
 
@@ -272,6 +291,23 @@ namespace Radicals.Polynomials
                 result += termValue;
             }
             return result;
+        }
+
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            var result = new StringBuilder();
+            for (int i = 0; i < Terms.Length; i++)
+            {
+                if (result.Length > 0)
+                    result.Append(" + ");
+                result.Append(Terms[i].ToString(format, formatProvider));
+            }
+            return result.ToString();
+        }
+
+        public override string ToString()
+        {
+            return ToString(null, CultureInfo.InvariantCulture);
         }
 
     }

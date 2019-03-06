@@ -13,7 +13,7 @@ namespace Radicals
         : IComparable, IComparable<RadicalSum>, IEquatable<RadicalSum>, IFormattable
     {
         // S = r_1 + r_2 + ... + r_n
-        // r_i = coefficient_i * sqrt(radicand_i)
+        // r_i = coefficient_i * root[index_i](radicand_i)
         private readonly Radical[] _radicals;
 
         public Radical[] Radicals
@@ -73,7 +73,7 @@ namespace Radicals
             get
             {
                 for (int i = 0; i < Radicals.Length; i++)
-                    if (Radicals[i].Radicand > 1)
+                    if (Radicals[i].Index > 1 && Radicals[i].Radicand > 1)
                         return false;
                 return true;
             }
@@ -241,10 +241,8 @@ namespace Radicals
             if (right == null)
                 return left;
             var z = new Radical[left.Radicals.Length + right.Radicals.Length];
-            for (int i = 0; i < left.Radicals.Length; i++)
-                z[i] = left.Radicals[i];
-            for (int i = 0; i < right.Radicals.Length; i++)
-                z[i + left.Radicals.Length] = right.Radicals[i];
+            left.Radicals.CopyTo(z, 0);
+            right.Radicals.CopyTo(z, left.Radicals.Length);
             return new RadicalSum(z);
         }
 
@@ -549,29 +547,31 @@ namespace Radicals
             return ToString("S", CultureInfo.InvariantCulture);
         }
 
-        public static Radical[] SimplifyRadicals(Radical[] basicRadicals)
+        public static Radical[] SimplifyRadicals(Radical[] radicals)
         {
-            if (basicRadicals == null)
+            if (radicals == null)
                 return null;
-            if (basicRadicals.Length == 0)
+            if (radicals.Length == 0)
                 return new Radical[0];
-            if (basicRadicals.Length == 1)
-                return basicRadicals;
+            if (radicals.Length == 1)
+                return radicals;
 
-            Dictionary<BigInteger, Radical> uniqueRadicals = new Dictionary<BigInteger, Radical>();
-            for (int i = 0; i < basicRadicals.Length; i++)
+            var uniqueRadicals = new Dictionary<Tuple<BigInteger, BigInteger>, Radical>();
+            for (int i = 0; i < radicals.Length; i++)
             {
-                Radical b = basicRadicals[i];
-                if (uniqueRadicals.ContainsKey(b.Radicand))
-                    uniqueRadicals[b.Radicand] = Radical.AddCompatible(uniqueRadicals[b.Radicand], basicRadicals[i]);
-                else if (Radical.Zero != b)
-                    uniqueRadicals[b.Radicand] = b;
+                Radical b = radicals[i];
+                var key = new Tuple<BigInteger, BigInteger>(b.Radicand, b.Index);
+                if (uniqueRadicals.ContainsKey(key))
+                    uniqueRadicals[key] = Radical.AddCompatible(uniqueRadicals[key], b);
+                else if (!b.IsZero)
+                    uniqueRadicals[key] = b;
             }
 
             Radical[] result =
                 uniqueRadicals.Values
-                .Where(f => f.Coefficient != 0 && f.Radicand != 0)
-                .OrderBy(f => f.Radicand)
+                .Where(f => !f.IsZero)
+                .OrderBy(f => f.Index)
+                .ThenBy(f => f.Radicand)
                 .ToArray();
             if (result.Length == 0)
                 result = new Radical[1] { Radical.Zero };
@@ -589,7 +589,7 @@ namespace Radicals
             // Allan Berele and Stefan Catoiu
             // https://www.jstor.org/stable/10.4169/mathmaga.88.issue-2
             // See Example 9
-
+            
             if (value == 0)
                 throw new Exception("Cannot get rationalization of zero");
 
@@ -605,35 +605,38 @@ namespace Radicals
             var term0 = new Polynomials.PolynomialTerm(-value, 0);
             var p = new Polynomials.Polynomial(new Polynomials.PolynomialTerm[2] { term0, term1 });
 
-            // Get the set of unique radicands
-            var uniqueRadicands = p.GetUniquePrimeRadicands();
+            // Get the set of unique indexes and radicands for each index
+            var uniquePrimeNthRoots = p.GetUniquePrimeNthRoots();
 
             // Main loop
-            for (int i = uniqueRadicands.Length - 1; i >= 0; i--)
+            for (int i = uniquePrimeNthRoots.Length - 1; i >= 0; i--)
             {
-                var currentRadicand = uniqueRadicands[i];
-                if (currentRadicand < 2)
+                var currentPrimeNthRoot = uniquePrimeNthRoots[i];
+                if (currentPrimeNthRoot.Item1 < 2) // Index
+                    break;
+                if (currentPrimeNthRoot.Item2 < 2) // Radicand
                     break;
                 // Solve for largest radicand
                 // p = p_reduced + p_extract = 0
                 // p_extract = sqrt(largestRadicand) * p' for some p'
                 Polynomials.Polynomial p_reduced;
                 Polynomials.Polynomial p_extract;
-                p.ExtractTermsContainingRadicand(
-                    radicand: currentRadicand,
+                p.ExtractTermsContainingNthRoot(
+                    radicand: currentPrimeNthRoot.Item2,
+                    index: currentPrimeNthRoot.Item1,
                     p_reduced: out p_reduced,
                     p_extract: out p_extract);
 
                 // Remove sqrt(largestRadicand)
-                var r = new Radical(currentRadicand);
+                var r = new Radical(1, currentPrimeNthRoot.Item2, currentPrimeNthRoot.Item1);
                 p_extract /= r;
 
-                // p_reduced = -sqrt(currentRadicand) * p_extract
-                // p_reduced ^2 = currentRadicand * p_extract^2
-                // p_reduced^2 - currentRadicand * p_extract^2 = 0
-                // p === p_reduced^2 - currentRadicand * p_extract^2
-                var left = p_reduced * p_reduced;
-                var right = p_extract * p_extract * currentRadicand;
+                // p_reduced = -root[index](currentRadicand) * p_extract
+                // p_reduced ^ index = currentRadicand * p_extract^index
+                // p_reduced^index - currentRadicand * p_extract^index = 0
+                // p === p_reduced^index - currentRadicand * p_extract^index
+                var left = Polynomials.Polynomial.Pow(p_reduced, currentPrimeNthRoot.Item1);
+                var right = Polynomials.Polynomial.Pow(p_extract, currentPrimeNthRoot.Item1) * currentPrimeNthRoot.Item2;
                 p = left - right;
             }
 

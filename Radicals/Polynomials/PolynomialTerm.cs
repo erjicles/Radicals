@@ -1,12 +1,13 @@
 ﻿using Rationals;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace Radicals.Polynomials
 {
     internal readonly struct PolynomialTerm
-        : IEquatable<PolynomialTerm>
+        : IEquatable<PolynomialTerm>, IFormattable
     {
         private readonly int _degree;
         private readonly RadicalSum _coefficient;
@@ -123,6 +124,33 @@ namespace Radicals.Polynomials
         public static bool operator !=(PolynomialTerm left, PolynomialTerm right)
         {
             return !left.Equals(right);
+        }
+
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            var result = new StringBuilder();
+            if (Coefficient.IsZero)
+                return "0";
+            if (Coefficient.IsOne)
+            {
+                if (Degree == 0)
+                    return "1";
+                else if (Degree == 1)
+                    return "X";
+                else
+                    return "X^" + Degree.ToString();
+            }
+            if (Degree == 0)
+                return Coefficient.ToString();
+            else if (Degree == 1)
+                return "(" + Coefficient.ToString(format, formatProvider) + ")";
+            else
+                return "(" + Coefficient.ToString(format, formatProvider) + ")*X^" + Degree.ToString();
+        }
+
+        public override string ToString()
+        {
+            return ToString(null, CultureInfo.InvariantCulture);
         }
     }
 }

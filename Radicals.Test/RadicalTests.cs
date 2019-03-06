@@ -41,6 +41,9 @@ namespace Radicals.Test
             // Nth-Root[n:3](8)
             var actual7 = new Radical(1, 8, 3);
             var expected7 = new Radical(2, 1);
+            // Nth-Root[n:4](4) = 2^(2/4) = 2^(1/2) = Sqrt(2)
+            var actual8 = new Radical(1, 4, 4);
+            var expected8 = new Radical(2);
 
 
             // assert
@@ -67,6 +70,7 @@ namespace Radicals.Test
             Assert.True(actual53.IsOne);
             Assert.Equal(expected6, actual6);
             Assert.Equal(expected7, actual7);
+            Assert.Equal(expected8, actual8);
         }
 
         [Fact]
@@ -271,6 +275,12 @@ namespace Radicals.Test
             var b8_2 = Radical.Invert(b8_1);
             var actual8 = b8_1 * b8_2;
             var expected8 = Radical.One;
+            // Sqrt(2) * Root[3](5) = Root[6](2^3) * Root[6](5^2)
+            // = Root[6](8*25) = Root[6](200)
+            var b9_1 = new Radical(2);
+            var b9_2 = Radical.NthRoot(5, 3);
+            var actual9 = b9_1 * b9_2;
+            var expected9 = new Radical(1, 200, 6);
 
             Assert.Equal(expected1, actual1);
             Assert.Equal(expected2, actual2);
@@ -301,6 +311,7 @@ namespace Radicals.Test
             Assert.Equal(expected7, actual77);
             Assert.Equal(expected7, actual78);
             Assert.Equal(expected8, actual8);
+            Assert.Equal(expected9, actual9);
         }
 
         [Fact]
@@ -359,6 +370,12 @@ namespace Radicals.Test
             var actual72 = b71 / b73;
             var actual73 = b71 / b74;
             var expected7 = new Radical(new Rational(-3, 2), 5);
+            // Sqrt(2) / Root[3](5) = Sqrt(2) * (1/5)*Root[3](5^2) = Root[6](2^3) * (1/5)*Root[6](5^4)
+            // = (1/5)*Root[6](8*625) = Root[6](5000)
+            var b9_1 = new Radical(2);
+            var b9_2 = Radical.NthRoot(5, 3);
+            var actual9 = b9_1 / b9_2;
+            var expected9 = new Radical((Rational)1/5, 5000, 6);
 
             Assert.Equal(expected1, actual1);
             Assert.Equal(expected2, actual2);
@@ -372,6 +389,7 @@ namespace Radicals.Test
             Assert.Equal(expected7, actual71);
             Assert.Equal(expected7, actual72);
             Assert.Equal(expected7, actual73);
+            Assert.Equal(expected9, actual9);
         }
     }
 }
