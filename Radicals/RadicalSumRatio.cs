@@ -775,7 +775,9 @@ namespace Radicals
         {
             if (RadicalSum.One == Denominator)
                 return Numerator.ToString(format, formatProvider);
-            return "[" + Numerator.ToString(format, formatProvider) + "] / [" + Denominator.ToString(format, formatProvider) + "]";
+            var result = "[" + Numerator.ToString(format, formatProvider) 
+                + "] / [" + Denominator.ToString(format, formatProvider) + "]";
+            return result;
         }
 
         public override string ToString()

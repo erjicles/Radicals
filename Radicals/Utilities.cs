@@ -57,5 +57,13 @@ namespace Radicals
             var result = new Rational(Utilities.CombineFactors(upstairs), Utilities.CombineFactors(downstairs));
             return result.CanonicalForm;
         }
+
+        public static BigInteger GetLeastCommonMultiple(BigInteger left, BigInteger right)
+        {
+            var gcd = BigInteger.GreatestCommonDivisor(left, right);
+            var leftReduced = left / gcd;
+            var lcm = leftReduced * right;
+            return lcm;
+        }
     }
 }

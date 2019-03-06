@@ -38,6 +38,9 @@ namespace Radicals.Test
             // Sqrt constructor: Sqrt(3/4) = (1/2)*Sqrt(3)
             var actual6 = Radical.Sqrt((Rational)3 / 4);
             var expected6 = new Radical((Rational)1 / 2, 3);
+            // Nth-Root[n:3](8)
+            var actual7 = new Radical(1, 8, 3);
+            var expected7 = new Radical(2, 1);
 
 
             // assert
@@ -63,6 +66,7 @@ namespace Radicals.Test
             Assert.True(actual52.IsOne);
             Assert.True(actual53.IsOne);
             Assert.Equal(expected6, actual6);
+            Assert.Equal(expected7, actual7);
         }
 
         [Fact]
@@ -262,6 +266,11 @@ namespace Radicals.Test
             var actual77 = b74 * b71;
             var actual78 = b75 * b71;
             var expected7 = Radical.Zero;
+            // (3/2)*sqrt(5) Inverse
+            var b8_1 = new Radical((Rational)3 / 2, 5);
+            var b8_2 = Radical.Invert(b8_1);
+            var actual8 = b8_1 * b8_2;
+            var expected8 = Radical.One;
 
             Assert.Equal(expected1, actual1);
             Assert.Equal(expected2, actual2);
@@ -291,6 +300,7 @@ namespace Radicals.Test
             Assert.Equal(expected7, actual76);
             Assert.Equal(expected7, actual77);
             Assert.Equal(expected7, actual78);
+            Assert.Equal(expected8, actual8);
         }
 
         [Fact]
