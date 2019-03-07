@@ -613,12 +613,12 @@ namespace Radicals
             {
                 var currentPrimeNthRoot = uniquePrimeNthRoots[i];
                 if (currentPrimeNthRoot.Item1 < 2) // Index
-                    break;
+                    continue;
                 if (currentPrimeNthRoot.Item2 < 2) // Radicand
-                    break;
+                    continue;
                 // Solve for largest radicand
                 // p = p_reduced + p_extract = 0
-                // p_extract = sqrt(largestRadicand) * p' for some p'
+                // p_extract = root[currentIndex](currentRadicand) * p' for some p'
                 Polynomials.Polynomial p_reduced;
                 Polynomials.Polynomial p_extract;
                 p.ExtractTermsContainingNthRoot(
@@ -627,16 +627,16 @@ namespace Radicals
                     p_reduced: out p_reduced,
                     p_extract: out p_extract);
 
-                // Remove sqrt(largestRadicand)
+                // Remove root[currentIndex](currentRadicand) to keep p' === p_extract_coefficient
                 var r = new Radical(1, currentPrimeNthRoot.Item2, currentPrimeNthRoot.Item1);
-                p_extract /= r;
+                var p_extract_coefficient = p_extract /= r;
 
-                // p_reduced = -root[index](currentRadicand) * p_extract
-                // p_reduced ^ index = currentRadicand * p_extract^index
-                // p_reduced^index - currentRadicand * p_extract^index = 0
-                // p === p_reduced^index - currentRadicand * p_extract^index
+                // p_reduced = -p_extract
+                // p_reduced^currentIndex = (-p_extract)^currentIndex
+                // p_reduced^currentIndex = (-p_extract_coefficient)^currentIndex * currentRadicand
+                // p => p_reduced^currentIndex - currentRadicand * (-p_extract_coefficient)^currentIndex = 0
                 var left = Polynomials.Polynomial.Pow(p_reduced, currentPrimeNthRoot.Item1);
-                var right = Polynomials.Polynomial.Pow(p_extract, currentPrimeNthRoot.Item1) * currentPrimeNthRoot.Item2;
+                var right = Polynomials.Polynomial.Pow(-p_extract, currentPrimeNthRoot.Item1) * currentPrimeNthRoot.Item2;
                 p = left - right;
             }
 

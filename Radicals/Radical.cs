@@ -313,8 +313,6 @@ namespace Radicals
             //    = [c1 / c2] * sqrt(r1 / r2)
             //    = [c1 / c2] * sqrt(r1 * r2 / r2 * r2)
             //    = [c1 / (c2 * r2)] * sqrt(r1 * r2)
-            if (left.Index == right.Index)
-                return new Radical(left.Coefficient / (right.Coefficient * right.Radicand), left.Radicand * right.Radicand, left.Index);
             // Convert to multiplication problem by removing denominator
             var rightInverse = Radical.Invert(right);
             return Multiply(left, rightInverse);

@@ -143,7 +143,7 @@ namespace Radicals.Polynomials
             if (Degree == 0)
                 return Coefficient.ToString();
             else if (Degree == 1)
-                return "(" + Coefficient.ToString(format, formatProvider) + ")";
+                return "(" + Coefficient.ToString(format, formatProvider) + ")*X";
             else
                 return "(" + Coefficient.ToString(format, formatProvider) + ")*X^" + Degree.ToString();
         }
