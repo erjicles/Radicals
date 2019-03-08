@@ -204,6 +204,10 @@ namespace Radicals.Polynomials
 
         public static Polynomial Pow(Polynomial value, BigInteger exponent)
         {
+            // This algorithm is SLOW
+            // Speed up using multinomial theorem:
+            // https://en.wikipedia.org/wiki/Multinomial_theorem
+            // Need to partition exponent as a sum of at most value.Terms.Length integers
             var result = One;
             for (BigInteger i = 0; i < exponent; i++)
                 result *= value;
