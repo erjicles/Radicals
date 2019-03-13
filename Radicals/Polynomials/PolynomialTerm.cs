@@ -1,6 +1,4 @@
-﻿using Rationals;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Globalization;
 using System.Text;
 
@@ -81,6 +79,13 @@ namespace Radicals.Polynomials
             return new Polynomial(new PolynomialTerm[2] { left, right });
         }
 
+        public static PolynomialTerm AddCompatible(PolynomialTerm left, PolynomialTerm right)
+        {
+            if (left.Degree != right.Degree)
+                throw new ArgumentException("Degrees don't match");
+            return new PolynomialTerm(left.Coefficient + right.Coefficient, left.Degree);
+        }
+
         public static Polynomial Subtract(PolynomialTerm left, PolynomialTerm right)
         {
             return Add(left, -right);
@@ -89,6 +94,14 @@ namespace Radicals.Polynomials
         public static PolynomialTerm Multiply(PolynomialTerm left, PolynomialTerm right)
         {
             return new PolynomialTerm(left.Coefficient * right.Coefficient, left.Degree + right.Degree);
+        }
+
+        public static PolynomialTerm Pow(PolynomialTerm left, int exponent)
+        {
+            var result = PolynomialTerm.One;
+            for (int i = 0; i < exponent; i++)
+                result *= left;
+            return result;
         }
 
         public static PolynomialTerm operator -(PolynomialTerm value)

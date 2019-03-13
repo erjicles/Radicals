@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Numerics;
 using System.Text;
 
-namespace Radicals.Partitions
+namespace Radicals.Combinatorics
 {
-    public readonly struct Partition
-        : IFormattable
+    public readonly struct IntegerPartition
+        : IFormattable, IEquatable<IntegerPartition>
     {
 
         private readonly int[] _values;
@@ -29,12 +28,12 @@ namespace Radicals.Partitions
             }
         }
 
-        public Partition(int n)
+        public IntegerPartition(int n)
             : this(n, null, n)
         {   
         }
 
-        public Partition(int n, int[] values, int numberOfTerms)
+        public IntegerPartition(int n, int[] values, int numberOfTerms)
         {
             if (n < 1)
                 throw new ArgumentException("n must be a positive integer", nameof(n));
@@ -42,8 +41,8 @@ namespace Radicals.Partitions
                 throw new ArgumentException("numberOfTerms must be a positive integer", nameof(numberOfTerms));
             if (values == null && numberOfTerms < n)
                 throw new ArgumentException("Cannot initialize with fewer than n terms without being given values");
-            if (values != null && values.Length > n)
-                throw new ArgumentException("n less than number of values given");
+            //if (values != null && values.Length > n)
+            //    throw new ArgumentException("n less than number of values given");
             if (values != null && values.Length > numberOfTerms)
                 throw new ArgumentException("numberOfTerms is less than number of values given");
             if (values != null)
@@ -65,7 +64,44 @@ namespace Radicals.Partitions
                 values.CopyTo(_values, 0);
         }
 
-        private static Partition GetPartition(
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+                return false;
+            if (!(obj is IntegerPartition))
+                throw new ArgumentException("Invalid type equality check", nameof(obj));
+            return Equals((IntegerPartition)obj);
+        }
+
+        public bool Equals(IntegerPartition other)
+        {
+            if (N != other.N)
+                return false;
+            if (Values.Length != other.Values.Length)
+                return false;
+            for (int i = 0; i < Values.Length; i++)
+                if (Values[i] != other.Values[i])
+                    return false;
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            int result = Values[0].GetHashCode();
+            for (int i = 1; i < Values.Length; i++)
+                result = (((result << 5) + result) ^ Values[i].GetHashCode());
+            return result;
+        }
+
+        public static int GetHashCode(int[] values)
+        {
+            int result = values[0].GetHashCode();
+            for (int i = 1; i < values.Length; i++)
+                result = (((result << 5) + result) ^ values[i].GetHashCode());
+            return result;
+        }
+
+        private static IntegerPartition GetPartition(
             int[] partitionValues, 
             int maxValidIndex, 
             int numberOfTerms,
@@ -74,11 +110,11 @@ namespace Radicals.Partitions
             var values = new int[maxValidIndex + 1];
             for (int i = 0; i <= maxValidIndex; i++)
                 values[i] = partitionValues[i];
-            return new Partition(n, values, numberOfTerms);
+            return new IntegerPartition(n, values, numberOfTerms);
         }
-        public static List<Partition> GetPartitions(int n, int maxTerms)
+        public static List<IntegerPartition> GetIntegerPartitions(int n, int maxTerms)
         {
-            var result = new List<Partition>();
+            var result = new List<IntegerPartition>();
             if (n < 1)
                 throw new ArgumentException("n must be a positive integer", nameof(n));
             if (maxTerms < 1)
@@ -155,5 +191,6 @@ namespace Radicals.Partitions
         {
             return ToString(null, CultureInfo.InvariantCulture);
         }
+        
     }
 }

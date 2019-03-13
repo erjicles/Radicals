@@ -1,5 +1,4 @@
-﻿using Open.Numeric.Primes;
-using Rationals;
+﻿using Rationals;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -278,6 +277,15 @@ namespace Radicals
             if (right * right_inverse != RadicalSum.One)
                 throw new Exception("Failed to find inverse");
             return left * right_inverse;
+        }
+
+        public static RadicalSum Pow(RadicalSum left, int exponent)
+        {
+            // TODO: Optimize
+            var result = RadicalSum.One;
+            for (int i = 0; i < exponent; i++)
+                result *= left;
+            return result;
         }
 
         public static bool operator <(RadicalSum left, RadicalSum right)

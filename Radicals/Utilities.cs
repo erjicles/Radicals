@@ -1,9 +1,7 @@
 ﻿using Open.Numeric.Primes;
 using Rationals;
-using System;
 using System.Collections.Generic;
 using System.Numerics;
-using System.Text;
 
 namespace Radicals
 {
@@ -58,33 +56,42 @@ namespace Radicals
             return result.CanonicalForm;
         }
 
-        public static BigInteger GetLeastCommonMultiple(BigInteger left, BigInteger right)
+        public static int GetLeastCommonMultiple(int left, int right)
         {
+            
             var gcd = BigInteger.GreatestCommonDivisor(left, right);
             var leftReduced = left / gcd;
             var lcm = leftReduced * right;
-            return lcm;
+            return (int)lcm;
         }
 
-        public static BigInteger Pow(BigInteger number, BigInteger exponent)
+        public static BigInteger Factorial(BigInteger number)
+        {
+            BigInteger result = 1;
+            for (BigInteger i = 2; i <= number; i++)
+                result *= i;
+            return result;
+        }
+
+        public static BigInteger Pow(BigInteger number, int exponent)
         {
             var result = (BigInteger)1;
-            for (BigInteger i = 0; i < exponent; i++)
+            for (int i = 0; i < exponent; i++)
                 result *= number;
             return result;
         }
 
-        public static Rational Pow(Rational number, BigInteger exponent)
+        public static Rational Pow(Rational number, int exponent)
         {
             var result = (Rational)1;
-            for (BigInteger i = 0; i < exponent; i++)
+            for (int i = 0; i < exponent; i++)
                 result *= number;
             return result;
         }
 
         public static void IntegerIsPerfectPower(
             BigInteger value, 
-            BigInteger exponent,
+            int exponent,
             out bool isPerfectPower,
             out BigInteger nthRoot)
         {

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Radicals
@@ -15,10 +14,10 @@ namespace Radicals
     {
         // R = Coefficient * root(Degree)(Radicand)
         public readonly Rational coefficient_unsimplified;
-        public readonly BigInteger index_unsimplified;
+        public readonly int index_unsimplified;
         public readonly BigInteger radicand_unsimplified;
         private readonly Rational _coefficient;
-        private readonly BigInteger _index;
+        private readonly int _index;
         private readonly BigInteger _radicand;
 
         public Rational Coefficient
@@ -30,7 +29,7 @@ namespace Radicals
                 return _coefficient;
             }
         }
-        public BigInteger Index
+        public int Index
         {
             get
             {
@@ -59,7 +58,7 @@ namespace Radicals
         {
         }
 
-        public Radical(Rational coefficient, BigInteger radicand, BigInteger index)
+        public Radical(Rational coefficient, BigInteger radicand, int index)
         {
             if (radicand < 0)
                 throw new ArgumentException("Cannot have negative radicand");
@@ -192,7 +191,7 @@ namespace Radicals
             return new Radical(value);
         }
 
-        public static Radical NthRoot(Rational value, BigInteger index)
+        public static Radical NthRoot(Rational value, int index)
         {
             var radicand = value.Numerator;
             for (int i = 0; i < index; i++)
@@ -533,7 +532,7 @@ namespace Radicals
             }
             else if ("R".Equals(format))
             {
-                if (Index.IsOne)
+                if (Index == 1)
                 {
                     if (Coefficient.Denominator.IsOne)
                     {
@@ -575,10 +574,10 @@ namespace Radicals
         private static void ToSimplestForm(
             Rational coefficient_in,
             BigInteger radicand_in,
-            BigInteger index_in,
+            int index_in,
             out Rational coefficient_out,
             out BigInteger radicand_out,
-            out BigInteger index_out)
+            out int index_out)
         {
             if (coefficient_in.IsZero || radicand_in.IsZero)
             {
@@ -618,7 +617,7 @@ namespace Radicals
 
             Rational simplestCoefficient = coefficient_in;
             BigInteger simplestRadicand = 1;
-            BigInteger simplestIndex = index_in;
+            int simplestIndex = index_in;
 
             foreach (BigInteger perfectPowerFactor in perfectPowerFactors)
                 simplestCoefficient *= perfectPowerFactor;
@@ -630,19 +629,17 @@ namespace Radicals
             // Simplify the index
             // Is the radicand a number raised to a power p where p divides the index?
             var indexFactors = Prime.Factors(simplestIndex);
-            foreach (BigInteger indexFactor in indexFactors)
+            foreach (int indexFactor in indexFactors)
             {
-                if (indexFactor.IsOne)
+                if (indexFactor == 1)
                     continue;
                 if (indexFactor == simplestIndex) // Already extracted perfect powers of the index
                     continue;
-                bool radicandIsFactorPower = false;
-                BigInteger radicandFactorRoot = 0;
                 Utilities.IntegerIsPerfectPower(
-                    simplestRadicand, 
-                    indexFactor, 
-                    out radicandIsFactorPower, 
-                    out radicandFactorRoot);
+                    simplestRadicand,
+                    indexFactor,
+                    out bool radicandIsFactorPower,
+                    out BigInteger radicandFactorRoot);
                 if (radicandIsFactorPower)
                 {
                     simplestRadicand = radicandFactorRoot;

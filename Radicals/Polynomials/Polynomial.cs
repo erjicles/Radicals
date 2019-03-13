@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using MoreLinq.Extensions;
 
 namespace Radicals.Polynomials
 {
@@ -68,7 +69,7 @@ namespace Radicals.Polynomials
 
         public void ExtractTermsContainingNthRoot(
             BigInteger radicand, 
-            BigInteger index,
+            int index,
             out Polynomial p_reduced, 
             out Polynomial p_extract)
         {
@@ -103,10 +104,10 @@ namespace Radicals.Polynomials
             return RadicalSum.Zero;
         }
 
-        public Tuple<BigInteger,BigInteger>[] GetUniquePrimeNthRoots()
+        public Tuple<int,BigInteger>[] GetUniquePrimeNthRoots()
         {
             // Set of found index/radicand pairs
-            var foundPrimeNthRoots = new HashSet<Tuple<BigInteger,BigInteger>>();
+            var foundPrimeNthRoots = new HashSet<Tuple<int,BigInteger>>();
             for (int i = 0; i < Terms.Length; i++)
             {
                 for (int j = 0; j < Terms[i].Coefficient.Radicals.Length; j++)
@@ -114,7 +115,7 @@ namespace Radicals.Polynomials
                     var r = Terms[i].Coefficient.Radicals[j];
                     foreach (BigInteger primeFactor in Prime.Factors(r.Radicand))
                     {
-                        var key = new Tuple<BigInteger, BigInteger>(r.Index, primeFactor);
+                        var key = new Tuple<int, BigInteger>(r.Index, primeFactor);
                         if (!foundPrimeNthRoots.Contains(key))
                             foundPrimeNthRoots.Add(key);
                     }
@@ -202,15 +203,110 @@ namespace Radicals.Polynomials
             return result;
         }
 
-        public static Polynomial Pow(Polynomial value, BigInteger exponent)
+        private static int GetPermutationDegree(int[] permutation, Polynomial value)
         {
-            // This algorithm is SLOW
-            // Speed up using multinomial theorem:
+            if (permutation.Length != value.Terms.Length)
+                throw new Exception("Lengths do not match");
+            int result = 0;
+            for (int i = 0; i < permutation.Length; i++)
+                result += value.Terms[i].Degree * permutation[i];
+            return result;
+        }
+
+        private static BigInteger GetMultinomialCoefficient(int[] permutation, int exponent)
+        {
+            var numerator = Utilities.Factorial(exponent);
+            BigInteger denominator = 1;
+            for (int i = 0; i < permutation.Length; i++)
+                denominator *= Utilities.Factorial(permutation[i]);
+            var result = numerator / denominator;
+            return result;
+        }
+
+        public static Polynomial Pow(Polynomial value, int exponent)
+        {
+            // Naive implementation is SLOW
+            // Attempt to make more efficient using multinomial theorem:
             // https://en.wikipedia.org/wiki/Multinomial_theorem
-            // Need to partition exponent as a sum of at most value.Terms.Length integers
-            var result = One;
-            for (BigInteger i = 0; i < exponent; i++)
-                result *= value;
+            // Replace x1, x2, ..., xm with polynomial terms X^0, X^1, ..., X^m-1
+            // Need to partition exponent as a sum of at most value.Terms.Length === m integers
+
+            // Pre-calculate powers of each term's coefficient in the polynomial, and cache them
+            // Item1: term index
+            // Item2: power
+            var polynomialTermCoefficientPowers = new Dictionary<Tuple<int, int>, RadicalSum>();
+            for (int termIndex = 0; termIndex < value.Terms.Length; termIndex++)
+            {
+                for (int power = 0; power <= exponent; power++)
+                {
+                    var key = new Tuple<int, int>(termIndex, power);
+                    var termPower = RadicalSum.Pow(value.Terms[termIndex].Coefficient, power);
+                    polynomialTermCoefficientPowers.Add(key, termPower);
+                }
+            }
+
+            // Get the unique partitions first, along with the multinomial coefficient associated with them
+            // These correspond to unique integers k1, k2, ..., km such that k1 + k2 + ... + km = n
+            var maxTerms = Math.Min(exponent, value.Terms.Length);
+            var degreePartitions = Combinatorics.IntegerPartition.GetIntegerPartitions(exponent, maxTerms);
+            var degreePartitionsWithMultinomialCoefficient =
+                degreePartitions
+                .Select(p => new Tuple<Combinatorics.IntegerPartition, BigInteger>(
+                    p,
+                    GetMultinomialCoefficient(p.Values, exponent)))
+                .ToList();
+            // From the unique partitions, get all permutations
+            // These correspond to all possible k1 + k2 + ... + km = n in the multinomial theorem
+            // For each permutation, calculate the degree in X; this will be used to help group terms later
+            // Item1: permutation
+            // Item2: multinomial coefficient
+            // Item3: degree in X (e.g., X^2, X^3, etc)
+            var termDescriptions = new List<Tuple<Combinatorics.Permutation, BigInteger, int>>();
+            foreach (Tuple<Combinatorics.IntegerPartition, BigInteger> partition in degreePartitionsWithMultinomialCoefficient)
+            {
+                var permutations =
+                    Combinatorics.Permutation.ArrangeInSlots(partition.Item1.Values, value.Terms.Length, false);
+                foreach (Combinatorics.Permutation p in permutations)
+                {
+                    var degreeX = GetPermutationDegree(p.Values, value);
+                    var termDescription = 
+                        new Tuple<Combinatorics.Permutation, BigInteger, int>(
+                            p, 
+                            partition.Item2,
+                            degreeX);
+                    termDescriptions.Add(termDescription);
+                }
+            }
+
+            // Initialize dictionary of terms for each degree in X
+            var degreeDictionary = new Dictionary<int, List<RadicalSum>>();
+            foreach (Tuple<Combinatorics.Permutation, BigInteger, int> termDescription in termDescriptions)
+            {
+                // Calculate term for this permutation in multinomial formula
+                var coefficient = RadicalSum.One;
+                for (int i = 0; i < value.Terms.Length; i++)
+                {
+                    // term index, coefficient degree
+                    var key = new Tuple<int, int>(i, termDescription.Item1.Values[i]);
+                    var polynomialTermCoefficientPower = polynomialTermCoefficientPowers[key];
+                    coefficient *= polynomialTermCoefficientPower;
+                }
+                coefficient *= termDescription.Item2;
+                var term = new PolynomialTerm(coefficient, termDescription.Item3);
+                if (degreeDictionary.ContainsKey(termDescription.Item3))
+                {
+                    var existingTerm = degreeDictionary[termDescription.Item3];
+                    degreeDictionary[termDescription.Item3] = Polynomials.PolynomialTerm.AddCompatible(existingTerm, term);
+                }
+                else
+                {
+                    degreeDictionary.Add(termDescription.Item3, term);
+                }
+            }
+
+            // 
+            var resultTerms = degreeDictionary.Values.OrderBy(p => p.Degree).ToArray();
+            var result = new Polynomials.Polynomial(resultTerms);
             return result;
         }
 
