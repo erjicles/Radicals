@@ -225,14 +225,14 @@ namespace Radicals
             return new RadicalSumRatio(value);
         }
 
-        public static explicit operator RadicalSumRatio(RadicalSum value)
-        {
-            return new RadicalSumRatio(value);
-        }
-
         public static explicit operator RadicalSum(RadicalSumRatio value)
         {
             return value.ToRadicalSum();
+        }
+
+        public static implicit operator RadicalSumRatio(RadicalSum value)
+        {
+            return new RadicalSumRatio(value);
         }
 
         public static implicit operator RadicalSumRatio(Rational value)
