@@ -184,6 +184,11 @@ namespace Radicals
             return new RadicalSum(value, 1);
         }
 
+        public static implicit operator RadicalSum(Radical value)
+        {
+            return new RadicalSum(value);
+        }
+
         public static implicit operator RadicalSum(byte value)
         {
             return new RadicalSum(new Rational(value), 1);

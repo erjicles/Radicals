@@ -391,14 +391,39 @@ namespace Radicals.Test
             var c11_2 = new RadicalSum(new Radical[2] { b11_3, b11_4 });
             var actual11 = c11_1 / c11_2;
             var expected11 = -1;
-            // sqrt(2) * Root[3](5)
+            // Multiplicative inverse of sqrt(2) * Root[3](5)
+            // Inverse: (10/17) + (-4/17)*Sqrt(2) + (4/17)*Root[3](5) + (5/17)*Root[3](25) + (-5/17)*Root[6](200) + (-2/17)*Root[6](5000)
             var b12_1 = Radical.Sqrt(2);
             var b12_2 = Radical.NthRoot(5, 3);
             var c12_1 = b12_1 + b12_2;
             var c12_2 = RadicalSum.GetRationalizer(c12_1);
             var actual12 = c12_1 * c12_2;
             var expected12 = RadicalSum.One;
+            // Multiplicative inverse of sqrt(2) + root[3](3)
+            var b13_1 = Radical.Sqrt(2);
+            var b13_2 = Radical.NthRoot(3, 3);
+            var c13_1 = b13_1 + b13_2;
+            var c13_2 = RadicalSum.GetRationalizer(c13_1);
+            var actual13 = c13_1 * c13_2;
+            var expected13 = RadicalSum.One;
+            // Group division: sqrt(7) / [sqrt(2) * root[3](5)]
+            // = Sqrt(7) * [(10/17) + (-4/17)*Sqrt(2) + (4/17)*Root[3](5) + (5/17)*Root[3](25) + (-5/17)*Root[6](200) + (-2/17)*Root[6](5000)]
+            // = (10/17)*Sqrt(7) + (-4/17)*Sqrt(14) + (4/17)*Root[6](8575) + (5/17)*Root[6](214375) + (-5/17)*Root[6](68600) + (-2/17)*Root[6](1715000)
+            var b14_1 = Radical.Sqrt(7);
+            var b14_2 = Radical.Sqrt(2);
+            var b14_3 = Radical.NthRoot(5, 3);
+            RadicalSum c14_1 = b14_1;
+            var c14_2 = b14_2 + b14_3;
+            var actual14 = RadicalSum.GroupDivide(c14_1, c14_2);
+            var expected14 =
+                ((Rational)10 / 17) * Radical.Sqrt(7)
+                + ((Rational) (-4) / 17) * Radical.Sqrt(14)
+                + ((Rational)4 / 17) * Radical.NthRoot(8575, 6)
+                + ((Rational)5 / 17) * Radical.NthRoot(214375, 6)
+                + ((Rational) (-5) / 17) * Radical.NthRoot(68600, 6)
+                + ((Rational) (-2) / 17) * Radical.NthRoot(1715000, 6);
             //// sqrt(2) + sqrt(3) + sqrt(6) + root[3](3) + root[3](4) + root[6](2) + root[6](3)
+            //// Warning: was not able to complete due to memory/cpu/time constraints
             //var b13_1 = Radical.Sqrt(2);
             //var b13_2 = Radical.Sqrt(3);
             //var b13_3 = Radical.Sqrt(6);
@@ -429,7 +454,8 @@ namespace Radicals.Test
             Assert.True(actual10_1.IsRational);
             Assert.Equal(expected11, actual11);
             Assert.Equal(expected12, actual12);
-            //Assert.Equal(actual13, expected13);
+            Assert.Equal(actual13, expected13);
+            Assert.Equal(actual14, expected14);
         }
     }
 }
