@@ -269,9 +269,23 @@ namespace Radicals
             return new RadicalSum(z);
         }
 
-        public static RadicalSum Divide(RadicalSum left, RadicalSum right)
+        public static RadicalSumRatio Divide(RadicalSum left, RadicalSum right)
         {
             if (right == 0)
+                throw new DivideByZeroException("Cannot divide by zero");
+            return new RadicalSumRatio(left, right);
+        }
+
+        /// <summary>
+        /// Multiplies numerator by multiplicative inverse of denominator to return another radical sum.
+        /// WARNING: Finding the inverse could take a very long time and consume considerable memory and CPU. Use with caution.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static RadicalSum GroupDivide(RadicalSum left, RadicalSum right)
+        {
+            if (right.IsZero)
                 throw new DivideByZeroException("Cannot divide by zero");
             var right_inverse = RadicalSum.GetRationalizer(right);
             if (right * right_inverse != RadicalSum.One)
@@ -533,7 +547,7 @@ namespace Radicals
             return Divide(left, right);
         }
 
-        public static RadicalSum operator /(RadicalSum left, RadicalSum right)
+        public static RadicalSumRatio operator /(RadicalSum left, RadicalSum right)
         {
             return Divide(left, right);
         }

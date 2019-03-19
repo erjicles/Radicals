@@ -198,9 +198,16 @@ namespace Radicals
             return n / d;
         }
 
+        /// <summary>
+        /// Converts to a sum of radicals by multiplying the numerator by the multiplicative inverse of the denominator.
+        /// WARNING: Finding the inverse could take a very long time and consume considerable memory and CPU. Use with caution.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public RadicalSum ToRadicalSum()
         {
-            return Numerator / Denominator;
+            return RadicalSum.GroupDivide(Numerator, Denominator);
         }
 
         public static explicit operator double(RadicalSumRatio value)
