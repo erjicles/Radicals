@@ -7,6 +7,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using MoreLinq.Extensions;
+using System.Threading;
 
 namespace Radicals.Polynomials
 {
@@ -278,35 +279,83 @@ namespace Radicals.Polynomials
                 }
             }
 
+            // Start multithreading block
             // Initialize dictionary of terms for each degree in X
-            var degreeDictionary = new Dictionary<int, List<RadicalSum>>();
-            foreach (Tuple<Combinatorics.Permutation, BigInteger, int> termDescription in termDescriptions)
+            var degreeRadicalSumDictionary = new Dictionary<int, List<RadicalSum>>();
+            int processCount = termDescriptions.Count;
+            var doneEvent = new ManualResetEvent(false);
+            for (int termDescriptionIndex = 0; termDescriptionIndex < termDescriptions.Count; termDescriptionIndex++)
             {
-                // Calculate term for this permutation in multinomial formula
-                var coefficient = RadicalSum.One;
-                for (int i = 0; i < value.Terms.Length; i++)
+                ThreadPool.QueueUserWorkItem(new WaitCallback((obj) =>
                 {
-                    // term index, coefficient degree
-                    var key = new Tuple<int, int>(i, termDescription.Item1.Values[i]);
-                    var polynomialTermCoefficientPower = polynomialTermCoefficientPowers[key];
-                    coefficient *= polynomialTermCoefficientPower;
-                }
-                coefficient *= termDescription.Item2;
-                var term = new PolynomialTerm(coefficient, termDescription.Item3);
-                if (degreeDictionary.ContainsKey(termDescription.Item3))
-                {
-                    var existingTerm = degreeDictionary[termDescription.Item3];
-                    degreeDictionary[termDescription.Item3] = Polynomials.PolynomialTerm.AddCompatible(existingTerm, term);
-                }
-                else
-                {
-                    degreeDictionary.Add(termDescription.Item3, term);
-                }
-            }
+                    var termDescription = 
+                        (Tuple<Combinatorics.Permutation, BigInteger, int>) obj;
+                    // Calculate term for this permutation in multinomial formula
+                    var coefficient = RadicalSum.One;
+                    for (int i = 0; i < value.Terms.Length; i++)
+                    {
+                        // term index, coefficient degree
+                        var key = new Tuple<int, int>(i, termDescription.Item1.Values[i]);
+                        var polynomialTermCoefficientPower = polynomialTermCoefficientPowers[key];
+                        coefficient *= polynomialTermCoefficientPower;
+                    }
+                    coefficient *= termDescription.Item2;
 
-            // 
-            var resultTerms = degreeDictionary.Values.OrderBy(p => p.Degree).ToArray();
-            var result = new Polynomials.Polynomial(resultTerms);
+                    lock(degreeRadicalSumDictionary)
+                    {
+                        if (degreeRadicalSumDictionary.ContainsKey(termDescription.Item3))
+                        {
+                            var existingTermList = degreeRadicalSumDictionary[termDescription.Item3];
+                            existingTermList.Add(coefficient);
+                        }
+                        else
+                        {
+                            var termList = new List<RadicalSum>();
+                            termList.Add(coefficient);
+                            degreeRadicalSumDictionary.Add(termDescription.Item3, termList);
+                        }
+                    }
+
+                    if (Interlocked.Decrement(ref processCount) == 0)
+                    {
+                        doneEvent.Set();
+                    }
+                }), termDescriptions[termDescriptionIndex]);
+                    
+            }
+            doneEvent.WaitOne();
+
+
+            // Combine terms for each degree in X
+            var polynomialTerms = new List<PolynomialTerm>();
+            doneEvent = new ManualResetEvent(false);
+            processCount = degreeRadicalSumDictionary.Count;
+            foreach (KeyValuePair<int, List<RadicalSum>> kvp in degreeRadicalSumDictionary)
+            {
+                ThreadPool.QueueUserWorkItem(new WaitCallback((obj) =>
+                {
+                    var key =
+                        (KeyValuePair<int, List<RadicalSum>>)obj;
+                    // Combine terms
+                    var coefficient = RadicalSum.Zero;
+                    foreach (RadicalSum radicalSum in key.Value)
+                    {
+                        coefficient += radicalSum;
+                    }
+                    var term = new PolynomialTerm(coefficient, key.Key);
+                    lock(polynomialTerms)
+                    {
+                        polynomialTerms.Add(term);
+                    }
+                    if (Interlocked.Decrement(ref processCount) == 0)
+                    {
+                        doneEvent.Set();
+                    }
+                }), kvp);
+            }
+            doneEvent.WaitOne();
+
+            var result = new Polynomials.Polynomial(polynomialTerms.OrderBy(p => p.Degree).ToArray());
             return result;
         }
 
