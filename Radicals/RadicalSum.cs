@@ -30,11 +30,6 @@ namespace Radicals
         {
         }
 
-        public RadicalSum(ref Rational coefficient, ref BigInteger radicand)
-        {
-            _radicals = new Radical[1] { new Radical(coefficient, radicand) };
-        }
-
         public RadicalSum(Rational coefficient, BigInteger radicand)
         {
             _radicals = new Radical[1] { new Radical(coefficient, radicand) };
@@ -194,6 +189,7 @@ namespace Radicals
             return new RadicalSum(new Rational(value), 1);
         }
 
+        [CLSCompliant(false)]
         public static implicit operator RadicalSum(sbyte value)
         {
             return new RadicalSum(new Rational(value), 1);
@@ -204,6 +200,7 @@ namespace Radicals
             return new RadicalSum(new Rational(value), 1);
         }
 
+        [CLSCompliant(false)]
         public static implicit operator RadicalSum(ushort value)
         {
             return new RadicalSum(new Rational(value), 1);
@@ -214,6 +211,7 @@ namespace Radicals
             return new RadicalSum(new Rational(value), 1);
         }
 
+        [CLSCompliant(false)]
         public static implicit operator RadicalSum(uint value)
         {
             return new RadicalSum(new Rational(value), 1);
@@ -224,6 +222,7 @@ namespace Radicals
             return new RadicalSum(new Rational(value), 1);
         }
 
+        [CLSCompliant(false)]
         public static implicit operator RadicalSum(ulong value)
         {
             return new RadicalSum(new Rational(value), 1);
@@ -282,7 +281,7 @@ namespace Radicals
         }
 
         /// <summary>
-        /// Multiplies numerator by multiplicative inverse of denominator to return another radical sum.
+        /// [Experimental] Multiplies numerator by multiplicative inverse of denominator to return another radical sum.
         /// WARNING: Finding the inverse could take a very long time and consume considerable memory and CPU. Use with caution.
         /// </summary>
         /// <param name="left"></param>

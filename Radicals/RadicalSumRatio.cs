@@ -67,20 +67,6 @@ namespace Radicals
         {
         }
 
-        public RadicalSumRatio(ref RadicalSum numerator, ref RadicalSum denominator)
-        {
-            if (RadicalSum.Zero == denominator)
-                throw new ArgumentException("Denominator cannot be zero", nameof(denominator));
-            if (denominator < RadicalSum.Zero)
-            {
-                ToSimplestForm(-numerator, -denominator, out _numerator, out _denominator);
-            }
-            else
-            {
-                ToSimplestForm(numerator, denominator, out _numerator, out _denominator);
-            }
-        }
-
         public RadicalSumRatio(RadicalSum numerator, RadicalSum denominator)
         {
             if (RadicalSum.Zero == denominator)
@@ -245,6 +231,7 @@ namespace Radicals
             return new RadicalSumRatio(new Rational(value), 1);
         }
 
+        [CLSCompliant(false)]
         public static implicit operator RadicalSumRatio(sbyte value)
         {
             return new RadicalSumRatio(new Rational(value), 1);
@@ -255,6 +242,7 @@ namespace Radicals
             return new RadicalSumRatio(new Rational(value), 1);
         }
 
+        [CLSCompliant(false)]
         public static implicit operator RadicalSumRatio(ushort value)
         {
             return new RadicalSumRatio(new Rational(value), 1);
@@ -265,6 +253,7 @@ namespace Radicals
             return new RadicalSumRatio(new Rational(value), 1);
         }
 
+        [CLSCompliant(false)]
         public static implicit operator RadicalSumRatio(uint value)
         {
             return new RadicalSumRatio(new Rational(value), 1);
@@ -275,6 +264,7 @@ namespace Radicals
             return new RadicalSumRatio(new Rational(value), 1);
         }
 
+        [CLSCompliant(false)]
         public static implicit operator RadicalSumRatio(ulong value)
         {
             return new RadicalSumRatio(new Rational(value), 1);

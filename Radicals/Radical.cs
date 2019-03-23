@@ -6,9 +6,11 @@ using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+[assembly: CLSCompliant(true)]
 
 namespace Radicals
 {
+    [Serializable]
     public readonly struct Radical
         : IComparable, IComparable<Radical>, IEquatable<Radical>, IFormattable
     {
@@ -221,6 +223,7 @@ namespace Radicals
             return new Radical(new Rational(value), 1);
         }
 
+        [CLSCompliant(false)]
         public static implicit operator Radical(sbyte value)
         {
             return new Radical(new Rational(value), 1);
@@ -231,6 +234,7 @@ namespace Radicals
             return new Radical(new Rational(value), 1);
         }
 
+        [CLSCompliant(false)]
         public static implicit operator Radical(ushort value)
         {
             return new Radical(new Rational(value), 1);
@@ -241,6 +245,7 @@ namespace Radicals
             return new Radical(new Rational(value), 1);
         }
 
+        [CLSCompliant(false)]
         public static implicit operator Radical(uint value)
         {
             return new Radical(new Rational(value), 1);
@@ -251,6 +256,7 @@ namespace Radicals
             return new Radical(new Rational(value), 1);
         }
 
+        [CLSCompliant(false)]
         public static implicit operator Radical(ulong value)
         {
             return new Radical(new Rational(value), 1);
