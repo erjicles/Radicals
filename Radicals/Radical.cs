@@ -14,13 +14,14 @@ namespace Radicals
     public readonly struct Radical
         : IComparable, IComparable<Radical>, IEquatable<Radical>, IFormattable
     {
-        // R = Coefficient * root(Degree)(Radicand)
+        // R = Coefficient * root[Index](Radicand)
         public readonly Rational coefficient_unsimplified;
         public readonly int index_unsimplified;
         public readonly BigInteger radicand_unsimplified;
         private readonly Rational _coefficient;
         private readonly int _index;
         private readonly BigInteger _radicand;
+        private readonly BigInteger[] _radicandPrimeFactors;
 
         public Rational Coefficient
         {
@@ -49,6 +50,15 @@ namespace Radicals
                 return _radicand;
             }
         }
+        public BigInteger[] RadicandPrimeFactors
+        {
+            get
+            {
+                if (_radicandPrimeFactors == null)
+                    return null;
+                return _radicandPrimeFactors;
+            }
+        }
 
         public Radical(Rational radicand)
             : this(new Rational(1, radicand.Denominator), radicand.Numerator * radicand.Denominator)
@@ -75,7 +85,27 @@ namespace Radicals
                 index_in: index,
                 coefficient_out: out this._coefficient,
                 radicand_out: out this._radicand,
-                index_out: out this._index);
+                index_out: out this._index,
+                radicandPrimeFactors_out: out this._radicandPrimeFactors);
+        }
+
+        private Radical(Rational coefficient, IEnumerable<BigInteger> radicandPrimeFactors, int index)
+        {
+            if (radicandPrimeFactors == null)
+                throw new ArgumentNullException(nameof(radicandPrimeFactors));
+            if (index < 1)
+                throw new ArgumentException("Index must be a positive integer");
+            ToSimplestForm(
+                coefficient_in: coefficient,
+                radicandPrimeFactors_in: radicandPrimeFactors,
+                index_in: index,
+                coefficient_out: out this._coefficient,
+                radicand_out: out this._radicand,
+                index_out: out this._index,
+                radicandPrimeFactors_out: out this._radicandPrimeFactors);
+            coefficient_unsimplified = this._coefficient;
+            radicand_unsimplified = this._radicand;
+            index_unsimplified = this._index;
         }
 
         /// <summary>
@@ -146,7 +176,9 @@ namespace Radicals
 
         public bool Equals(Radical other)
         {
-            return CompareTo(other) == 0;
+            return Index == other.Index 
+                && Radicand == other.Radicand 
+                && Coefficient == other.Coefficient;
         }
 
         public override bool Equals(object obj)
@@ -264,19 +296,23 @@ namespace Radicals
 
         public static Radical Negate(Radical value)
         {
-            return new Radical(-value.Coefficient, value.Radicand, value.Index);
+            if (value.IsZero)
+                return Zero;
+            return new Radical(-value.Coefficient, value.RadicandPrimeFactors, value.Index);
         }
 
         public static Radical Invert(Radical value)
         {
+            if (value.IsZero)
+                throw new ArgumentException("Cannot invert zero");
             // Given r_1, find r_2 such that:
             // r_1 * r_2 = 1
             // r_1 = c * root[i](r)
             // r_2 = 1 / [c * root[i](r)] = (1/c) * root[i](r)^(i-1) / r_1
             //     = [1 / (c * r)] * root[i](r^(i-1))
-            var coefficient = (Rational)1 / (value.Coefficient * value.Radicand);
-            var radicand = BigInteger.Pow(value.Radicand, (int)(value.Index - 1));
-            var result = new Radical(coefficient, radicand, value.Index);
+            var newCoefficient = 1 / (value.Coefficient * value.Radicand);
+            var newRadicandPrimeFactors = Utilities.Pow(value.RadicandPrimeFactors, value.Index - 1);
+            var result = new Radical(newCoefficient, newRadicandPrimeFactors, value.Index);
             return result;
         }
 
@@ -284,7 +320,9 @@ namespace Radicals
         {
             if (left.Index != right.Index || left.Radicand != right.Radicand)
                 throw new Exception("Trying to add compatible radicals that aren't compatible");
-            return new Radical(left.Coefficient + right.Coefficient, left.Radicand, left.Index);
+            if (left.IsZero)
+                return Zero;
+            return new Radical(left.Coefficient + right.Coefficient, left.RadicandPrimeFactors, left.Index);
         }
 
         public static RadicalSum Add(Radical left, Radical right)
@@ -299,21 +337,37 @@ namespace Radicals
 
         public static Radical Multiply(Radical left, Radical right)
         {
-            if (left.Index == right.Index)
-                return new Radical(left.Coefficient * right.Coefficient, left.Radicand * right.Radicand, left.Index);
-            // Get LCM of the indexes - that will be the new index
-            var newIndex = Utilities.GetLeastCommonMultiple(left.Index, right.Index);
-            var leftPower = newIndex / left.Index;
-            var rightPower = newIndex / right.Index;
-            var leftRadicand = BigInteger.Pow(left.Radicand, (int)leftPower);
-            var rightRadicand = BigInteger.Pow(right.Radicand, (int)rightPower);
-            return new Radical(left.Coefficient * right.Coefficient, leftRadicand * rightRadicand, newIndex);
+            if (left.IsZero || right.IsZero)
+                return Zero;
+            // Calculate the index and radicand prime factor powers
+            var newIndex = left.Index;
+            IEnumerable<BigInteger> leftRadicandPrimeFactors = left.RadicandPrimeFactors;
+            IEnumerable<BigInteger> rightRadicandPrimeFactors = right.RadicandPrimeFactors;
+            if (left.Index != right.Index)
+            {
+                // Get LCM of the indexes - that will be the new index
+                newIndex = Utilities.GetLeastCommonMultiple(left.Index, right.Index);
+                var leftPower = newIndex / left.Index;
+                var rightPower = newIndex / right.Index;
+                leftRadicandPrimeFactors = Utilities.Pow(left.RadicandPrimeFactors, leftPower);
+                rightRadicandPrimeFactors = Utilities.Pow(right.RadicandPrimeFactors, rightPower);
+            }
+
+            // Calculate the new coefficient and radicand prime factors
+            var newCoefficient = left.Coefficient * right.Coefficient;
+            var newRadicandPrimeFactors = new List<BigInteger>();
+            newRadicandPrimeFactors.AddRange(leftRadicandPrimeFactors);
+            newRadicandPrimeFactors.AddRange(rightRadicandPrimeFactors);
+            
+            return new Radical(newCoefficient, newRadicandPrimeFactors, newIndex);
         }
 
         public static Radical Divide(Radical left, Radical right)
         {
-            if (right == 0)
+            if (right.IsZero)
                 throw new DivideByZeroException("Cannot divide by zero");
+            if (left.IsZero)
+                return Zero;
             // r' = [c1 * sqrt(r1)] / [c2 * sqrt(r2)]
             //    = [c1 / c2] * sqrt(r1 / r2)
             //    = [c1 / c2] * sqrt(r1 * r2 / r2 * r2)
@@ -583,26 +637,68 @@ namespace Radicals
             int index_in,
             out Rational coefficient_out,
             out BigInteger radicand_out,
-            out int index_out)
+            out int index_out,
+            out BigInteger[] radicandPrimeFactors_out)
         {
             if (coefficient_in.IsZero || radicand_in.IsZero)
             {
                 coefficient_out = Rational.Zero;
                 coefficient_out = BigInteger.Zero;
                 index_out = 1;
+                radicandPrimeFactors_out = null;
+                return;
+            }
+
+            var radicandPrimeFactors = Prime.Factors(radicand_in);
+            ToSimplestForm(
+                coefficient_in: coefficient_in,
+                radicandPrimeFactors_in: radicandPrimeFactors,
+                index_in: index_in,
+                coefficient_out: out coefficient_out,
+                radicand_out: out radicand_out,
+                index_out: out index_out,
+                radicandPrimeFactors_out: out radicandPrimeFactors_out);
+        }
+
+        /// <summary>
+        /// Simplest form is irreducible radical where the radical is the smallest possible integer
+        /// </summary>
+        private static void ToSimplestForm(
+            Rational coefficient_in,
+            IEnumerable<BigInteger> radicandPrimeFactors_in,
+            int index_in,
+            out Rational coefficient_out,
+            out BigInteger radicand_out,
+            out int index_out,
+            out BigInteger[] radicandPrimeFactors_out)
+        {
+            if (radicandPrimeFactors_in == null)
+                throw new ArgumentNullException(nameof(radicandPrimeFactors_in));
+            if (coefficient_in.IsZero)
+            {
+                coefficient_out = Rational.Zero;
+                coefficient_out = BigInteger.Zero;
+                index_out = 1;
+                radicandPrimeFactors_out = null;
                 return;
             }
 
             List<BigInteger> perfectPowerFactors = new List<BigInteger>();
-            List<BigInteger> finalFactors = new List<BigInteger>();
+            List<BigInteger> radicandPrimeFactors = new List<BigInteger>();
             var currentCount = 0;
             BigInteger currentFactor = 0;
-            foreach (BigInteger factor in Prime.Factors(radicand_in).OrderBy(f => f))
+            foreach (BigInteger factor in radicandPrimeFactors_in.OrderBy(f => f))
             {
                 if (factor != currentFactor)
                 {
                     if (currentCount > 0)
-                        finalFactors.Add(Utilities.Pow(currentFactor, currentCount));
+                    {
+                        if (currentFactor == 1)
+                            radicandPrimeFactors.Add(currentFactor);
+                        else
+                            for (int j = 0; j < currentCount; j++)
+                                radicandPrimeFactors.Add(currentFactor);
+                    }
                     currentCount = 0;
                     currentFactor = factor;
                 }
@@ -617,23 +713,21 @@ namespace Radicals
                     throw new Exception("This shouldn't happen");
             }
             if (currentCount > 0 && currentCount < index_in)
-                finalFactors.Add(Utilities.Pow(currentFactor, currentCount));
+            {
+                for (int j = 0; j < currentCount; j++)
+                    radicandPrimeFactors.Add(currentFactor);
+            }
             else if (currentCount >= index_in)
                 throw new Exception("This should not happen");
 
+            // Calculate the coefficient
             Rational simplestCoefficient = coefficient_in;
-            BigInteger simplestRadicand = 1;
-            int simplestIndex = index_in;
-
             foreach (BigInteger perfectPowerFactor in perfectPowerFactors)
                 simplestCoefficient *= perfectPowerFactor;
-            foreach (BigInteger factor in finalFactors)
-                simplestRadicand *= factor;
-            if (simplestRadicand < 2)
-                simplestIndex = 1;
 
             // Simplify the index
             // Is the radicand a number raised to a power p where p divides the index?
+            int simplestIndex = index_in;
             var indexFactors = Prime.Factors(simplestIndex);
             foreach (int indexFactor in indexFactors)
             {
@@ -642,26 +736,34 @@ namespace Radicals
                 if (indexFactor == simplestIndex) // Already extracted perfect powers of the index
                     continue;
                 Utilities.IntegerIsPerfectPower(
-                    simplestRadicand,
-                    indexFactor,
-                    out bool radicandIsFactorPower,
-                    out BigInteger radicandFactorRoot);
+                    valuePrimeFactors: radicandPrimeFactors,
+                    exponent: indexFactor,
+                    isPerfectPower: out bool radicandIsFactorPower,
+                    nthRootPrimeFactors: out List<BigInteger> radicandFactorRootPrimeFactors);
                 if (radicandIsFactorPower)
                 {
-                    simplestRadicand = radicandFactorRoot;
+                    radicandPrimeFactors = radicandFactorRootPrimeFactors;
                     simplestIndex /= indexFactor;
                 }
             }
 
+            // Calculate the radicand
+            BigInteger simplestRadicand = 1;
+            foreach (BigInteger factor in radicandPrimeFactors)
+                simplestRadicand *= factor;
+            if (simplestRadicand < 2)
+                simplestIndex = 1;
             if (simplestIndex == 1)
             {
                 simplestCoefficient *= simplestRadicand;
                 simplestRadicand = 1;
+                radicandPrimeFactors = new List<BigInteger>(new BigInteger[1] { 1 });
             }
 
             coefficient_out = simplestCoefficient.CanonicalForm;
             radicand_out = simplestRadicand;
             index_out = simplestIndex;
+            radicandPrimeFactors_out = radicandPrimeFactors.OrderBy(p => p).ToArray();
             return;
         }
 

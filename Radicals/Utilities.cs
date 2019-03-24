@@ -1,6 +1,7 @@
 ﻿using Open.Numeric.Primes;
 using Rationals;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 
 namespace Radicals
@@ -81,6 +82,19 @@ namespace Radicals
             return result;
         }
 
+        public static List<BigInteger> Pow(IEnumerable<BigInteger> numberPrimeFactors, int exponent)
+        {
+            var result = new List<BigInteger>(new BigInteger[1] { 1 });
+            foreach (BigInteger primeFactor in numberPrimeFactors.OrderBy(f => f))
+            {
+                if (primeFactor == 1)
+                    continue;
+                for (int i = 0; i < exponent; i++)
+                    result.Add(primeFactor);
+            }
+            return result;
+        }
+
         public static Rational Pow(Rational number, int exponent)
         {
             var result = (Rational)1;
@@ -104,6 +118,61 @@ namespace Radicals
             {
                 isPerfectPower = true;
                 nthRoot = rootNearestInteger;
+            }
+        }
+
+        public static void IntegerIsPerfectPower(
+            List<BigInteger> valuePrimeFactors,
+            int exponent,
+            out bool isPerfectPower,
+            out List<BigInteger> nthRootPrimeFactors)
+        {
+            isPerfectPower = true;
+            nthRootPrimeFactors = new List<BigInteger>(new BigInteger[1] { 1 });
+
+            BigInteger currentPrime = 0;
+            int currentCount = 0;
+            foreach (BigInteger currentFactor in valuePrimeFactors.OrderBy(p => p))
+            {
+                if (currentFactor == 1)
+                    continue;
+                if (currentFactor != currentPrime)
+                {
+                    if (currentPrime > 0)
+                    {
+                        if (currentCount % exponent != 0)
+                        {
+                            isPerfectPower = false;
+                            return;
+                        }
+                        else
+                        {
+                            var newCount = currentCount / exponent;
+                            for (int j = 0; j < newCount; j++)
+                                nthRootPrimeFactors.Add(currentPrime);
+                        }
+                    }
+                    currentPrime = currentFactor;
+                    currentCount = 1;
+                }
+                else
+                {
+                    currentCount++;
+                }
+            }
+            if (currentPrime > 0)
+            {
+                if (currentCount % exponent != 0)
+                {
+                    isPerfectPower = false;
+                    return;
+                }
+                else
+                {
+                    var newCount = currentCount / exponent;
+                    for (int j = 0; j < newCount; j++)
+                        nthRootPrimeFactors.Add(currentPrime);
+                }
             }
         }
     }

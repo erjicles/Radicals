@@ -582,11 +582,11 @@ namespace Radicals
             if (radicals.Length == 1)
                 return radicals;
 
-            var uniqueRadicals = new Dictionary<Tuple<BigInteger, BigInteger>, Radical>();
+            var uniqueRadicals = new Dictionary<Tuple<BigInteger, int>, Radical>();
             for (int i = 0; i < radicals.Length; i++)
             {
                 Radical b = radicals[i];
-                var key = new Tuple<BigInteger, BigInteger>(b.Radicand, b.Index);
+                var key = new Tuple<BigInteger, int>(b.Radicand, b.Index);
                 if (uniqueRadicals.ContainsKey(key))
                     uniqueRadicals[key] = Radical.AddCompatible(uniqueRadicals[key], b);
                 else if (!b.IsZero)

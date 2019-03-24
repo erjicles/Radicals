@@ -424,17 +424,17 @@ namespace Radicals.Test
                 + ((Rational) (-2) / 17) * Radical.NthRoot(1715000, 6);
             //// sqrt(2) + sqrt(3) + sqrt(6) + root[3](3) + root[3](4) + root[6](2) + root[6](3)
             //// Warning: was not able to complete due to memory/cpu/time constraints
-            //var b13_1 = Radical.Sqrt(2);
-            //var b13_2 = Radical.Sqrt(3);
-            //var b13_3 = Radical.Sqrt(6);
-            //var b13_4 = Radical.NthRoot(3, 3);
-            //var b13_5 = Radical.NthRoot(4, 3);
-            //var b13_6 = Radical.NthRoot(2, 6);
-            //var b13_7 = Radical.NthRoot(3, 6);
-            //var c13_1 = b13_1 + b13_2 + b13_3 + b13_4 + b13_5 + b13_6 + b13_7;
-            //var c13_2 = RadicalSum.GetRationalizer(c13_1);
-            //var actual13 = c13_1 * c13_2;
-            //var expected13 = RadicalSum.One;
+            //var b15_1 = Radical.Sqrt(2);
+            //var b15_2 = Radical.Sqrt(3);
+            //var b15_3 = Radical.Sqrt(6);
+            //var b15_4 = Radical.NthRoot(3, 3);
+            //var b15_5 = Radical.NthRoot(4, 3);
+            //var b15_6 = Radical.NthRoot(2, 6);
+            //var b15_7 = Radical.NthRoot(3, 6);
+            //var c15_1 = b15_1 + b15_2 + b15_3 + b15_4 + b15_5 + b15_6 + b15_7;
+            //var c15_2 = RadicalSum.GetRationalizer(c15_1);
+            //var actual15 = c15_1 * c15_2;
+            //var expected15 = RadicalSum.One;
 
 
             Assert.Equal(expected1, actual1);
@@ -456,6 +456,7 @@ namespace Radicals.Test
             Assert.Equal(expected12, actual12);
             Assert.Equal(actual13, expected13);
             Assert.Equal(actual14, expected14);
+            //Assert.Equal(actual15, expected15);
         }
     }
 }
