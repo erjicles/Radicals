@@ -102,6 +102,12 @@ var result1 =
 All arithmetic operators between RadicalSumRatios and numeric types, Radicals, and RadicalSums
 will return new RadicalSumRatios.
 
+## Performance
+This project was intended as a small fun side project. As such, I haven't put much
+effort or thought into optimization. While it suited my needs and should be okay for
+most casual implementations, don't expect optimal performance and **use at your own
+risk!** Of course, I'm always open to suggestions and improvements. :-)
+
 ## Background
 The original inspiration for this project came from working on a program that would recursively generate
 Clebsch-Gordan coefficients (https://en.wikipedia.org/wiki/Clebsch%E2%80%93Gordan_coefficients). While
@@ -109,7 +115,7 @@ this succeeded in generating the coefficients in decimal form, I wanted it to pr
 form similarly to how they're usually presented in tables (e.g.,
 [here](https://en.wikipedia.org/wiki/Table_of_Clebsch%E2%80%93Gordan_coefficients)). I created this
 library to enable radical expression arithmetic during the calculation of the coefficients, and to
-string format them as usually presented in tables.
+format the result as usually presented in tables.
 
 ## Dependencies
 This project is dependent on the following NuGet packages:
