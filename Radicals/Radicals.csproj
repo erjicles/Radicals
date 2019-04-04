@@ -3,6 +3,19 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
+    <Authors>Erik Johnson</Authors>
+    <Company>Del Squared, LLC</Company>
+    <RepositoryUrl>https://github.com/erjicles/Radicals</RepositoryUrl>
+    <Copyright>Copyright © 2019 Erik Johnson</Copyright>
+    <License>MIT</License>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageTags>radical radical-numbers radical-expressions biginteger bigrational c-sharp arbitrary-precision math arithmetic irrational square-roots nth-roots</PackageTags>
+    <Description>.NET implementation of radical expressions enabling radical expression arithmetic.</Description>
+    <PackageId>DelSquared.Radicals</PackageId>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>https://github.com/erjicles/Radicals/releases</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/erjicles/Radicals</PackageProjectUrl>
+    <Version>1.0.0-beta1</Version>
   </PropertyGroup>
 
   <ItemGroup>
