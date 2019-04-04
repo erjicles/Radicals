@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Radicals.Combinatorics
 {
-    public readonly struct IntegerPartition
+    internal readonly struct IntegerPartition
         : IFormattable, IEquatable<IntegerPartition>
     {
 

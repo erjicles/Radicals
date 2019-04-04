@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Radicals.Combinatorics
 {
-    public readonly struct Permutation
+    internal readonly struct Permutation
         : IFormattable, IEquatable<Permutation>
     {
         private readonly int[] _values;

@@ -6,7 +6,7 @@ using System.Numerics;
 
 namespace Radicals
 {
-    public class Utilities
+    internal class Utilities
     {
         public static BigInteger CombineFactors(BigInteger[] factors)
         {
