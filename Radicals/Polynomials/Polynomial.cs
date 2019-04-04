@@ -6,7 +6,6 @@ using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Text;
-using MoreLinq.Extensions;
 using System.Threading;
 
 namespace Radicals.Polynomials
