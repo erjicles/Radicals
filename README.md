@@ -8,6 +8,8 @@ Enables arithmetic and string formatting of radical expressions, and can
 handle rational radicands of arbitrary precision (see dependencies).
 Seamlessly integrates with other numeric types such as int, long, and BigInteger.
 
+NuGet package for this library is published [here](https://www.nuget.org/packages/DelSquared.Radicals/).
+
 ## Usage
 This library provides three structures to enable radical expression arithmetic:
 
