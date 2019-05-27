@@ -7,7 +7,7 @@
     <Company>Del Squared, LLC</Company>
     <RepositoryUrl>https://github.com/erjicles/Radicals</RepositoryUrl>
     <Copyright>Copyright © 2019 Erik Johnson</Copyright>
-    <License>MIT</License>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>radical radical-numbers radical-expressions biginteger bigrational c-sharp arbitrary-precision math arithmetic irrational square-roots nth-roots</PackageTags>
     <Description>.NET implementation of radical expressions enabling radical expression arithmetic.</Description>
