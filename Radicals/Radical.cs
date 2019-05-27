@@ -618,7 +618,7 @@ namespace Radicals
                     if (radicand.Denominator.IsOne)
                         result.Append("(" + BigInteger.Abs(radicand.Numerator).ToString() + ")");
                     else
-                        result.Append("(" + Rational.Abs(radicand).ToString() + ")");
+                        result.Append("(" + Rational.Abs(radicand.CanonicalForm).ToString() + ")");
                 }
             }
 
