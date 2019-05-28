@@ -111,13 +111,16 @@ most casual implementations, don't expect optimal performance and **use at your 
 risk!** Of course, I'm always open to suggestions and improvements. :-)
 
 ## Background
-The original inspiration for this project came from working on a program that would recursively generate
-Clebsch-Gordan coefficients (https://en.wikipedia.org/wiki/Clebsch%E2%80%93Gordan_coefficients). While
+The original inspiration for this project came from working on a program that recursively calculates
+[Clebsch-Gordan coefficients](https://en.wikipedia.org/wiki/Clebsch%E2%80%93Gordan_coefficients). While
 this succeeded in generating the coefficients in decimal form, I wanted it to present them in radical
 form similarly to how they're usually presented in tables (e.g.,
 [here](https://en.wikipedia.org/wiki/Table_of_Clebsch%E2%80%93Gordan_coefficients)). I created this
 library to enable radical expression arithmetic during the calculation of the coefficients, and to
 format the result as usually presented in tables.
+
+My Clebsch-Gordan coefficient calculator utilizing the Radicals package can be found
+[here](https://github.com/erjicles/ClebschGordanCoefficientCalculator).
 
 ## Dependencies
 This project is dependent on the following NuGet packages:
