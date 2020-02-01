@@ -227,6 +227,17 @@ namespace Radicals
             return new Radical(value);
         }
 
+        public static Radical Sqrt(Radical value)
+        {
+            // sqrt[(a/b)root[n](c)] = sqrt[(1/b)root[n](a^n*c)] 
+            //                    = (1/b)sqrt[b * root[n](a^n * c)] 
+            //                    = (1/b)root[2n][(a^n * b^n * c)]
+            var radicand = value.Radicand
+                * BigInteger.Pow(value.Coefficient.Numerator, value.Index)
+                * BigInteger.Pow(value.Coefficient.Denominator, value.Index);
+            return new Radical(new Rational(1, value.Coefficient.Denominator), radicand, value.Index * 2);
+        }
+
         public static Radical NthRoot(Rational value, int index)
         {
             var radicand = value.Numerator;
@@ -235,6 +246,17 @@ namespace Radicals
                 radicand *= value.Denominator;
             }
             return new Radical(new Rational(1, value.Denominator), radicand, index);
+        }
+
+        public static Radical NthRoot(Radical value, int index)
+        {
+            // root[m][(a/b)root[n](c)] = root[m][(1/b)root[n](a^n*c)] 
+            //                    = (1/b)root[m][b^(m-1) * root[n](a^n * c)] 
+            //                    = (1/b)root[m*n][(a^n * b^[n*(m-1)] * c)]
+            var radicand = value.Radicand
+                * BigInteger.Pow(value.Coefficient.Numerator, value.Index)
+                * BigInteger.Pow(value.Coefficient.Denominator, value.Index * (index - 1));
+            return new Radical(new Rational(1, value.Coefficient.Denominator), radicand, index * value.Index);
         }
 
         public static explicit operator double(Radical value)
