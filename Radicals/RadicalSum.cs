@@ -297,12 +297,14 @@ namespace Radicals
             return left * right_inverse;
         }
 
-        public static RadicalSum Pow(RadicalSum left, int exponent)
+        public static RadicalSum Pow(RadicalSum value, int exponent)
         {
-            // TODO: Optimize
+            if (exponent < 0)
+                throw new ArgumentException($"{nameof(exponent)} must be a non-negative integer");
             var result = RadicalSum.One;
+            // TODO: Optimize
             for (int i = 0; i < exponent; i++)
-                result *= left;
+                result *= value;
             return result;
         }
 
