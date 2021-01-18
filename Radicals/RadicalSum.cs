@@ -37,8 +37,6 @@ namespace Radicals
 
         public RadicalSum(Radical radical)
         {
-            if (radical == null)
-                throw new ArgumentNullException(nameof(radical));
             _radicals = new Radical[1] { radical };
         }
 
@@ -110,9 +108,6 @@ namespace Radicals
 
         public bool Equals(RadicalSum other)
         {
-            if (other == null)
-                return false;
-
             if (Radicals.Length != other.Radicals.Length)
                 return false;
 
@@ -239,10 +234,6 @@ namespace Radicals
 
         public static RadicalSum Add(RadicalSum left, RadicalSum right)
         {
-            if (left == null)
-                return right;
-            if (right == null)
-                return left;
             var z = new Radical[left.Radicals.Length + right.Radicals.Length];
             left.Radicals.CopyTo(z, 0);
             right.Radicals.CopyTo(z, left.Radicals.Length);

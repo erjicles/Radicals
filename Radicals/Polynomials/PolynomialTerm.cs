@@ -20,8 +20,6 @@ namespace Radicals.Polynomials
         {
             get
             {
-                if (_coefficient == null)
-                    return RadicalSum.Zero;
                 return _coefficient;
             }
         }
@@ -33,8 +31,6 @@ namespace Radicals.Polynomials
 
         public PolynomialTerm(RadicalSum coefficient, int degree)
         {
-            if (coefficient == null)
-                throw new ArgumentNullException(nameof(coefficient));
             if (degree < 0)
                 throw new ArgumentException("Degree cannot be negative", nameof(degree));
             _coefficient = coefficient;

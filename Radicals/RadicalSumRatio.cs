@@ -18,8 +18,6 @@ namespace Radicals
         {
             get
             {
-                if (_numerator == null)
-                    return RadicalSum.Zero;
                 return _numerator;
             }
         }
@@ -27,9 +25,6 @@ namespace Radicals
         {
             get
             {
-                // Should not happen
-                if (_denominator == null)
-                    return RadicalSum.One;
                 // Should only happen when default constructor used
                 if (_denominator == RadicalSum.Zero)
                     return RadicalSum.One;
@@ -146,10 +141,9 @@ namespace Radicals
 
         public bool Equals(RadicalSumRatio other)
         {
-            if (other == null)
-                return false;
-            return Numerator == other.Numerator
+            var result = Numerator == other.Numerator
                 && Denominator == other.Denominator;
+            return result;
         }
 
         public override bool Equals(object obj)

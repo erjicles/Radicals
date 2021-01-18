@@ -29,8 +29,6 @@ namespace Radicals
         {
             get
             {
-                if (_coefficient == null)
-                    return 0;
                 return _coefficient;
             }
         }
@@ -47,8 +45,6 @@ namespace Radicals
         {
             get
             {
-                if (_radicand == null)
-                    return 0;
                 return _radicand;
             }
         }
@@ -169,11 +165,9 @@ namespace Radicals
 
         public int CompareTo(Radical other)
         {
-            if (other == null)
-                return 1;
-
-            return (Sign * Rational.Abs(RaisedToIndexPower))
+            var result = (Sign * Rational.Abs(RaisedToIndexPower))
                 .CompareTo(other.Sign * Rational.Abs(other.RaisedToIndexPower));
+            return result;
         }
 
         public bool Equals(Radical other)
@@ -667,7 +661,7 @@ namespace Radicals
             if (coefficient_in.IsZero || radicand_in.IsZero)
             {
                 coefficient_out = Rational.Zero;
-                coefficient_out = BigInteger.Zero;
+                radicand_out = BigInteger.Zero;
                 index_out = 1;
                 radicandPrimeFactors_out = null;
                 return;
@@ -701,7 +695,7 @@ namespace Radicals
             if (coefficient_in.IsZero)
             {
                 coefficient_out = Rational.Zero;
-                coefficient_out = BigInteger.Zero;
+                radicand_out = BigInteger.Zero;
                 index_out = 1;
                 radicandPrimeFactors_out = null;
                 return;

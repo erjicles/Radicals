@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFrameworks>net5.0;netstandard2.1;netstandard2.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <Authors>Erik Johnson</Authors>
     <Company>Del Squared, LLC</Company>
     <RepositoryUrl>https://github.com/erjicles/Radicals</RepositoryUrl>
-    <Copyright>Copyright © 2019 Erik Johnson</Copyright>
+    <Copyright>Copyright © 2021 Erik Johnson</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>radical radical-numbers radical-expressions biginteger bigrational c-sharp arbitrary-precision math arithmetic irrational square-roots nth-roots</PackageTags>
@@ -15,9 +15,9 @@
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>https://github.com/erjicles/Radicals/releases</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/erjicles/Radicals</PackageProjectUrl>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.4</FileVersion>
+    <FileVersion>1.1.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
