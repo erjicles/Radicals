@@ -17,66 +17,65 @@ namespace Radicals
         : IComparable, IComparable<Radical>, IEquatable<Radical>, IFormattable
     {
         // R = Coefficient * root[Index](Radicand)
-        public readonly Rational coefficient_unsimplified;
-        public readonly int index_unsimplified;
-        public readonly BigInteger radicand_unsimplified;
         private readonly Rational _coefficient;
+        private readonly Rational _coefficientUnsimplified;
         private readonly int _index;
+        private readonly int _indexUnsimplified;
         private readonly BigInteger _radicand;
         private readonly BigInteger[] _radicandPrimeFactors;
+        private readonly BigInteger _radicandUnsimplified;
 
-        public Rational Coefficient
+        /// <summary>
+        /// Creates a new radical with value <see cref="Zero"/>.
+        /// </summary>
+        public Radical()
+            : this(Zero.Coefficient, Zero.Radicand, Zero.Index)
         {
-            get
-            {
-                return _coefficient;
-            }
-        }
-        public int Index
-        {
-            get
-            {
-                if (_index < 1)
-                    return 1;
-                return _index;
-            }
-        }
-        public BigInteger Radicand
-        {
-            get
-            {
-                return _radicand;
-            }
-        }
-        public BigInteger[] RadicandPrimeFactors
-        {
-            get
-            {
-                if (_radicandPrimeFactors == null)
-                    return null;
-                return _radicandPrimeFactors;
-            }
         }
 
+        /// <summary>
+        /// Creates a new radical with <see cref="Coefficient"/> == 1, <see cref="Radicand"/> == <paramref name="radicand"/>, and <see cref="Index"/> == 2.
+        /// </summary>
+        /// <remarks>
+        /// Always converts to simplest form. The raw input is maintained in <see cref="_radicandUnsimplified"/>.
+        /// </remarks>
         public Radical(Rational radicand)
             : this(new Rational(1, radicand.Denominator), radicand.Numerator * radicand.Denominator)
         {
         }
 
+        /// <summary>
+        /// Creates a new radical with <see cref="Coefficient"/> == <paramref name="coefficient"/>, <see cref="Radicand"/> == <paramref name="radicand"/>, and <see cref="Index"/> == 2.
+        /// </summary>
+        /// <remarks>
+        /// Always converts to simplest form. The raw inputs are maintained in <see cref="_coefficientUnsimplified"/> and <see cref="_radicandUnsimplified"/>.
+        /// </remarks>
         public Radical(Rational coefficient, BigInteger radicand)
             : this(coefficient, radicand, 2)
         {
         }
 
+        /// <summary>
+        /// Creates a new radical with <see cref="Coefficient"/> == <paramref name="coefficient"/>, <see cref="Radicand"/> == <paramref name="radicand"/>, and <see cref="Index"/> == <paramref name="index"/>.
+        /// </summary>
+        /// <remarks>
+        /// Always converts to simplest form. The raw inputs are maintained in <see cref="_coefficientUnsimplified"/>, <see cref="_radicandUnsimplified"/>, and <see cref="_indexUnsimplified"/>.
+        /// </remarks>
         public Radical(Rational coefficient, BigInteger radicand, int index)
         {
             if (radicand < 0)
-                throw new ArgumentException("Cannot have negative radicand");
+            {
+                ArgumentOutOfRangeException.ThrowIfNegative(radicand, nameof(radicand));
+            }
             if (index < 1)
-                throw new ArgumentException("Index must be a positive integer");
-            coefficient_unsimplified = coefficient;
-            index_unsimplified = index;
-            radicand_unsimplified = radicand;
+            {
+                ArgumentOutOfRangeException.ThrowIfNegativeOrZero(index, nameof(index));
+            }
+
+            _coefficientUnsimplified = coefficient;
+            _indexUnsimplified = index;
+            _radicandUnsimplified = radicand;
+
             ToSimplestForm(
                 coefficient_in: coefficient,
                 radicand_in: radicand,
@@ -86,6 +85,27 @@ namespace Radicals
                 index_out: out this._index,
                 radicandPrimeFactors_out: out this._radicandPrimeFactors);
         }
+
+        public Rational Coefficient
+            => _coefficient;
+
+        public Rational CoefficientUnsimplified
+            => _coefficientUnsimplified;
+
+        public int Index
+            => _index < 1 ? 1 : _index;
+
+        public int IndexUnsimplified
+            => _indexUnsimplified;
+
+        public BigInteger Radicand
+            => _radicand;
+
+        public BigInteger[] RadicandPrimeFactors
+            => _radicandPrimeFactors;
+
+        public BigInteger RadicandUnsimplified
+            => _radicandUnsimplified;
 
         private Radical(Rational coefficient, IEnumerable<BigInteger> radicandPrimeFactors, int index)
         {
@@ -101,20 +121,20 @@ namespace Radicals
                 radicand_out: out this._radicand,
                 index_out: out this._index,
                 radicandPrimeFactors_out: out this._radicandPrimeFactors);
-            coefficient_unsimplified = this._coefficient;
-            radicand_unsimplified = this._radicand;
-            index_unsimplified = this._index;
+            _coefficientUnsimplified = this._coefficient;
+            _radicandUnsimplified = this._radicand;
+            _indexUnsimplified = this._index;
         }
 
         /// <summary>
         /// Zero
         /// </summary>
-        public static readonly Radical Zero = new Radical(0, 0, 1);
+        public static readonly Radical Zero = new(0, 0, 1);
 
         /// <summary>
         /// One
         /// </summary>
-        public static readonly Radical One = new Radical(1, 1, 1);
+        public static readonly Radical One = new(1, 1, 1);
 
         public bool IsRational
         {
@@ -137,22 +157,13 @@ namespace Radicals
         }
 
         public bool IsOne
-        {
-            get { return this == One; }
-        }
+            => this == One;
 
         public bool IsZero
-        {
-            get { return this == Zero; }
-        }
+            => this == Zero;
 
         public int Sign
-        {
-            get
-            {
-                return Coefficient.Sign;
-            }
-        }
+            => Coefficient.Sign;
 
         public int CompareTo(object obj)
         {

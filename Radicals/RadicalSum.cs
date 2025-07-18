@@ -8,6 +8,7 @@ using System.Text;
 
 namespace Radicals
 {
+    [Serializable]
     public readonly struct RadicalSum
         : IComparable, IComparable<RadicalSum>, IEquatable<RadicalSum>, IFormattable
     {
