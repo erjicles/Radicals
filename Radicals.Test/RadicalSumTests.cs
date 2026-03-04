@@ -328,20 +328,22 @@ namespace Radicals.Test
                         ])
                 },
 
-                //// sqrt(2) + sqrt(3) + sqrt(6) + root[3](3) + root[3](4) + root[6](2) + root[6](3)
-                //// Warning: was not able to complete due to memory/cpu/time constraints
-                //{
-                //    new RadicalSum(
-                //        [
-                //            Radical.Sqrt(2),
-                //            Radical.Sqrt(3),
-                //            Radical.Sqrt(6),
-                //            Radical.NthRoot(3, 3),
-                //            Radical.NthRoot(4, 3),
-                //            Radical.NthRoot(2, 6),
-                //            Radical.NthRoot(3, 6),
-                //        ])
-                //},
+                /*
+                // sqrt(2) + sqrt(3) + sqrt(6) + root[3](3) + root[3](4) + root[6](2) + root[6](3)
+                // Warning: was not able to complete due to memory/cpu/time constraints
+                {
+                    new RadicalSum(
+                        [
+                            Radical.Sqrt(2),
+                            Radical.Sqrt(3),
+                            Radical.Sqrt(6),
+                            Radical.NthRoot(3, 3),
+                            Radical.NthRoot(4, 3),
+                            Radical.NthRoot(2, 6),
+                            Radical.NthRoot(3, 6),
+                        ])
+                },
+                */
             };
         }
 

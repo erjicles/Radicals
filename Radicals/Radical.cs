@@ -1,5 +1,6 @@
 ﻿using Open.Numeric.Primes;
 using Rationals;
+using Radicals.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -151,7 +152,7 @@ namespace Radicals
             get
             {
                 var result = (Rational)Radicand;
-                result *= Utilities.Pow(Coefficient, Index);
+                result *= Coefficient.Pow(Index);
                 return result;
             }
         }
@@ -164,6 +165,10 @@ namespace Radicals
 
         public int Sign
             => Coefficient.Sign;
+
+        public static Radical AdditiveIdentity => Zero;
+
+        public static Radical MultiplicativeIdentity => One;
 
         public int CompareTo(object obj)
         {
@@ -340,7 +345,7 @@ namespace Radicals
             // r_2 = 1 / [c * root[i](r)] = (1/c) * root[i](r)^(i-1) / r_1
             //     = [1 / (c * r)] * root[i](r^(i-1))
             var newCoefficient = 1 / (value.Coefficient * value.Radicand);
-            var newRadicandPrimeFactors = Utilities.Pow(value.RadicandPrimeFactors, value.Index - 1);
+            var newRadicandPrimeFactors = Utilities.MathUtilities.Pow(value.RadicandPrimeFactors, value.Index - 1);
             var result = new Radical(newCoefficient, newRadicandPrimeFactors, value.Index);
             return result;
         }
@@ -375,11 +380,11 @@ namespace Radicals
             if (left.Index != right.Index)
             {
                 // Get LCM of the indexes - that will be the new index
-                newIndex = Utilities.GetLeastCommonMultiple(left.Index, right.Index);
+                newIndex = Utilities.MathUtilities.GetLeastCommonMultiple(left.Index, right.Index);
                 var leftPower = newIndex / left.Index;
                 var rightPower = newIndex / right.Index;
-                leftRadicandPrimeFactors = Utilities.Pow(left.RadicandPrimeFactors, leftPower);
-                rightRadicandPrimeFactors = Utilities.Pow(right.RadicandPrimeFactors, rightPower);
+                leftRadicandPrimeFactors = Utilities.MathUtilities.Pow(left.RadicandPrimeFactors, leftPower);
+                rightRadicandPrimeFactors = Utilities.MathUtilities.Pow(right.RadicandPrimeFactors, rightPower);
             }
 
             // Calculate the new coefficient and radicand prime factors
@@ -764,7 +769,7 @@ namespace Radicals
                     continue;
                 if (indexFactor == simplestIndex) // Already extracted perfect powers of the index
                     continue;
-                Utilities.IntegerIsPerfectPower(
+                Utilities.MathUtilities.IntegerIsPerfectPower(
                     valuePrimeFactors: radicandPrimeFactors,
                     exponent: indexFactor,
                     isPerfectPower: out bool radicandIsFactorPower,
@@ -795,6 +800,5 @@ namespace Radicals
             radicandPrimeFactors_out = radicandPrimeFactors.OrderBy(p => p).ToArray();
             return;
         }
-
     }
 }

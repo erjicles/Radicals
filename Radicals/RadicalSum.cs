@@ -1,6 +1,9 @@
-﻿using Rationals;
+﻿using Radicals.Polynomials;
+using Radicals.Extensions;
+using Rationals;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
@@ -10,7 +13,13 @@ namespace Radicals
 {
     [Serializable]
     public readonly struct RadicalSum
-        : IComparable, IComparable<RadicalSum>, IEquatable<RadicalSum>, IFormattable
+        : IComparable, IComparable<RadicalSum>, IEquatable<RadicalSum>, IFormattable,
+        IAdditionOperators<RadicalSum, RadicalSum, RadicalSum>,
+        IAdditiveIdentity<RadicalSum, RadicalSum>,
+        IComparisonOperators<RadicalSum, RadicalSum, bool>,
+        IMultiplicativeIdentity<RadicalSum, RadicalSum>,
+        IMultiplyOperators<RadicalSum, RadicalSum, RadicalSum>,
+        ISubtractionOperators<RadicalSum, RadicalSum, RadicalSum>
     {
         // S = r_1 + r_2 + ... + r_n
         // r_i = coefficient_i * root[index_i](radicand_i)
@@ -92,6 +101,10 @@ namespace Radicals
                 return result;
             }
         }
+
+        static RadicalSum IMultiplicativeIdentity<RadicalSum, RadicalSum>.MultiplicativeIdentity => One;
+
+        static RadicalSum IAdditiveIdentity<RadicalSum, RadicalSum>.AdditiveIdentity => Zero;
 
         public int CompareTo(object obj)
         {
@@ -621,9 +634,11 @@ namespace Radicals
 
             // Create polynomial in S
             // S - r_1 - r_2 - ... - r_n = 0
-            var term1 = new Polynomials.PolynomialTerm(1, 1);
-            var term0 = new Polynomials.PolynomialTerm(-value, 0);
-            var p = new Polynomials.Polynomial(new Polynomials.PolynomialTerm[2] { term0, term1 });
+            var p = new Polynomials.Polynomial<RadicalSum>(new()
+            {
+                { 0, -value },
+                { 1, 1 },
+            });
 
             // Get the set of unique indexes and radicands for each index
             var uniquePrimeNthRoots = p.GetUniquePrimeNthRoots();
@@ -639,8 +654,8 @@ namespace Radicals
                 // Solve for largest radicand
                 // p = p_reduced + p_extract = 0
                 // p_extract = root[currentIndex](currentRadicand) * p' for some p'
-                Polynomials.Polynomial p_reduced;
-                Polynomials.Polynomial p_extract;
+                Polynomials.Polynomial<RadicalSum> p_reduced;
+                Polynomials.Polynomial<RadicalSum> p_extract;
                 p.ExtractTermsContainingNthRoot(
                     radicand: currentPrimeNthRoot.Item2,
                     index: currentPrimeNthRoot.Item1,
@@ -649,15 +664,15 @@ namespace Radicals
 
                 // Remove root[currentIndex](currentRadicand) to keep p' === p_extract_coefficient
                 var r = new Radical(1, currentPrimeNthRoot.Item2, currentPrimeNthRoot.Item1);
-                var p_extract_coefficient = p_extract /= r;
+                p_extract = p_extract.Divide(r);
 
                 // p_reduced = -p_extract
                 // p_reduced^currentIndex = (-p_extract)^currentIndex
                 // p_reduced^currentIndex = (-p_extract_coefficient)^currentIndex * currentRadicand
                 // p => p_reduced^currentIndex - currentRadicand * (-p_extract_coefficient)^currentIndex = 0
-                var left = Polynomials.Polynomial.Pow(p_reduced, currentPrimeNthRoot.Item1);
-                var right = Polynomials.Polynomial.Pow(-p_extract, currentPrimeNthRoot.Item1) * currentPrimeNthRoot.Item2;
-                p = left - right;
+                var left = p_reduced.Pow(currentPrimeNthRoot.Item1);
+                var right = p_extract.Negate().Pow(currentPrimeNthRoot.Item1).Multiply(currentPrimeNthRoot.Item2);
+                p = left.Subtract(right);
             }
 
             // We now have a polynomial in S with all radicals removed:
@@ -669,19 +684,25 @@ namespace Radicals
             // - = -----------------------------------
             // S                 -a_0                 
             var constantTerm = p.GetConstantTerm();
-            var constantP = new Polynomials.Polynomial(constantTerm);
-            p -= constantP;
+            var constantP = Polynomial<RadicalSum>.CreateConstant(constantTerm);
+            p = p.Subtract(constantP);
+
             if (!p.IsDivisibleByX)
-                throw new Exception("All terms should have at least degree 1");
+            {
+                throw new InvalidOperationException("All terms should have at least degree 1");
+            }
+
             if (!constantTerm.IsRational)
-                throw new Exception("No radicals should remain in any terms");
-            p = Polynomials.Polynomial.DivideByX(p);
-            p /= (Rational)(-constantTerm);
+            {
+                throw new InvalidOperationException("No radicals should remain in any terms");
+            }
+
+            p = p.DivideByX();
+            p = p.Divide((Rational)(-constantTerm));
 
             var rationalizer = p.EvaluateAt(value);
 
             return rationalizer;
         }
-
     }
 }
