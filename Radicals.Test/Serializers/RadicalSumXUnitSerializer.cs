@@ -1,11 +1,7 @@
-﻿using Radicals;
-using Rationals;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
+using Radicals;
 using Xunit.Sdk;
 
 [assembly: RegisterXunitSerializer(typeof(Radicals.Test.Serializers.RadicalSumXUnitSerializer), typeof(RadicalSum))]

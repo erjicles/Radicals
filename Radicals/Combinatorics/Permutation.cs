@@ -64,7 +64,7 @@ namespace Radicals.Combinatorics
         }
 
         public static IList<Permutation> ArrangeInSlots(
-            int[] values, 
+            int[] values,
             int numberOfSlots,
             bool keepDuplicates)
         {

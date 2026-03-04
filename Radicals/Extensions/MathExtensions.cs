@@ -1,6 +1,6 @@
-﻿using Rationals;
-using System;
+﻿using System;
 using System.Numerics;
+using Rationals;
 
 namespace Radicals.Extensions;
 

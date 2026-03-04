@@ -1,8 +1,8 @@
-﻿using Radicals;
-using Rationals;
-using System;
+﻿using System;
 using System.Numerics;
 using System.Text.Json;
+using Radicals;
+using Rationals;
 using Xunit.Sdk;
 
 [assembly: RegisterXunitSerializer(typeof(Radicals.Test.Serializers.RadicalXUnitSerializer), typeof(Radical))]

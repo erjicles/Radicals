@@ -30,7 +30,7 @@ namespace Radicals.Combinatorics
 
         public IntegerPartition(int n)
             : this(n, null, n)
-        {   
+        {
         }
 
         public IntegerPartition(int n, int[] values, int numberOfTerms)
@@ -102,8 +102,8 @@ namespace Radicals.Combinatorics
         }
 
         private static IntegerPartition GetPartition(
-            int[] partitionValues, 
-            int maxValidIndex, 
+            int[] partitionValues,
+            int maxValidIndex,
             int numberOfTerms,
             int n)
         {
@@ -191,6 +191,6 @@ namespace Radicals.Combinatorics
         {
             return ToString(null, CultureInfo.InvariantCulture);
         }
-        
+
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Xunit;
 
 namespace Radicals.Test
@@ -95,9 +92,9 @@ namespace Radicals.Test
             var permutations5 = new List<Combinatorics.Permutation>();
             foreach (Combinatorics.IntegerPartition partition in partitions2)
             {
-                var permutations = 
+                var permutations =
                     Combinatorics.Permutation.GetPermutations(
-                        new Combinatorics.Permutation(partition.Values), 
+                        new Combinatorics.Permutation(partition.Values),
                         false);
                 foreach (Combinatorics.Permutation permutation in permutations)
                     permutations5.Add(permutation);

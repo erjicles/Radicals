@@ -1,13 +1,12 @@
-﻿using Radicals.Polynomials;
-using Radicals.Extensions;
-using Rationals;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using Radicals.Extensions;
+using Radicals.Polynomials;
+using Rationals;
 
 namespace Radicals
 {
@@ -56,7 +55,7 @@ namespace Radicals
                 throw new ArgumentNullException(nameof(radicals));
             if (radicals.Length == 0)
                 throw new Exception("No radicals provided");
-            
+
             _radicals = SimplifyRadicals(radicals);
         }
 
@@ -622,7 +621,7 @@ namespace Radicals
             // Allan Berele and Stefan Catoiu
             // https://www.jstor.org/stable/10.4169/mathmaga.88.issue-2
             // See Example 9
-            
+
             if (value == 0)
                 throw new Exception("Cannot get rationalization of zero");
 

@@ -1,8 +1,8 @@
-﻿using Rationals;
-using Radicals.Utilities;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Numerics;
+using Radicals.Utilities;
+using Rationals;
 
 namespace Radicals
 {
@@ -39,7 +39,7 @@ namespace Radicals
         }
 
         public RadicalSumRatio(Rational coefficient, BigInteger radicand)
-            :this(new RadicalSum(coefficient, radicand))
+            : this(new RadicalSum(coefficient, radicand))
         {
         }
 
@@ -49,12 +49,12 @@ namespace Radicals
         }
 
         public RadicalSumRatio(Radical[] numerator)
-            :this(new RadicalSum(numerator), RadicalSum.One)
+            : this(new RadicalSum(numerator), RadicalSum.One)
         {
         }
 
         public RadicalSumRatio(Radical[] numerator, Radical[] denominator)
-            :this(new RadicalSum(numerator), new RadicalSum(denominator))
+            : this(new RadicalSum(numerator), new RadicalSum(denominator))
         {
         }
 
@@ -765,7 +765,7 @@ namespace Radicals
         {
             if (RadicalSum.One == Denominator)
                 return Numerator.ToString(format, formatProvider);
-            var result = "[" + Numerator.ToString(format, formatProvider) 
+            var result = "[" + Numerator.ToString(format, formatProvider)
                 + "] / [" + Denominator.ToString(format, formatProvider) + "]";
             return result;
         }

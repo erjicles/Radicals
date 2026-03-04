@@ -1,9 +1,7 @@
-﻿using Radicals;
-using Rationals;
-using System;
+﻿using System;
 using System.Numerics;
+using Rationals;
 using Xunit;
-using Xunit.Sdk;
 
 namespace Radicals.Test
 {
@@ -64,7 +62,7 @@ namespace Radicals.Test
             var data = new TheoryData<Radical, Radical>();
 
             // Get full set of permutations of coefficient and radicand cases
-            foreach (var index in new[] { 1, 2, 3, 4})
+            foreach (var index in new[] { 1, 2, 3, 4 })
             {
                 foreach (var testCase in EqualsTestCases_CoefficientAndRadicand())
                 {
@@ -366,7 +364,7 @@ namespace Radicals.Test
                 {
                     new(2),
                     Radical.NthRoot(5, 3),
-                    new(1, 200, 6) 
+                    new(1, 200, 6)
                 },
             };
         }

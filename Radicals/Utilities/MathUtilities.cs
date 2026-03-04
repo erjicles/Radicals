@@ -1,9 +1,9 @@
-﻿using Open.Numeric.Primes;
-using Radicals.Extensions;
-using Rationals;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Open.Numeric.Primes;
+using Radicals.Extensions;
+using Rationals;
 
 namespace Radicals.Utilities;
 
@@ -19,7 +19,7 @@ internal static class MathUtilities
 
     public static void GetCommonFactors(
         Rational[] rationals,
-        out BigInteger[] upstairs, 
+        out BigInteger[] upstairs,
         out BigInteger[] downstairs)
     {
         var numerators = new BigInteger[rationals.Length];
@@ -60,7 +60,7 @@ internal static class MathUtilities
 
     public static int GetLeastCommonMultiple(int left, int right)
     {
-        
+
         var gcd = BigInteger.GreatestCommonDivisor(left, right);
         var leftReduced = left / gcd;
         var lcm = leftReduced * right;
@@ -89,7 +89,7 @@ internal static class MathUtilities
     }
 
     public static void IntegerIsPerfectPower(
-        BigInteger value, 
+        BigInteger value,
         int exponent,
         out bool isPerfectPower,
         out BigInteger nthRoot)

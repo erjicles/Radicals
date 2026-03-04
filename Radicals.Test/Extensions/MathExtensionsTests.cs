@@ -1,6 +1,6 @@
-﻿using Radicals.Extensions;
+﻿using System;
+using Radicals.Extensions;
 using Rationals;
-using System;
 using Xunit;
 
 namespace Radicals.Test.Extensions

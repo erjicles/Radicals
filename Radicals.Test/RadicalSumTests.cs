@@ -1,9 +1,6 @@
-﻿using Rationals;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
+using Rationals;
 using Xunit;
 
 namespace Radicals.Test

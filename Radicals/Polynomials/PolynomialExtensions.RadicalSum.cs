@@ -1,8 +1,8 @@
-﻿using Open.Numeric.Primes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Open.Numeric.Primes;
 
 namespace Radicals.Polynomials;
 

@@ -1,13 +1,13 @@
-﻿using Open.Numeric.Primes;
-using Rationals;
-using Radicals.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Open.Numeric.Primes;
+using Radicals.Extensions;
+using Rationals;
 [assembly: CLSCompliant(true)]
 [assembly: InternalsVisibleTo("Radicals.Test")]
 
@@ -188,8 +188,8 @@ namespace Radicals
 
         public bool Equals(Radical other)
         {
-            return Index == other.Index 
-                && Radicand == other.Radicand 
+            return Index == other.Index
+                && Radicand == other.Radicand
                 && Coefficient == other.Coefficient;
         }
 
@@ -222,7 +222,7 @@ namespace Radicals
                 return (double)(Coefficient * Radicand);
             if (Index == 2)
                 return (double)Coefficient * Math.Sqrt((double)Radicand);
-            return (double)Coefficient 
+            return (double)Coefficient
                 * Math.Pow((double)Radicand, (double)(new Rational(1, Index)));
         }
 
@@ -392,7 +392,7 @@ namespace Radicals
             var newRadicandPrimeFactors = new List<BigInteger>();
             newRadicandPrimeFactors.AddRange(leftRadicandPrimeFactors);
             newRadicandPrimeFactors.AddRange(rightRadicandPrimeFactors);
-            
+
             return new Radical(newCoefficient, newRadicandPrimeFactors, newIndex);
         }
 
@@ -607,7 +607,7 @@ namespace Radicals
                             result.Append("(" + Coefficient.Numerator.ToString() + ")");
                         else
                             result.Append(Coefficient.Numerator.ToString());
-                    }   
+                    }
                 }
                 else
                     result.Append("(" + Coefficient.ToString() + ")");

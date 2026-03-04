@@ -1,8 +1,7 @@
-﻿using Radicals.Extensions;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Radicals.Extensions;
 
 namespace Radicals.Polynomials;
 
@@ -41,7 +40,7 @@ internal class Polynomial<T>
     public IReadOnlyDictionary<int, T> Coefficients => _coefficientsByDegree;
 
     public int Degree => _coefficientsByDegree.Count == 0 ? -1 : _coefficientsByDegree.Keys.Max();
-    
+
     public static Polynomial<T> CreateConstant(T value) => new(new Dictionary<int, T> { [0] = value });
 
     public T GetConstantTerm()
