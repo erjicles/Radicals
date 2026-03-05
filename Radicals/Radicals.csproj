@@ -5,7 +5,7 @@
     <Authors>Erik Johnson</Authors>
     <Company>Del Squared, LLC</Company>
     <RepositoryUrl>https://github.com/erjicles/Radicals</RepositoryUrl>
-    <Copyright>Copyright © 2021 Erik Johnson</Copyright>
+    <Copyright>Copyright © 2026 Erik Johnson</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>radical radical-numbers radical-expressions biginteger bigrational c-sharp arbitrary-precision math arithmetic irrational square-roots nth-roots</PackageTags>
@@ -14,9 +14,9 @@
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>https://github.com/erjicles/Radicals/releases</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/erjicles/Radicals</PackageProjectUrl>
-    <Version>1.1.0</Version>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <Version>2.0.0</Version>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
 
